@@ -1,0 +1,44 @@
+﻿@model MessageModel
+
+@if (Model != null)
+{
+    if (!string.IsNullOrEmpty(Model.MessageText))
+    {
+        @if (Model.MessageType == "Success")
+        {
+            <div class="divSingle colorSeconday colorBorderSeconday displayBlock">
+                @Html.Raw(Model.MessageText)
+            </div>
+        }
+        else
+        {
+            <div class="divSingle colorError colorErrorBorder displayBlock">
+                @Html.Raw(Model.MessageText)
+            </div>
+        }
+    }
+}
+
+@{
+    string m = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["m"]);
+    string msg = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["msg"]);
+
+    if (!string.IsNullOrEmpty(m) && !string.IsNullOrEmpty(msg))
+    {
+        @if (m == "Success")
+        {
+            <div class="divSingle colorSeconday colorBorderSeconday displayBlock">
+                @Html.Raw(msg)
+            </div>
+        }
+        else
+        {
+            <div class="divSingle colorError colorErrorBorder displayBlock">
+                @Html.Raw(msg)
+            </div>
+        }
+    }
+
+}
+
+

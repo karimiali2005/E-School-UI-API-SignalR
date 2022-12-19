@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Calendar>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    CalendarOp calendarOp = new CalendarOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">حذف کلاس/سخنرانی های انتخاب شده به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (Calendar calendar in Model)
+                {
+                    string persiandate = Codes.getPersianDay(calendar.CalendarDate);
+                    string persianday = Codes.getPersianDay(calendar.CalendarDate);
+
+                    string text = " حذف روز " + persianday + " موزخ " + persiandate;
+                    if (!string.IsNullOrEmpty(calendar.CalendarComment))
+                    {
+                        text += " , " + calendar.CalendarComment;
+                    }
+                    text += " وجود ندارد. چون دارای برنامه می باشد ";
+                    <label title="@calendar.CalendarId" class="lbl colorPrimary"> @Html.Raw(text) </label>
+                    <br />
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (Model.Count() > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="holidaydeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

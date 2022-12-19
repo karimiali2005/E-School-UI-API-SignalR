@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardPaperShowResult>
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+    // bool reportCardScoreEnable = Model.FirstOrDefault().ReportCardScoreEnable;
+    var size = Convert.ToInt32(SettingContext.UploadSize.Instance.ReportCardSize);
+}
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons TeacherCardReport2 managementHomeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        <div class=" title-top">
+            @Model.FirstOrDefault().ReportCardTitle
+        </div>
+        <form class=" table-div m-3">
+
+            <table class=" table table-bordered">
+                <thead>
+                    <tr class=" d-md-none">
+                        <th class="bottom-res-p"><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                    </tr>
+                    <tr class=" d-none d-md-table-row">
+                        <th><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                        <th><span>آپلود فایل</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="TR@(item.ReportCardPaperID??0)_@(item.UserID)" class=" rowBig d-none d-md-table-row">
+                            <td class="imageTd">
+                                <div class=" d-flex justify-content-center align-items-center">
+                                    <div class=" img-pro-other Live-border-img mx-2">
+                                        <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                             alt="user-img-pro">
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class=" day">@Html.Raw(item.FullName)</span></td>
+                            @if (string.IsNullOrEmpty(item.ReportCardPaperFileName))
+                            {
+                                <td>
+                                    <label class="uploadFileComponent ">
+                                        <input type="file" id="file@(item.UserID)" onchange="ReportCardSendFile('@size','@(item.ReportCardPaperID)','@(item.UserID)','@(ViewBag.ReportCardId)')">
+                                        <div class="boxOuter">
+                                            <div class="boxInner">
+                                                <div class="img">
+                                                    <img class="imageInside" src="../img/Image.svg" alt="">
+                                                </div>
+                                                <span class="textUpload">ارسال فایل</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <label class="uploadFileComponent activeText">
+                                        <input type="file" id="file@(item.UserID)" onchange="ReportCardSendFile('@size','@(item.ReportCardPaperID)','@(item.UserID)','@(ViewBag.ReportCardId)')">
+                                        <div class="boxOuter">
+                                            <div class="boxInner">
+                                                <div class="img">
+                                                    <img class="imageInside" src="../img/ali_200.jpg" alt="">
+                                                </div>
+                                                <span class="textUpload">ارسال شده</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+
+
+
+
+                    <!-- ------------------------------------ responsive mode ----------------------------- -->
+                    @foreach (var item in Model)
+                    {
+                        <tr id="TR@(item.ReportCardPaperID??0)_@(item.UserID)" class=" rowSmall d-md-none">
+                            <td class="imageTd">
+                                <div class=" d-flex justify-content-center align-items-center">
+                                    <div class=" img-pro-other Live-border-img mx-2">
+                                        <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                             alt="user-img-pro">
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class=" day">@Html.Raw(item.FullName)</span></td>
+                        </tr>
+                        @if (string.IsNullOrEmpty(item.ReportCardPaperFileName))
+                        {
+                            <tr class=" d-md-none">
+                                <th class="verticalMiddle"><span>آپلود فایل</span></th>
+                                <td>
+                                    <label class="uploadFileComponent ">
+                                        <input type="file" id="fileSmall@(item.UserID)" onchange="ReportCardSendFile('@size','@(item.ReportCardPaperID)','@(item.UserID)','@(ViewBag.ReportCardId)')">
+                                        <div class="boxOuter">
+                                            <div class="boxInner">
+                                                <div class="img">
+                                                    <img class="imageInside" src="../img/Image.svg" alt="">
+                                                </div>
+                                                <span class="textUpload">ارسال فایل</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class=" d-md-none">
+                                <th class="verticalMiddle"><span>آپلود فایل</span></th>
+                                <td>
+                                    <label class="uploadFileComponent activeText">
+                                        <input type="file" id="fileSmall@(item.UserID)" onchange="ReportCardSendFile('@size','@(item.ReportCardPaperID)','@(item.UserID)','@(ViewBag.ReportCardId)')">
+                                        <div class="boxOuter">
+                                            <div class="boxInner">
+                                                <div class="img">
+                                                    <img class="imageInside" src="../img/ali_200.jpg" alt="">
+                                                </div>
+                                                <span class="textUpload">ارسال شده</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+</section>
+@section Scripts
+{
+
+    <script src="/jsmember/ReportCard-1.0.3.js"></script>
+
+}

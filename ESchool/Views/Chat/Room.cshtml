@@ -1,0 +1,44 @@
+﻿@model RoomProperties
+
+@{ 
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    bool AllowChat = Convert.ToBoolean(ViewData["AllowChat"]);
+
+    ViewData["ShowTitle"] = true;
+}
+
+@await Html.PartialAsync("ChatView")
+
+
+<input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+<input type="hidden" id="roomid" value="@ViewData["RoomId"]" />
+<input type="hidden" id="roomdid" value="@ViewData["RoomDetailId"]" />
+<input type="hidden" id="teacherid" value="@ViewData["TeacherId"]" />
+<input type="hidden" id="courseid" value="@ViewData["CourseId"]" />
+<input type="hidden" id="uid" value="@this.User.FindFirst("UserId").Value" />
+<input type="hidden" id="utid" value="@this.User.FindFirst("UserTypeId").Value" />
+<input type="hidden" id="utype" value="@this.User.FindFirst("UserType").Value" />
+
+
+<div id="backPage">
+    <form id="formChat" method="post">
+
+        <div class="form textAlignCenter">
+            <p id="formTitle" class="titr textAlignRight">پیام را وارد نمایید</p>
+
+            <div class="step opacityOne" id="step1">
+                <div class="row row90">
+                    <label class="lbl">پیام</label>
+                    <textarea id="txtFormChat" class="chPreviousColor" ></textarea>
+                </div>
+            </div>            
+
+            <div class="row textAlignCenter">
+                <input type="button" id="btnFormChatSend" class="buttonSingle colorBackSeconday" value="ارسال" />
+                <input type="button" id="btnFormChatBack" class="buttonSingle colorBackYellow" value="بستن" onclick="closeFormChat();" />
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,185 @@
+﻿@model EsServiceCore.DTOs.vm_ExamResponders
+
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+
+
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons managementHomeWork AzmonTable2 AllAzmonTable single-homeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        @if (Model.ExamInfo == null || Model.ExamInfo.Count < 1)
+        {
+            <div class="alert  alert-dismissible" id="myalertContainer">
+                <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                <p class="text-right" id="myalert"> @Model.ErrorMsg</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert  alert-dismissible d-none" id="myalertContainer">
+                <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                <p class="text-right" id="myalert"></p>
+            </div>
+        }
+        @if (Model.ExamInfo != null && Model.ExamInfo.Count >= 1)
+        {
+            <div class=" details-azmon-top p-3">
+                <div class=" row">
+                    <div class=" my-1 px-1 col-lg-3 col-sm-6">
+                        <div class=" item">
+                            <div class=" div-img"> <img src="/imagemember/2919780@2x.png" alt=""></div>
+                            <div class=" desc">
+                                <div>تاریخ / زمان آزمون</div>
+                                <div>
+                                    <span>@Model.ExamInfo.FirstOrDefault().ExamStartDateTime.ToString("HH:mm")</span>
+                                    <span>-</span>
+                                    <span>@Model.ExamInfo.FirstOrDefault().ExamStartDateTime.ToString("yyyy/MM/dd")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" my-1 px-1 col-lg-3 col-sm-6">
+                        <div class=" item">
+                            <div class="div-img"> <img src="/imagemember/3824445@2x.png" alt=""></div>
+                            <div class="desc">
+                                <div>تعداد کل دانش آموزان</div>
+                                <div>
+                                    <span>@Model.ExamInfo.FirstOrDefault().StudentAll</span>
+                                    <span>نفر</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" my-1 px-1 col-lg-3 col-sm-6">
+                        <div class=" item">
+                            <div class="div-img"> <img src="/imagemember/463574@2x.png" alt=""></div>
+                            <div class="desc">
+                                <div>تعداد ارسال کنندگان</div>
+                                <div>
+                                    <span>@Model.ExamInfo.FirstOrDefault().ResponseNumber</span>
+                                    <span>نفر</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" my-1 px-1 col-lg-3 col-sm-6">
+                        <div class=" item">
+                            <div class="div-img"> <img src="/imagemember/close-1@2x.png" alt=""></div>
+                            <div class="desc">
+                                <div>تعداد ارسال نشده</div>
+                                <div>
+                                    <span>@((int)Model.ExamInfo.FirstOrDefault().StudentAll - (int)Model.ExamInfo.FirstOrDefault().ResponseNumber)</span>
+                                    <span>نفر</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        <div class=" table-div mx-3">
+            <table class=" table table-bordered">
+                <thead>
+                    <tr class=" d-md-none">
+                        <th class="bottom-res-p"><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                        <th class="bottom-res-p"><span>پاسخ صحیح</span></th>
+                        <th class="bottom-res-p"><span>پاسخ غلط</span></th>
+                    </tr>
+                    <tr class=" d-none d-md-table-row">
+                        <th><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                        <th><span>پاسخ صحیح</span></th>
+                        <th><span>پاسخ غلط</span></th>
+                        <th><span>نمره نهایی</span></th>
+                        <th><span>نمره محاسباتی</span></th>
+                        <th><span>ابزارک ها</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Responses)
+                    {
+                        <tr class=" d-none d-md-table-row">
+                            <td>
+                                <div class=" d-flex justify-content-center align-items-center">
+                                    <div class=" img-pro-other Live-border-img mx-2">
+                                        <img src="@Codes.GetPathStoreProfileImage(item.PicName)"
+                                             alt="user-img-pro"><span class=" Live">LIVE</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class=" day">@item.FullName</span></td>
+                            <td><span>@item.RightNumber</span></td>
+                            <td><span>@item.WrongNumber</span></td>
+                            <td><span>@item.ResponseScore</span></td>
+                            <td><span>@item.CalculateScore</span></td>
+                            <td>
+                                <span class="abzarak">
+                                    @if (item.ResponseID == 0 || item.ResponseID == null)
+                                    {
+                                       <span class="text-danger">دانش آموز در آزمون شرکت نکرده است</span>
+                                    }
+                                    else
+                                    {
+                                    <a href="@Url.Action("Score", "Exam", new { Id = item.ResponseID, uId = item.UserID })" title="نمره دهی" target="_blank" class=" my-1 mx-1"><img src="/imagemember/icons8-scorecard-24.png" alt="" /></a>}
+                                    @*<a href="#" class=" my-1 mx-1">
+            <img src="/imagemember/Iconly-Light-Delete.png"
+                 alt="" />
+        </a>*@
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- ------------------------------------ responsive mode ----------------------------- -->
+
+
+                        <tr class=" d-md-none">
+                            <td>
+                                <div class=" d-flex justify-content-center align-items-center">
+                                    <div class=" img-pro-other Live-border-img mx-2">
+                                        <img src="@Codes.GetPathStoreProfileImage(item.PicName)"
+                                             alt="user-img-pro"><span class=" Live">LIVE</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class=" day">@item.FullName</span></td>
+                            <td><span>@item.RightNumber</span></td>
+                            <td><span>@item.WrongNumber</span></td>
+                        </tr>
+                        <tr class=" d-md-none">
+                            <th class=" padding-res"><span>نمره نهایی</span></th>
+                            <td class="responsive-pad-score"><span>@item.ResponseScore</span></td>
+                            <th class=" padding-res"><span>نمره محاسباتی</span></th>
+                            <td class="responsive-pad-score"><span>@item.CalculateScore</span></td>
+                        </tr>
+                        <tr class=" d-md-none">
+                            <th><span>ابزارک ها</span></th>
+                            <td colspan="3">
+                                <span class="abzarak">
+                                    <a href="@Url.Action("Score","Exam",new { Id=item.ResponseID,uId=item.UserID})" title="نمره دهی" target="_blank" class=" my-1 mx-1"><img src="~/imagemember/icons8-scorecard-24.png" alt="" /></a>
+                                    @*<a href="#" class=" my-1 mx-1">
+                                            <img src="/imagemember/Iconly-Light-Delete.png"
+                                                 alt="" />
+                                        </a>*@
+                                </span>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+@section Scripts
+{
+    <script src="/jsexam/exam.js"></script>
+}

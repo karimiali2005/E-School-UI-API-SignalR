@@ -1,0 +1,41 @@
+﻿@{ 
+    var UserActive = Convert.ToInt32(this.User.FindFirst("UserActive").Value);
+    var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+}
+
+
+<div class="slidemenu displayInlineBlock positionAbsolute colorBackPrimary">
+
+    <ul id="smenu">
+        <li>
+            <div class="buttonmenuPanel">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+        </li>
+
+        @if (UserActive == 2)
+        {
+            @*@if (UserTypeId == 4)
+            {
+                <li><a href="/Class/Teacher"><img src="/imagepanel/icons/teaching.png" /><span>کلاس ها</span></a></li>
+                <li><a onclick="chatroom(0, @UserId)"><img src="/imagesuser/icons/chat2.png" /><span>اناق گفتگو</span></a></li>
+            }*@
+            <li><a href="/Class"><img src="/imagepanel/icons/lesson.png" /><span>درس ها</span></a></li>
+            <li><a href="/Account/ChangePass"><img src="/imagesuser/icons/password2.png" /><span>تغییر کلمه عبور</span></a></li>            
+        }
+        else if (UserActive == 0)
+        {
+            if (this.User.FindFirst("UserTypeId").Value == "1")
+            {
+                <li><a href="/Account/ExtraInfo"><img src="/imagesuser/icons/information.png" /><span>اطلاعات تکمیلی</span></a></li>
+            }
+            <li><a href="/Account/Profile"><img src="/imagesuser/icons/profile.png" /><span>پروفایل</span></a></li>            
+        }
+        <li><a href="#" onclick="logoutuser();"><img src="/imagesuser/icons/logout.png" /><span>خروج از پنل</span></a></li>
+
+    </ul>
+
+</div>

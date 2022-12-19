@@ -1,0 +1,40 @@
+﻿@model Es.DataLayerCore.Model.Gallery
+
+@{
+   
+    string Title = "ویرایش : " + Model.GalleryTitle;
+    ViewData["Title"] = Title;
+
+
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row rowInline">
+            <label class="lbl">عنوان</label>
+            <input asp-for="@Model.GalleryTitle" value="@Model.GalleryTitle" class="chPreviousColor" type="text" />
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">توضیحات</label>
+            <textarea asp-for="@Model.GalleryDescription" value="@Model.GalleryDescription" class="chPreviousColor"></textarea>
+        </div>
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+        <input type="hidden" asp-for="GalleryId" value="@Model.GalleryId" />
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="editedGallery()" />
+        </div>
+    </div>
+
+
+
+</form>

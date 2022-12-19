@@ -1,0 +1,85 @@
+﻿<error errorId="e1f9e5f4-ac04-4a29-ae40-40be2daa542e" application="ESchool.Api" host="DESKTOP-HHRG4E8" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2021-03-16T08:24:25.4632521Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/favicon.ico" />
+    </item>
+    <item name="QueryString">
+      <value string="" />
+    </item>
+    <item name="RawTarget">
+      <value string="/favicon.ico" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="80000043-0000-f400-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept">
+      <value string="image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip,deflate,zlib" />
+    </item>
+    <item name="Header_Accept-Language">
+      <value string="en-US,en;q=0.9" />
+    </item>
+    <item name="Header_Connection">
+      <value string="keep-alive" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_Referer">
+      <value string="http://192.168.43.207:45457/api1/Accounts/GetUserPic?picName=2579_2916122c578b48a38330fc20308f6771.JPG" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" />
+    </item>
+    <item name="Header_Forwarded">
+      <value string="host=192.168.43.207:45457; proto=http" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="30000000" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="17582052946865029186" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="2099" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+</error>

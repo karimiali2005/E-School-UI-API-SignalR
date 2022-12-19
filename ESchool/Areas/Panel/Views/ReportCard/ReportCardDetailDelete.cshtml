@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardTeacherCourseShowResult>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+   
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">دروس انتخاب شده برای حذف به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (var item in Model)
+                {
+                    
+
+                    string Text = "درس " + item.CourseTitle + " برای معلم " + item.FullName;
+                   
+
+                    count++;
+
+                    <label title="@item.ReportCardTeacherCourseID" class="lbl colorPrimary">@Html.Raw(Text)</label>
+                    <br /><br />
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (count > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="reportCardDetaildeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

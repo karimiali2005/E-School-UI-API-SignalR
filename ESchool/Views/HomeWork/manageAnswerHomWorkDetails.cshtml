@@ -1,0 +1,247 @@
+﻿@model EsServiceCore.DTOs.HomeWork.vm_HomeworkDetailsShowByIDResult
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+    string adressfile = SettingContext.PathStoreFiles.Instance.Path1;
+    string thisUrl = string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString);
+    thisUrl = thisUrl.Replace("&", "||");
+}
+@section Styles
+{
+
+    <link href="/datePicker2/css/persian-datepicker.min.css" rel="stylesheet" />
+}
+
+
+<section class=" Chat-page single-homeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+            <!-- start change18 -->
+            <form asp-action="manageAnswerHomWorkDetails" asp-route-id="@Model.HomeworkAnswerID" asp-route-isnumberic="@Model.IsNumber" asp-route-homeworkid="@ViewBag.idhomework"  asp-route-returnUrl="@ViewBag.returnUrl" asp-route-thisurl="@ViewBag.thisurl" method="post">
+                <div class=" chat-screen check-homework py-4 px-3">
+                    <!-- end change18 -->
+                    <input type="hidden" asp-for="@Model.HomeworkAnswerID" />
+                    <div class=" card-all">
+                        <div class="d-flex align-items-center" asp-validation-summary="All"></div>
+                        <div class=" pro-img-name">
+                            <div><img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(Model.PicName))" alt=""></div>
+                            <div class=" name-user">
+                                <span>@Model.FullName  </span>
+                            </div>
+                        </div>
+                        <div class=" time-position">
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <div class="key">
+                                        <span>
+                                            <img src="/imagemember/icons8-scorecard-24.png"
+                                                 alt="">
+                                        </span><span>وضعیت:</span>
+                                    </div>
+                                    <div class=" value">@Model.HomeworkAnswerStatusTitle</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="key">
+                                        <span>
+                                            <img src="/imagemember/Iconly-Light-Time Circle@2x.png"
+                                                 alt="">
+                                        </span><span>
+                                            تاریخ
+                                            مشاهده:
+                                        </span>
+                                    </div>
+                                    <div class=" value">@Model.VisitDateTime.getPersianDate()</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <div class="key">
+                                        <span>
+                                            <img src="/imagemember/Iconly-Light-Time Circle@2x.png"
+                                                 alt="">
+                                        </span><span>
+                                            تاریخ
+                                            ارسال:
+                                        </span>
+                                    </div>
+                                    <div class=" value">@Model.SendDatetime.getPersianDate()</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="key">
+                                        <span>
+                                            <img src="/imagemember/Iconly-Light-Time Circle@2x.png"
+                                                 alt="">
+                                        </span><span>
+                                            تاریخ
+                                            پایان:
+                                        </span>
+                                    </div>
+                                    <div class=" value">
+
+                                        <input type="text" class="form-control" id="dateRangePicker" name="dateend" value="@Model.HomeworkAnswerFinishDate.getPersianDateByMinutes()" autocomplete="off" placeholder="توضیحات خود را وارد کنید" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.HomeworkResponse))
+                        {
+                            <div class=" option">
+                                <div class=" key">
+                                    <span>
+                                        <img src="/imagemember/icons8-stack-exchange-answer-24.png"
+                                             alt="">
+                                    </span><span>پاسخ دانش آموز:</span>
+                                </div>
+                                <div class=" value">
+                                    <span>
+                                        @Model.HomeworkResponse
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.FileAnswers.Count != 0 && !String.IsNullOrEmpty(Model.FileAnswers[0].FileName))
+                        {
+                            <div class=" option">
+                                <div class=" key">
+                                    <span>
+                                        <img src="/imagemember/icons8-stack-exchange-answer-24.png"
+                                             alt="">
+                                    </span><span>پاسخ دانش آموز:</span>
+                                </div>
+                                <div class=" value">
+                                   
+                                    @foreach (var item in Model.FileAnswers)
+                                    {
+                                        <div class="media-body mb-1">
+
+                                            <div class="mb-2">
+                                                @Html.Raw(@Codes.FileChatHomework(item.FileName, adressfile, false, true))
+
+                                            </div>
+                                            <hr class="mt-1 mb-1" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class=" option">
+                                <div class=" key">
+                                    <span>
+                                        <img src="/imagemember/icons8-stack-exchange-answer-24.png"
+                                             alt="">
+                                    </span><span>پاسخ دانش آموز:</span>
+                                </div>
+                                <div class=" value">
+                                    <span class="text-danger">
+                                        بدون پاسخ
+                                    </span>
+                                </div>
+                            </div>
+                        }
+
+                        <div class=" option">
+                            <div class=" key">
+                                <span><img src="/imagemember/icons8-comments-24.png" alt=""></span><span>
+                                    نظر
+                                    دبیر
+                                </span>
+                            </div>
+                            <div class=" value">
+                                <textarea asp-for="@Model.TeacherComment" cols="30" rows="10"
+                                          placeholder="نظر خود را بنویسید..."></textarea>
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key">
+                                <span>
+                                    <img src="/imagemember/icons8-stack-exchange-24.png"
+                                         alt="">
+                                </span><span>توضیحات دانش آموز</span>
+                            </div>
+                            <div class=" value">
+                                <span>
+                                    @Model.HomeworkAnswerComment
+                                </span>
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key ">
+                                <span>
+                                    <img src="/imagemember/icons8-leaderboard-24.png"
+                                         alt="">
+                                </span><span>نمره دانش آموز:</span>
+                            </div>
+                            <div class=" score ">
+                                @if (Model.IsNumber)
+                                {
+
+                                    <div class=" div-input"><input type="number" asp-for="@Model.HomeworkAnswerScore" placeholder="نمره"></div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <select asp-for="@Model.HomeworkAnswerDescriptiveID" class="custom-select" id="validationCustom04" required>
+                                            <option value="0" selected>بدون نمره</option>
+                                            @{ foreach (var i in Model.scoreTypes)
+                                                {
+
+                                                    if (i.id == Model.HomeworkAnswerDescriptiveID)
+                                                    {
+                                                        <option value="@i.id" selected>@i.value</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@i.id">@i.value</option>
+                                                    }
+
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class=" accept-cancel d-flex">
+                            <div class=" "><button type="submit" class="w-100 btn btn-success">تایید</button></div>
+                            <div class=" "><button class="w-100 btn btn-danger" onclick="goBack('@ViewBag.returnUrl')">لغو</button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+@section Scripts
+{
+ 
+    <script src="/datePicker2/js/persian-date.min.js"></script>
+    <script src="/datePicker2/js/persian-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dateRangePicker").persianDatepicker({
+                altField: '#dateRangePicker',
+                altFormat: "YYYY/MM/DD - HH:mm",
+                observer: true,
+                format: 'YYYY/MM/DD - HH:mm',
+                initialValue: false,
+                initialValueType: 'persian',
+                position: [-341, 0],
+                autoClose: true,
+                minDate: 'today',
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                }
+            });
+         
+        });
+    </script>
+
+}

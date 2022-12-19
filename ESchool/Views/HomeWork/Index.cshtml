@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+}
+
+<section class=" Chat-page single-sendHomeWork  single-homeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+
+            <div class=" chat-screen py-5 px-3">
+                <form action="">
+                    <div class=" h-title ">
+                        <span>فرم ارسال تکالیف</span>
+                        <span class="sh-status-header sh-status-new">جدید</span>
+                    </div>
+                    <div class=" sh-title-homeWork bg-white">
+                        <span>عنوان: </span><span>انجام کار در کلاس صفحه 20 تا 22</span>
+                    </div>
+                    <div class=" sh-desc my-4 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-desc-content w-100">
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+                                <div class=" d-felx">
+                                    <img src="imagemember/Iconly-Light-outline-Folder@2x.png" alt="">
+                                </div>
+                                <div class=" mr-2 font-weight-bold">توضیحات</div>
+                            </div>
+                            <div class="sh-div-textarea">
+                                <textarea name="" id="" cols="30" rows="10"
+                                          placeholder="توضیحات خود را وارد کنید"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" sh-file my-4 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-file-content w-100">
+                            <div class="sh-title-file d-flex align-items-center mb-2">
+                                <div class=" d-felx"><img src="imagemember/Iconly-Light-Document@2x.png" alt=""></div>
+                                <div class=" mr-2 font-weight-bold">آپلود فایل</div>
+                            </div>
+                            <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                <input type="file" id="file-input" class=" d-none" onchange="file1()">
+                                <label for="file-input">انتخاب فایل</label>
+                                <input type="text" readonly value="هیچ فایلی وجود ندارد" class=""
+                                       id="text-file-input">
+                            </div>
+                            <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                <input type="file" id="file-input2" class=" d-none" onchange="file2()">
+                                <label for="file-input2">انتخاب فایل</label>
+                                <input type="text" readonly value="هیچ فایلی وجود ندارد" class=""
+                                       id="text-file-input2">
+                            </div>
+                            <div class=" text-left mt-4">
+                                <div><img src="imagemember/Iconly-Light-outline-Folder@2x.png" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" sh-submit-btn text-center">
+                        <button type="submit">ارسال تکلیف</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+

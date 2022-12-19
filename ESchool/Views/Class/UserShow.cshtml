@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RoomUser>
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    int count = 0;
+    RoomUserOp roomUserOp = new RoomUserOp();
+    UserOp userOp = new UserOp();
+
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+    var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+}
+
+<div class="form textAlignCenter">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+    <div class="row textAlignLeft">
+        <input type="button" class="buttonSingle colorBackThirty displayInlineBlock colorBackBlue2" value="بازگشت" onclick="cancelCh()" />
+    </div>
+
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>ردیف</th>
+            <th style="width: 80px;">عکس کاربر</th>
+            <th>کد ملی</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>تاریخ تولد</th>
+            <th>شماره همراه</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (RoomUser roomUser in Model)
+        {
+            User user = userOp.GetUser(roomUser.UserId);
+            if (user != null)
+            {
+                int UId = user.UserId;
+                string IrNational = user.Irnational;
+                string FirstName = user.FirstName;
+                string LastName = user.LastName;
+                string PersianBirthDate = Codes.getPersianDate(user.BirthDate);
+                string MobileNumber = user.MobileNumber;
+
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td><a target="_blank" href="/Account/PictureUser?id=@UId"><img src="/Account/PictureUser?id=@UId&s=30" /></a></td>
+                    <td>@Html.Raw(IrNational)</td>
+                    <td>@Html.Raw(FirstName)</td>
+                    <td>@Html.Raw(LastName)</td>
+                    <td>@Html.Raw(PersianBirthDate)</td>
+                    <td>@Html.Raw(MobileNumber)</td>
+                </tr>
+
+                i++;
+            }
+        }
+
+    </table>
+
+    <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+    <input type="hidden" id="id" value="@ViewData["RoomId"]" />
+
+</div>
+
+
+
+
+
+
+

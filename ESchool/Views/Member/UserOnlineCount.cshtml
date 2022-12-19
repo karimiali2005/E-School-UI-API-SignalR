@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserOnlineCount</title>
+
+    <script src="/jsmember/jquery.js"></script>
+
+    <script src="~/signalr/signalr.min.js"></script>
+    <script src="~/signalr/moment.min.js"></script>
+    <script src="~/jsmember/ChatCount.js"></script>
+
+
+</head>
+
+
+
+<body>
+    <form id="chatForm">
+        @ESchool.Need.MiddleWare.OnlineUsersMiddleware.GetOnlineUsersCount()
+        <div class="col-md-2">
+            <input type="button" onclick="GetUserOnline()" value="Send" />
+        </div>
+    </form>
+   
+</body>
+</html>
+

@@ -1,0 +1,135 @@
+﻿@model User
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    string Title = "ویرایش : " + Model.FirstName + " " + Model.LastName;
+    ViewData["Title"] = Title;
+
+
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>        
+    </div>
+    
+    <div class="step opacityOne" id="step2">
+
+    <div class="row textAlignCenter" style="position: relative">
+        <img class="picstudent displayBlock" id="Image" src="/Account/PictureUser?s=120" />
+        <label class="lblBelowText displayBlock">
+            برای آپلود عکس بر روی آیکون بالا کلیک نمایید
+            <br />
+            تصویر باید از نوع jpg یا png و حجم حداکثر 5 مگابایت باشد
+        </label>
+        <input onchange="uProfilepic(this);" type="file" id="Pic" />
+        <div class="seperate"></div>
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">نام</label>
+        <input asp-for="FirstName" value="@Model.FirstName" class="chPreviousColor" type="text" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">نام خانوادگی</label>
+        <input asp-for="LastName" value="@Model.LastName" class="chPreviousColor" type="text" />
+    </div>
+
+    <div class="row rowInline positionRelative">
+        <label class="lbl">کد ملی</label>
+        <input asp-for="Irnational" value="@Model.Irnational" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" />        
+    </div>
+
+    <div class="row rowbox">
+        <div class="row rowInline2">
+            <label class="lbl">سریال شناسنامه</label>
+            <input asp-for="IdcardSerial" value="@Model.IdcardSerial" class="chPreviousColor" type="text" placeholder="مثال: 868745" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">عدد سری ش.م</label>
+            <input asp-for="IdcardSeriesNumber" value="@Model.IdcardSeriesNumber" class="chPreviousColor" type="text" placeholder="مثال: 86" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">حرف سری ش.م</label>
+            <select asp-for="IdcardSeriesLetter" value="@Model.IdcardSeriesLetter" asp-items="ViewBag.IdcardSeriesLetters" class="chPreviousColor"></select>
+        </div>
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">محل تولد</label>
+        <input asp-for="BirthPlace" value="@Model.BirthPlace" class="chPreviousColor" type="text" placeholder="مثال: کاشان" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">محل صدور شناسنامه</label>
+        <input asp-for="IdcardPlace" value="@Model.IdcardPlace" class="chPreviousColor" type="text" placeholder="مثال: کاشان" />
+    </div>
+
+    <div class="row rowbox">
+        <div class="row rowInline2">
+            <label class="lbl">روز تولد</label>
+            <select id="BirthDay" class="chPreviousColor" asp-items="ViewBag.Days"></select>
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">ماه تولد</label>
+            <select id="BirthMonth" class="chPreviousColor" asp-items="ViewBag.Months"></select>
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">سال تولد</label>
+            <input id="BirthYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1380" value="@ViewData["BirthYear"]" />
+        </div>
+
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">تحصیلات</label>
+        <select asp-for="ParentDegree" value="@Model.ParentDegree" asp-items="ViewBag.Educations" class="chPreviousColor"></select>
+
+    </div>
+
+
+    <div class="row rowInline">
+        <label class="lbl">شغل</label>
+        <input asp-for="ParentJob" value="@Model.ParentJob"  class="chPreviousColor" type="text" placeholder="مثال: کارمند" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">شماره منزل</label>
+        <input asp-for="Telephone" value="@Model.Telephone" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 55442020" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">شماره همراه</label>
+        <input asp-for="MobileNumber" value="@Model.MobileNumber" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 09131245678" />
+    </div>    
+
+    <div class="row rowInline">
+        <label class="lbl">وضعیت</label>
+        <select asp-for="ParentStatusId" asp-items="ViewBag.ParentStatuses" value="@Model.ParentStatusId" class="chPreviousColor"></select>
+    </div>
+
+    <div class="row row90">
+        <label class="lbl">آدرس منزل</label>
+        <textarea asp-for="Address" value="@Model.Address" class="chPreviousColor"></textarea>
+    </div>
+        
+        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="javascript: window.location.href = '/Class'" />
+        <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="profile()" />
+    </div>
+</div>
+
+   
+
+</form>

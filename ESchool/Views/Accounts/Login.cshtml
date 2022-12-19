@@ -1,0 +1,370 @@
+﻿@model Es.DataLayerCore.DTOs.User.LoginViewModel
+@{
+    ViewBag.Title = "ورود به پنل دانش آموزی";
+    Layout = "_LayoutMember";
+}
+
+
+
+<header class="log-reg-header">
+    <div class=" container-fluid d-flex justify-content-between align-items-center">
+        <div class="menu-ham">
+            <div onclick="openMenu_LOG()"><img src="~/imagemember/Component 1 – 10@2x.png" alt=""></div>
+        </div>
+        <div class="menu-logo">
+            <div class=" logo">
+                <!-- start cahnge11 -->
+                <img src="~/imagemember/logo1.png" alt="">
+                <!-- end cahnge11 -->
+
+            </div>
+            <div class=" menu">
+                <ul>
+                    <li class="active">
+                        <a href="#">صفحه اصلی</a>
+                    </li>
+                    <li>
+                        <a href="#">اخبار</a>
+                    </li>
+                    <li>
+                        <a href="#">واحد ها</a>
+                    </li>
+                    <li>
+                        <a href="#">ثبت نام دانش آموز ها</a>
+                    </li>
+                    <li>
+                        <a href="#">منابع آموزشی</a>
+                    </li>
+                    <li>
+                        <a href="#">همکاری با ما</a>
+                    </li>
+                    <li>
+                        <a href="#">گالری تصاویر</a>
+                    </li>
+                    <li>
+                        <a href="#">درباره ما</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="log-reg-sec1">
+    <div class=" title">
+        ورود به پنل دانش آموز-مدرسه دکتر حسابی کاشان
+    </div>
+</section>
+
+<section class=" login-sec2 mt-2">
+    <div class=" container">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="register-fail">
+                <span> @Html.ValidationMessage("Error")</span>
+
+            </div>
+
+        }
+
+
+        <div class=" div-form row mx-0">
+            <div class=" col-lg-6 col-12">
+                <form asp-action="Login" method="post">
+                    <div class="form-group my-4">
+                        <label for="" class="mb-3 font-weight-bold">نام کاربری</label>
+                        <input type="text" asp-for="@Model.UsersName" class="form-control" id="UsersName" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group my-4">
+                        <label for=" " class="mb-3 font-weight-bold">رمز عبور</label>
+                        <input type="password" asp-for="@Model.UsersPass" class="form-control" id="UsersPass">
+                        <span><img src="~/imagemember/eye.svg" alt=""></span>
+                    </div>
+                    <div class="forget-rem">
+                        <div class="form-group form-check m-0">
+                            <input type="checkbox" asp-for="@Model.RememberMe" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">به خاطر آوردن</label>
+                        </div>
+                        <div>
+                            <a href="/Account/ForgetPassword" class="text-dark">فراموش کردن رمز عبور / نام کاربری؟</a>
+                        </div>
+                    </div>
+                    <div class="my-4">
+                        <button type="submit" class="btn btn-lg text-white submit-enter">ورود</button>
+                    </div>
+                    <div>
+                        <a href="/Account/Register" class=" text-dark">
+                            <span class=" ml-1">حساب کاربری ندارید؟</span>
+                            <span class=" font-weight-bold">
+                                ثبت نام
+                                کنید
+                            </span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class=" col-lg-6 left-img">
+                <!-- start cahnge11 -->
+                <div><img src="~/imagemember/enter3.png" class=" img-fluid" alt=""></div>
+                <!-- end cahnge11 -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class=" img-above-footer"> <img src="~/imagemember/Path 229@2x.png" class=" img-fluid" alt=""></div>
+
+<footer class="login-footer">
+    <div class=" container-fluid">
+        <!-- start change12 -->
+        <div class=" row mx-0 content">
+            <div class=" col-lg-6 details">
+                <div class="title"><span>آدرس مدرسه شعبه یک</span></div>
+                <ul class=" mt-3">
+                    <li>
+                        <div>
+                            <div class="location"><img src="~/imagemember/Group 5@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2">
+                                <span>آدرس:</span><span>
+                                    خیابان ایت الله یثربی، کوی کوثر سی،
+                                    مجتمع دکتر حسابی
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="mobile"><img src="~/imagemember/787@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2">
+                                <span>پیش دبستان و دبستان:</span><span>
+                                    55246669 -
+                                    55246668
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="mobile"><img src="~/imagemember/787@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2">
+                                <span>متوسطه اول:</span><span>55235957 - 55245910</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="mobile"><img src="~/imagemember/787@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2">
+                                <span>متوسطه دوم:</span><span>55235954 - 55238682</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="telnumber"><img src="~/imagemember/78@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2"><span>شماره پیامک:</span><span>500013335954</span></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="email"><img src="~/imagemember/Group 26@2x.png" alt=""></div>
+                            <div class=" mr-3 my-2"><span>ایمیل:</span><span>drhesabi88@gmail.com</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class=" col-lg-6 share-news">
+                <div class="google-map-directoin">
+                    <div class="mapouter">
+                        <div class="gmap_canvas">
+                            <iframe width="500" height="250" id="gmap_canvas"
+                                    src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d3308.2968836161185!2d51.468090617662334!3d33.98490733688907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e2!4m0!4m5!1s0x3f96845445993377%3A0x2d32b9d068dc90b0!2zMXN0IEhlZGF5YXTYjCBLYXNoYW4gLSDaqdin2LTYp9mG2IwgSXJhbg!3m2!1d33.9850403!2d51.4695152!5e0!3m2!1sen!2s!4v1624461200228!5m2!1sen!2s"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net">embed google map</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-lg-8 copy-right">
+                <hr />
+                <div class=" d-flex justify-content-between p-2">
+                    <div>کلیه حقوق این سایت به مدرسه تعلق دارد</div>
+                    <div>Copyright © 2020 School Site</div>
+                </div>
+            </div>
+            <div class=" col-lg-4 social-media">
+                <div>ما را در شبکه های اجتماعی دنبال کنید</div>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="~/imagemember/youtube@2x.png" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="~/imagemember/facebook@2x.png" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="~/imagemember/instagram-sketched@2x.png" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="~/imagemember/linkedin@2x.png" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="~/imagemember/twitter@2x.png" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- end change12 -->
+    </div>
+</footer>
+
+
+
+<!-- start cart aside -->
+<!-- <div class="add-to-cart right" id="cart-sideL">
+    <a href="#" onclick="closeMenu_LOG()" class="overlay" id="aL"></a>
+    <div class="cart-inn">
+        <div>
+            <div class=" menu">
+                <ul>
+                    <li class="active">
+                        <a href="#">صفحه اصلی</a>
+                    </li>
+                    <li>
+                        <a href="#">اخبار</a>
+                    </li>
+                    <li>
+                        <a href="#">واحد ها</a>
+                    </li>
+                    <li>
+                        <a href="#">ثبت نام دانش آموز ها</a>
+                    </li>
+                    <li>
+                        <a href="#">منابع آموزشی</a>
+                    </li>
+                    <li>
+                        <a href="#">همکاری با ما</a>
+                    </li>
+                    <li>
+                        <a href="#">گالری تصاویر</a>
+                    </li>
+                    <li>
+                        <a href="#">درباره ما</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- end cart aside -->
+<!-- start cart aside change11-->
+<div class="add-to-cart login-cartSide right" id="cart-sideL">
+    <a href="#" onclick="closeMenu_LOG()" class="overlay" id="aL"></a>
+    <div class="cart-inn">
+        <div class=" header">
+        </div>
+        <div class=" optoins">
+            <ul>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/home.svg" alt=""></div>
+                        </div>
+                        <div>صفحه اصلی</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/newspaper.svg" alt=""></div>
+                        </div>
+                        <div>اخبار</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/parts.svg" alt=""></div>
+                        </div>
+                        <div>واحد ها</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/register.svg" alt=""></div>
+                        </div>
+                        <div>ثبت نام دانش آموز ها</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/homework.svg" alt=""></div>
+                        </div>
+                        <div>منابع آموزشی</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/hand-shake.svg" alt=""></div>
+                        </div>
+                        <div>همکاری با ما</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/gallery.svg" alt=""></div>
+                        </div>
+                        <div>گالری تصاویر</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class=" icon">
+                            <div><img src="~/imagemember/about-us.svg" alt=""></div>
+                        </div>
+                        <div>درباره ما</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class=" footer">
+            <div class="design">
+                طراحی شده ...
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end cart aside change11-->
+@section Scripts
+{
+    <script>
+        $('#UsersName').on('keyup', function (event) {
+            var arregex = /^[a-zA-Z0-9_ ]*$/;
+            if (!arregex.test(event.key)) {
+                $('#UsersName').val("");
+                alert("اعداد و حروف فقط به صورت انگلیسی وارد شود")
+            }
+        });
+        $('#UsersPass').on('keyup', function (event) {
+            var arregex = /^[a-zA-Z0-9_ ]*$/;
+            if (!arregex.test(event.key)) {
+                $('#UsersPass').val("");
+                alert("اعداد و حروف فقط به صورت انگلیسی وارد شود")
+            }
+        });
+    </script>
+}

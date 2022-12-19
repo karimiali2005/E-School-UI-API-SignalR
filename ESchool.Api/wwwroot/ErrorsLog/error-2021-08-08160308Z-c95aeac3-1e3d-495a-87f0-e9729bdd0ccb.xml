@@ -1,0 +1,90 @@
+﻿<error errorId="c95aeac3-1e3d-495a-87f0-e9729bdd0ccb" application="ESchool.Api" host="PC" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2021-08-08T16:03:08.1633168Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/GetUserPic" />
+    </item>
+    <item name="QueryString">
+      <value string="?userId=788" />
+    </item>
+    <item name="RawTarget">
+      <value string="http://localhost:4740/GetUserPic?userId=788" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="8000001a-0004-fe00-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept">
+      <value string="*/*" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip, deflate" />
+    </item>
+    <item name="Header_Authorization">
+      <value string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIyNTc5IiwiVXNlclR5cGVJZCI6IjEiLCJuYmYiOjE2MTE3Mjk5NDksImV4cCI6MTYxMjMzNDc0OSwiaWF0IjoxNjExNzI5OTQ5fQ.BW2Q2-dMzrYtHjbq4CcsO4oQKyH0-SPZ91xhxH5Isc8" />
+    </item>
+    <item name="Header_Cache-Control">
+      <value string="no-cache" />
+    </item>
+    <item name="Header_Connection">
+      <value string="keep-alive" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="PostmanRuntime/7.1.1" />
+    </item>
+    <item name="Header_Postman-Token">
+      <value string="14629181-1714-4dca-b7d3-916a5fa25cc2" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="30000000" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="18302628904424177688" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="127.0.0.1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="14346" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="127.0.0.1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+  <queryString>
+    <item name="userId">
+      <value string="788" />
+    </item>
+  </queryString>
+</error>

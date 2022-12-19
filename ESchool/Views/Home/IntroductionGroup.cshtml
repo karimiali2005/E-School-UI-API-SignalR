@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.Introduction.IntroductionGroupShowResult>
+@{
+    ViewBag.Title = "معرفی ";
+    Layout = "LayoutMain";
+    var addressDownload = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.Introduction;
+}
+
+<header class="log-reg-header">
+    <div class=" container-fluid d-flex justify-content-between align-items-center">
+        <div class="menu-logo">
+            <div class=" logo">
+                <!-- start cahnge11 -->
+                <img src="../imagemember/logo1.png" alt="">
+                <!-- end cahnge11 -->
+            </div>
+            <div class="barsmenu-h">
+                <div id="bars" class="d-block d-lg-none text-right">
+                    <img src="../imagemember/Component 1 – 10@2x.png" alt="">
+                </div>
+                <div class=" menu" id="menu">
+                    <ul>
+                        <li class="active">
+                            <a href="/Home/Index">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="/Account/Register">ثبت دانش آموزان</a>
+                        </li>
+                        <li>
+                            <a href="#">معرفی اساتید</a>
+                        </li>
+                        <li>
+                            <a href="#">اخبار</a>
+                        </li>
+
+
+                        <li>
+                            <a href="/Home/Gallery">گالری تصاویر</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About">درباره ما</a>
+                        </li>
+                        <li>
+                            <a href="#mainfooter">تماس با ما</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="gallery">
+    <div class="container">
+        <div class="row">
+            <div class=" col-lg-12 up-gallery">
+                <div class="div-pic">
+                    <div class="pic-fa">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h1>معرفی اساتید @Model.FirstOrDefault().IntroductionTypeTitle</h1>
+                    </div>
+                </div>
+                <div class="details-box">
+                    <span>مرتب سازی</span>
+                    <select name="" id="sorts">
+                        <option value="ID">جدیدترین</option>
+                        <option value="ID">قدیمی ترین</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-12 down-gallery my-5">
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="div-box col-lg-3 col-md-6 col-12 py-2">
+                                <article class="h-100">
+                                    <a href="#">
+                                        <div class="overflow-hidden py-1 divPic">
+                                            <img class="imgIntroduction" src="@(addressDownload)@item.IntroductionPic" alt="">
+                                            <div class="dg-haver">
+                                            </div>
+                                        </div>
+                                        <div class="p-1">
+                                            <h4> @item.IntroductionTitle </h4>
+                                        </div>
+                                        <div class="p-1">
+                                            <span>@item.IntroductionPosition</span>
+                                        </div>
+                                    </a>
+                                </article>
+                            </div>
+                        }
+
+                       
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

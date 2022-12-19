@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Course>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    CourseOp courseOp = new CourseOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">حذف دروس انتخاب شده به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (Course course in Model)
+                {
+                    if (courseOp.HasTeacher(course.CourseId))
+                    {
+                        <label title="@course.CourseId" class="lbl colorError"> امکان حذف @Html.Raw(course.CourseTitle) وجود ندارد. دارای  معلم می باشد</label>
+                        <br />
+                    }
+                    else
+                    {
+                        count++;
+                        <label title="@course.CourseId" class="lbl colorPrimary"> امکان حذف @Html.Raw(course.CourseTitle) وجود دارد</label>
+                        <br />
+                    }
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (count > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackSeconday" value="حذف شوند" onclick="coursedelete();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

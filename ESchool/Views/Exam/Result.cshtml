@@ -1,0 +1,244 @@
+﻿@model vm_ScoreResponseByQuestionsAndChoices
+@using EsServiceCore.DTOs
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    var addressDownload = AppSettingClass.GetPathStoreFiles();
+}
+@section Styles
+{
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="/datePicker2/css/persian-datepicker.min.css" rel="stylesheet" />
+
+
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+<section class=" panel Chat-page panel2">
+    <div>
+        <header class="header-panel chat">
+            <nav>
+                @await Html.PartialAsync("Header")
+            </nav>
+        </header>
+    </div>
+    <div class=" content-all">
+        <div class="content">
+            <form asp-action="Result" method="get">
+                <input type="hidden" name="Id" value="@Model.ExamId" />
+                <input type="hidden" name="qId" value="@Model.NextQuestionId" />
+                @Html.AntiForgeryToken()
+                <div class="detail-azmon-exam box-content my-4 pb-2">
+                    <div class="color-bar-top"></div>
+                    <div class="all-information">
+                        <div class="personal-information">
+                            <div>
+                                <div class=" img-pro Live-border-img">
+                                    <img src="@Codes.GetPathStoreProfileImage(Model.PicName)" alt="">
+                                </div>
+                            </div>
+                            <div class="name px-2"><span>@Model.FullName</span></div>
+                            <div class=" px-2 py-3 grade"><span>پایه @Model.DegreeTitle</span></div>
+                            <div class=" px-2 name-class">
+                                <span>کلاس @Model.GradeTitle</span>
+                                @*<span> / </span><span>فرشتگان</span>*@
+                            </div>
+                        </div>
+                        <div class="score-information">
+
+                            @if (Model.HasNumberScore == true)
+                            {
+                                <div>
+                                    <button type="button" class="btn shadow-none">
+                                        <span class=" mx-1 d-flex">
+                                            <img src="../img/Iconly-Bold-Edit@2x.png"
+                                                 alt="">
+                                        </span>
+                                        <span class=" mx-1">@Model.ComputingResponseScore</span>
+                                        <span class=" mx-1">نمره محاسباتی:</span>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="all-information">
+                        <div class="col-8 align-content-center text-right teachercomment">
+                            <span>توضیحات:</span>
+                            <span>@Model.TeacherComment</span>
+                        </div>
+                        <div class="score-information">
+                            @if (Model.HasNumberScore != true)
+                            {<span>نمره نهایی:</span>
+                                <select class="form-control select-type-exam mx-1" disabled asp-for="@Model.ResponseDescriptiveID">
+                                    @foreach (var item in Model.ScoreTypes)
+                                    {
+                                        <option value="@item.ScoreTypeDetailId">@item.ScoreTypeDetailTitle (@item.ScoreStart - @item.ScoreFinish)</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <div>
+                                    <div class="btn shadow-none">
+                                        <span class=" mx-1 d-flex">
+                                            <img src="../img/Iconly-Bold-Edit@2x.png"
+                                                 alt="">
+                                        </span>
+                                        <span class=" mx-1">@Model.ResponseScore</span>
+                                        <span class=" mx-1">نمره نهایی</span>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" questoin-type-1 box-content my-4">
+                    <div class="color-bar-top"></div>
+                    <div class=" text-questoin">
+                        <span>@Model.Question.QuestionTitle</span>
+                    </div>
+
+
+
+
+                    @switch (Model.Question.QuestionTypeId)
+                    {
+                        case 1:
+                            <div class=" box-long-text text-right my-4">
+                                <span class="text-right" disabled>@Model.ResponseValue</span>
+                            </div>
+                            break;
+                        case 2:
+                            @if (Model.Question.QuestionChoice != null && Model.Question != null)
+                            {
+                                <div class=" answer-options">
+
+                                    @foreach (var item in Model.Question.QuestionChoice)
+                                    {  
+                                        var checkeds = Model.ResponseValue == item.QuestionChoiceId.ToString() ? "checked" : "";
+
+                                        <div class=" optoin">
+                                            <div class=" text-option">
+
+                                                <div class="my-2 d-flex ltr justify-content-end align-items-center custom-control custom-radio">
+                                                    <input class="custom-control-input" type="radio" name="ResponseValue" id="@item.QuestionChoiceId"  @checkeds value="@item.QuestionChoiceId"> 
+                                                    @if (item.IsAnswer)
+                                                    {
+                                                        <label class="mr-2 custom-control-label mr-3 text-success" for="@item.QuestionChoiceId">
+                                                            @item.QuestionChoiceTitle (جواب صحیح)
+                                                        </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="mr-2 custom-control-label mr-3" for="@item.QuestionChoiceId">
+                                                            @item.QuestionChoiceTitle
+                                                        </label>
+                                                    }
+                                                </div>
+
+                                                @if (!string.IsNullOrEmpty(item.QuestionChoiceFile))
+                                                {
+
+                                                    @Html.Raw(@Codes.FileChatExamAndResponse(item.QuestionChoiceFile, addressDownload, false))
+
+
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            break;
+                        case 3:
+
+                            <div class=" sh-file-content w-100">
+                                <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                    @if (!string.IsNullOrEmpty(Model.ResponseValue))
+                                    {
+
+                                        @Html.Raw(@Codes.FileChatExamAndResponse(Model.ResponseValue, addressDownload, true))
+
+
+                                    }
+                                </div>
+                            </div>
+
+                            break;
+                        case 4:
+                            <div class=" sh-file-content w-100">
+                                <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                    @if (!string.IsNullOrEmpty(Model.ResponseValue))
+                                    {
+
+                                        @Html.Raw(@Codes.FileChatExamAndResponse(Model.ResponseValue, addressDownload, true))
+
+
+                                    }
+                                </div>
+                            </div>
+                            break;
+
+                    }
+                    <div class="bottom justify-content-end">
+                        <div class=" teachercomment">
+                            <div class="px-2"><span>توضیحات معلم:</span></div>
+                            <span>@Model.QuestionTeacherComment</span>
+                        </div>
+                        <div class=" score">
+                            @if (Model.HasNumberScore == true)
+                            {
+                                <div class="">
+                                    <div class="btn shadow-none">
+                                        <span class=" mx-1 d-flex">
+                                            <img src="../img/Iconly-Bold-Edit@2x.png"
+                                                 alt="">
+                                        </span>
+                                        <span class=" mx-1">نمره:</span>
+                                        <span class=" mx-1">@Model.Question.QuestionScore</span>
+                                        <span class=" mx-1">نمره اخذ شده:</span>
+                                        <span class=" mx-1">@Model.ResponseQuestionScore</span>
+                                    </div>
+                                </div>}
+                        </div>
+                    </div>
+                </div>
+                <div class="az-page-submit  all-submit">
+                    @if (Model.NextQuestionId != null && Model.NextQuestionId != 0)
+                    {
+                        <button type="submit" class="btn-lg btn bg-success text-white">
+                            بعدی
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn-lg btn bg-success text-white">
+                            بستن
+                        </button>
+                    }
+                    <button type="button" class="btn-lg btn bg-info text-white" onclick="goBack()">بازگشت</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+{
+
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+}

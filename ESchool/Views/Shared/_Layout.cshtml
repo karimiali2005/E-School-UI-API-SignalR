@@ -1,0 +1,170 @@
+﻿@{ 
+    string title = Convert.ToString(ViewData["Title"]);
+    string sitename = "مجتمع آموزشی دکتر حسابی کاشان";
+    title = string.IsNullOrEmpty(title) ? sitename : title + " - " + sitename;
+
+    string[] links = { "صفحه اصلی", "اخبار", "واحد ها", "ثبت نام دانش آموزان", "ورود به پنل کاربری", "همکاری با ما", "گالری تصاویر", "درباره ما" };
+    string[] urls = { "#", "#", "#", "/Account/Register", "/Account/Login", "#", "#", "#"};
+    
+    var request = Context.Request;
+    string currenturl = System.Web.HttpUtility.UrlDecode(request.Path + request.QueryString);
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+
+    <link href="/Sys/CSS" rel="stylesheet" />
+
+
+    <script type="text/javascript" src="/Sys/JS"></script>
+    <script src="/jssite/jquery-3.5.1.min.js"></script>
+    <script src="/jssite/jquery.browser.min.js"></script>
+    <script src="/jssite/YeKe.js"></script>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" />
+
+</head>
+<body>
+
+    <header class="topmenu">
+        <img class="logo" src="~/imagesite/logo/logo1.png" />
+        <div id="buttonMenu" onclick="openMenu()">
+            <div class="line1 colorBackPrimary"></div>
+            <div class="line2 colorBackPrimary"></div>
+            <div class="line3 colorBackPrimary"></div>
+        </div>
+        <ul>
+            @{
+                int len = urls.Count();
+                for (var i = 0; i < len; i++)
+                {
+                    string className = urls[i] == currenturl ? "select" : "";
+                    <li><a class="@className" href="@urls[i]">@Html.Raw(links[i])</a></li>
+                }
+            }
+            
+        </ul>
+        <div class="search colorBackPrimaryLight">
+            <input type="text" id="txtSearch" class="colorPrimary" />
+            <img src="/imagesite/icons/search.png" />
+            @if (false)
+            {
+                <label class="colorPrimary">@Html.Raw(this.User.FindFirst("Nickname").Value + " - " + this.User.FindFirst("UserType").Value)</label>
+            }
+        </div>
+    </header>
+
+    <div class="header colorBackPrimaryLight colorPrimary">
+        @ViewData["Title"]
+    </div>
+
+ 
+
+    <!-- Content -->
+    @RenderBody()
+
+    <!-- Footer -->
+
+    <footer class="footer colorBackPrimary">
+
+        <div id="footer-content">
+
+            <img class="footermap" src="/imagesite/footer/googlemap.jpg" />
+
+            <div class="information">
+
+                <div class="col">
+                    <div class="title">آدرس مدرسه شعبه یک</div>
+                    <div class="row">
+                        <img src="/imagesite/footer/location.png" />
+                        <span>خیابان ایت ا.. یثربی، کوی کوثر سی، مجتمع دکتر حسابی</span>
+                    </div>
+                    <div class="row">
+                        <img src="/imagesite/footer/phone.png" />
+                        <span>پیش دبستان و دبستان: 55246668-55246669</span>
+                    </div>
+                    <div class="row">
+                        <img src="/imagesite/footer/phone.png" />
+                        <span>متوسطه اول: 55245910-55235957</span>
+                    </div>
+                    <div class="row">
+                        <img src="/imagesite/footer/phone.png" />
+                        <span>متوسطه دوم: 55238682-55235954</span>
+                    </div>
+                    <div class="row">
+                        <img src="/imagesite/footer/message.png" />
+                        <span>شماره پيامک: 500013335954</span>
+                    </div>
+                    <div class="row">
+                        <img src="/imagesite/footer/email.png" />
+                        <span>ایمیل: drhesabi88@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="title">گواهينامه ها</div>
+                    <div class="imgbox colorBackPrimaryDark">
+                        <img src="/imagesite/footer/certificates/enamad.png" />
+                    </div>
+                    <div class="imgbox colorBackPrimaryDark">
+                        <img src="/imagesite/footer/certificates/zarinpal_badge.png" />
+                    </div>
+                    <div class="imgbox colorBackPrimaryDark">
+                        <img src="/imagesite/footer/certificates/logo_samandehi.png" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="title">اشتراک در خبرنامه</div>
+                    <p>با عضویت در خبرنامه می توانید از جدیدترین اخبار مدرسه مطلع شوید</p>
+                    <div class="newsletter colorBackPrimaryDark">
+                        <input id="btnNewsLetter" type="button" value="عضویت" class="colorPrimary" />
+                        <input id="txtNewsLetter" type="text" placeholder="شماره تماس خود را وارد نمایید" />
+                        <img src="/imagesite/footer/phone.png" />
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="socials">
+                <div class="explain">
+                    ما را در شبکه های اجتماعی دنبال کنید
+                </div>
+                <div class="line colorBackPrimaryDark"></div>
+                <div class="icons">
+                    <a href="#"><img src="/imagesite/footer/socials/facebook.png" /></a>
+                    <a href="#"><img src="/imagesite/footer/socials/instagram.png" /></a>
+                    <a href="#"><img src="/imagesite/footer/socials/linkedin.png" /></a>
+                    <a href="#"><img src="/imagesite/footer/socials/twitter.png" /></a>
+                    <a href="#"><img src="/imagesite/footer/socials/youtube.png" /></a>
+                </div>
+
+            </div>
+
+            <div class="copyright">
+                <a href="#">کلیه حقوق این سایت به مدرسه تعلق دارد</a>
+                <span>Copyright 2020 School Site</span>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <div id="backLdsRoller">
+        <div class="lds-roller">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <div id="txtLoading">لطفا شکیبا باشید</div>
+    </div>
+
+</body>
+</html>

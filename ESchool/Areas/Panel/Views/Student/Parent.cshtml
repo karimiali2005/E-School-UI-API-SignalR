@@ -1,0 +1,56 @@
+﻿@model User
+
+@{
+    string IrnationalFather = Model.UserIdfatherNavigation != null ? Model.UserIdfatherNavigation.Irnational : "";
+    string IrnationalMother = Model.UserIdmotherNavigation != null ? Model.UserIdmotherNavigation.Irnational : "";
+
+    string FatherName = Model.UserIdfatherNavigation != null ? Model.UserIdfatherNavigation.FirstName + " " + Model.UserIdfatherNavigation.LastName : "";
+    string MotherName = Model.UserIdmotherNavigation != null ? Model.UserIdmotherNavigation.FirstName + " " + Model.UserIdmotherNavigation.LastName : "";
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter" action="/Panel/Student/Parent" method="post">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">تغییر والدین @Html.Raw(Model.FirstName) @Html.Raw(Model.LastName)</p>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row row90">
+                <label class="lbl colorPrimary">نام فعلی پدر : @Html.Raw(FatherName)</label>
+            </div>
+
+            <div class="row row90">
+                <label class="lb colorPrimary">نام فعلی مادر : @Html.Raw(MotherName)</label>
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">کد ملی پدر</label>
+                <input id="IrnationalFather" name="IrnationalFather" class="chPreviousColor textAlignLeft directionLtr" type="text" value="@IrnationalFather" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">کد ملی مادر</label>
+                <input id="IrnationalMother" name="IrnationalMother" class="chPreviousColor textAlignLeft directionLtr" type="text" value="@IrnationalMother" />
+            </div>
+
+
+
+            <input type="hidden" id="id" name="id" value="@Model.UserId" />
+            <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackSeconday displayInlineBlock" value="تغییر داده شود" onclick="parented();" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackThirty displayInlineBlock" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+

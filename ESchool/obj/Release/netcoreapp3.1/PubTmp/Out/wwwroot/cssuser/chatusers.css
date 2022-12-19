@@ -1,0 +1,90 @@
+﻿.chatusers {
+    display: block;
+    margin: auto;
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #808080;
+}
+
+.chatusers .row {
+    display: block;
+    margin: 5px auto;
+    width: 100%;    
+}
+
+.chatusers .row .userpic {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width: 75px;
+    height: 75px;     border: 0px solid blue;
+}
+
+.chatusers .row.back {
+    background-color: #fff1a4;
+}
+
+.chatusers .row .userpic img {
+    display: block;    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.chatusers .row .userpic span {
+    display: block;    
+    position: absolute;
+    z-index: 5;
+    top: 0px;
+    left: 0px;
+    width: 15px;
+    height: 15px;    
+    border-radius: 50%;
+}
+
+.userpic span.on {
+    background-color: #20d137;
+}
+
+.userpic span.off {
+    background-color: #ff0000;
+}
+
+.chatusers .row .userdata {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: right;
+    width: 165px;
+    border: 0px solid red;
+}
+
+.chatusers .row .userdata span {
+    display: block;    
+    margin-top: 5px;
+    width: 100%;
+    font-size: 10pt; 
+    color: #525252;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chatusers .row .userdata label {
+    display: block;    
+    width: 100%;
+    font-size: 8pt;   
+    color: #acacac;
+}
+
+@media only screen and (max-width: 700px) {
+    .chatusers .row .userdata {
+        width: calc(100% - 85px);
+    }
+
+    
+}

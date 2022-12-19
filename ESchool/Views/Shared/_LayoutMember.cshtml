@@ -1,0 +1,92 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>مدرسه دکتر حسابی کاشان-@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/cssmember/bootstrap.min.css">
+    <link rel="stylesheet" href="~/cssmember/main-2.6.0.css">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- start change8 -->
+    <div id="div-loading-upload" class=" displayNone div-loading">
+        <div class="spinner-border text-light my-2" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class=" progr text-white d-flex my-2">
+            <span id="divPercentLoading" class="displayNone">
+                <span>%</span><span id="spnLoadingUpload">0</span>
+            </span>
+            <span id="divTextLoading" class="mr-1">ارسال شده است</span>
+        </div>
+        <button id="btnLoadingUploadClose" class=" displayNone btn btn-lg shadow-none text-white my-2" type="button">بستن</button>
+    </div>
+    <!-- end change8 -->
+    <!-- start change10 -->
+    <div id="MessageAlertNewTab" class=" displayNone div-password">
+        <div class=" progr text-white text-center font-weight-bold my-2">
+            <div id="divUserNameMain" class=" my-4"><span class="mx-2">نام کاربری:</span><span id="divNewTabSiteUserName">محمد محمدی</span></div>
+            <div><span class="mx-2">پسورد:</span><span id="divNewTabSiteUserPass">123456789</span></div>
+        </div>
+        <button id="btnOpenNewTab" class=" btn btn-lg shadow-none text-white my-2" type="button">ورود</button>
+        @*<input type="button" id="btnOpenNewTab" class=" btn btn-lg shadow-none text-white my-2"  value="ورود"  />*@
+    </div>
+    <!-- end change10 -->
+    <div id="MessageAlertDelete" class=" div-password" style="display: none;">
+        <div class=" bg-white shadow delete-massage-pupup">
+            <div class=" message font-weight-bold"><span>آیا از حذف پیام انتخاب شده مطمئن هستید؟</span></div>
+            <div class="d-flex ">
+                <div class="ml-2"><button id="MessageAlertDeleteButton1" type="button" class=" btn-yes btn bg-success text-white">خودم</button></div>
+                <div class="ml-2"><button id="MessageAlertDeleteButton2" type="button" class=" btn-yes-all btn bg-success text-white">برای همه</button></div>
+                <div><button type="button" class=" btn-no btn bg-success text-white">لغو</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="MessageAlertDeleteAll" class=" div-password" style="display: none;">
+        <div class=" bg-white shadow delete-massage-pupup">
+            <div class=" message font-weight-bold"><span>آیا از حذف پیام ها مطمئن هستید؟</span></div>
+            <div class="d-flex ">
+                <div class="ml-2"><button type="button" class=" btn-yes btn bg-success text-white">حذف</button></div>
+               
+                <div><button type="button" class=" btn-no btn bg-success text-white">لفو</button></div>
+            </div>
+        </div>
+    </div>
+    <div onclick="RefreshPage()" id="ChatOffline" class=" div-ChatOffline displayNone">
+        <div>
+            <span class="spinner-border text-light my-2" role="status">
+                <span class="sr-only"></span>
+            </span>
+            <span>شما افلاین هستید لطفا کلیک کنید...</span>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @await Html.PartialAsync("HamburgerMenu")
+    <script src="/jsmember/jquery.js"></script>
+    <script src="~/jsmember/jquery.browser.min.js"></script>
+    <script src="~/jsmember/YeKe.js"></script>
+    <script src="/jsmember/bootstrap.bundle.min.js"></script>
+    <script src="/jsmember/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="/jsmember/bootstrap.min.js"></script>
+
+    <script src="/jsmember/main-1.0.3.js"></script>
+
+    <script src="/jsuser/common.js"></script>
+    <script src="/jsuser/RecordRTC.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

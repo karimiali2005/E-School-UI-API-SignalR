@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=.\sql2019;Database=ESchool;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -Context "ESchoolContext" -DataAnnotations

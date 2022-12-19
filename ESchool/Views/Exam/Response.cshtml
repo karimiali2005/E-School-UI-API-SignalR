@@ -1,0 +1,279 @@
+﻿@model vm_ResponseByQuestionsAndChoices
+@using EsServiceCore.DTOs
+
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    var addressDownload = AppSettingClass.GetPathStoreFiles();
+
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+<section class=" Chat-page single-homeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+            @if (!string.IsNullOrEmpty(Model.ErrorMsg) && Model.Status == false)
+            {
+                <div class="alert  alert-dismissible" id="myalertContainer">
+                    <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                    <p class="text-right" id="myalert"> @Model.ErrorMsg</p>
+                    <a href="@Url.Action("MyExams","Exam")">لیست آزمونها</a>
+                </div>
+            }
+            else
+            {
+                <div class="alert  alert-dismissible d-none" id="myalertContainer">
+                    <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                    <p class="text-right" id="myalert"></p>
+                    <a href="@Url.Action("MyExams","Exam")">لیست آزمونها</a>
+                </div>
+            }
+            @if (string.IsNullOrEmpty(Model.ErrorMsg) && Model.Status != false)
+            {
+        <form asp-action="Response" method="post" enctype="multipart/form-data" id="myform">
+            @Html.HiddenFor(m => m.ResponseID)
+            @Html.HiddenFor(m => m.ExamId)
+            @Html.HiddenFor(m => m.CompanyId)
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.Question.QuestionId)
+            @Html.HiddenFor(m => m.Question.QuestionTypeId)
+            @Html.HiddenFor(m => m.NextQuestionId)
+            @Html.HiddenFor(m => m.ResponseQuestionID)
+
+            <input type="hidden" name="QuestionTypeId" id="QuestionTypeId" value="@Model.Question.QuestionTypeId" />
+            <input type="hidden" name="QuestionId" id="QuestionId" value="@Model.Question.QuestionId" />
+            @Html.AntiForgeryToken()
+            <div class=" chat-screen py-5 px-3">
+                <div class=" az-page-datails my-1">
+                    <div class=" row my-2">
+                        <h1>آزمون: @Model.ExamTitle</h1>
+                    </div>
+                    <div class=" row">
+                        <div class="col-12 col-lg-3 col-sm-6 az-page-item-d my-1 px-1 timer">
+                            <div class="bg-white timer--clock">
+                                <span class="ml-1"><img src="../img/clock@2x.png" alt=""></span>
+                                @if (Model.RestExamTime != null && !(string.IsNullOrEmpty(Model.RestExamTime)))
+                                {
+                                    <span>زمان باقی مانده</span>
+                                    <span>|</span>
+                                    <span id="timer">@Model.RestExamTime</span>
+                                }
+                            </div>
+                        </div>
+                        <div class=" col-12 col-lg-3 col-sm-6 az-page-item-d my-1 px-1">
+                            <div class="bg-white">
+                                <span class="ml-1"><img src="../img/question-mark@2x.png" alt=""></span>
+                                <span>تعداد کل سوالات</span>
+                                <span>|</span>
+                                <span>@Model.QuestionCount</span>
+                            </div>
+
+                        </div>
+                        <div class=" col-12 col-lg-3 col-sm-6 az-page-item-d my-1 px-1">
+                            <div class="bg-white">
+                                <span class="ml-1"><img src="../img/tick@2x.png" alt=""></span>
+                                <span>پاسخ داده شده</span>
+                                <span>|</span>
+                                <span>@(Model.AnsweredQuestionCount == null ? 0 : Model.AnsweredQuestionCount)</span>
+                            </div>
+
+                        </div>
+                        <div class=" col-12 col-lg-3 col-sm-6 az-page-item-d my-1 px-1">
+                            <div class="bg-white">
+                                <span class="ml-1"><img src="../img/close@2x.png" alt=""></span>
+                                <span>باقی مانده</span>
+                                <span>|</span>
+                                <span>@(Model.RestQuestionCount == null ? 0 : Model.RestQuestionCount)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" az-page-question-writing">
+                    <div class=" bg-white p-3 rounded">
+                        <div class=" az-page-score text-left ">
+                            @if (Model.HasNumberScore)
+                            {
+                                <span>نمره:</span>
+                                <span>@Model.Question.QuestionScore</span>
+                            }
+                        </div>
+                        <div class=" az-page-text-question my-3">
+                            <span>سوال:</span>
+                            <span>
+                                @Model.Question.QuestionTitle
+                            </span>
+                            @if (!string.IsNullOrEmpty(Model.Question.QuestionFile))
+                            {
+
+                                @Html.Raw(@Codes.FileChatExamAndResponse(Model.Question.QuestionFile, addressDownload, false))
+                            }
+                        </div>
+                        @switch (Model.Question.QuestionTypeId)
+                        {
+                            case 1:
+                                <div class=" az-page-box-write">
+                                    <textarea class="answertxt" cols="30" rows="10" asp-for="@Model.ResponseValue"></textarea>
+                                    <span asp-validation-for="ResponseValue" class="text-danger"></span>
+                                </div>
+                                break;
+                            case 2:
+                                @if (Model.Question.QuestionChoice != null && Model.Question != null)
+                                {
+                                    <div class="az-page-optoinal-answer">
+
+                                        @foreach (var item in Model.Question.QuestionChoice)
+                                        {
+
+
+                                            <div class=" my-3 d-flex ltr justify-content-end align-items-center custom-control custom-radio">
+                                                <input class="custom-control-input" type="radio" name="ResponseValue" id="@item.QuestionChoiceId" value="@item.QuestionChoiceId">
+                                                <label class="mr-2 custom-control-label mr-3" for="@item.QuestionChoiceId">
+                                                    @item.QuestionChoiceTitle
+                                                </label>
+                                            </div>
+
+                                            @if (!string.IsNullOrEmpty(item.QuestionChoiceFile))
+                                            {
+
+                                                @Html.Raw(@Codes.FileChatExamAndResponse(item.QuestionChoiceFile, addressDownload, false))
+
+
+                                            }
+                                        }
+                                    </div>
+                                }
+
+                                break;
+                            case 3:
+                                <div>
+                                    <div class="az-div-inp-file d-flex align-items-center my-2">
+                                        <input type="file" id="ResponseValue_file" name="ResponseValue_file" class=" d-none" onchange="file1()">
+                                        <label for="ResponseValue_file">انتخاب فایل</label>
+                                        <input type="text" readonly value="هیچ فایلی وجود ندارد" class=""
+                                               id="text-file-input">
+                                    </div>
+                                    <div class=" text-left mt-4">
+                                        <button class=" btn p-0 m-0 shadow-none">
+                                            <img src="../img/Iconly-Light-outline-Plus@2x.png" alt="">
+                                        </button>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(Model.ResponseValue))
+                                    {
+
+                                        @Html.Raw(@Codes.FileChatExamAndResponse(Model.ResponseValue, addressDownload, true))
+
+
+                                    }
+                                </div>
+                                break;
+                            case 4:
+
+                                <div class=" sticker-icon">
+                                    <img id="imgVoiceStart" src="~/imagemember/microphone.svg" alt="">
+                                    <img id="imgVoiceStop" class="displayNone img-25" src="~/imagemember/microphone_red.svg" alt="">
+                                </div>
+                                @Html.HiddenFor(m => m.ResponseValue_file)
+
+
+
+                                @*<div id="formats">Format: start recording to see sample rate</div>
+                            <p><strong>Recordings:</strong></p>*@
+                                <div class="row text-right">
+                                    <ol id="recordingsList" class="d-block  widthfull text-right"></ol>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(Model.ResponseValue))
+                                {
+
+                                    @Html.Raw(@Codes.FileChatExamAndResponse(Model.ResponseValue, addressDownload, true))
+
+
+                                }
+                                break;
+
+                        }
+
+                    </div>
+                    <div class=" az-page-submit">
+                        @if (Model.NextQuestionId != null && Model.NextQuestionId != 0)
+                        {
+                            <button type="submit" class="btn-lg btn bg-success text-white widthfull">
+                                ثبت و بعدی
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn-lg btn bg-success text-white widthfull">
+                                ذخیره و پایان
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+            }
+        </div>
+
+    </div>
+</section>
+
+@section Scripts
+{
+
+    <script type="text/html" id="debug-template">
+        <li class="list-group-item text-%%color%%"><strong>%%date%%</strong>: %%message%%</li>
+    </script>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/jsexam/recorder.js"></script>
+    <script src="/jsexam/response.js"></script>
+
+    <script>
+         function hideAlert() {
+            $("#myalertContainer").addClass('d-none');
+            $("#myalert").text("");
+    }
+        window.onload = () => {
+            const myInput = document.getElementsByClassName('answertxt');
+            myInput.onpaste = e => e.preventDefault();
+            }
+
+          var upgradeTime = @Model.RestExamTimeSeconds;
+          var seconds = upgradeTime;
+          function timer() {
+          var days        = Math.floor(seconds/24/60/60);
+          var hoursLeft   = Math.floor((seconds) - (days*86400));
+          var hours       = Math.floor(hoursLeft/3600);
+          var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+          var minutes     = Math.floor(minutesLeft/60);
+          var remainingSeconds = seconds % 60;
+          function pad(n) {
+            return (n < 10 ? "0" + n : n);
+          }
+          document.getElementById('timer').innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
+          if (seconds == 0) {
+            clearInterval(countdownTimer);
+              document.getElementById("timer").innerHTML = "زمان به پایان رسید";
+                 $("#myalertContainer").removeClass('d-none');
+                    var errorMsg = "زمان شما به اتمام رسید";
+                    $("#myalertContainer  #myalert").html(errorMsg);
+                    $("#myform").addClass('d-none');
+          } else {
+            seconds--;
+          }
+        }
+          var countdownTimer = setInterval('timer()', 1000);
+
+
+
+
+
+    </script>
+
+
+}

@@ -1,0 +1,78 @@
+﻿<error errorId="2f1e3d09-bc4a-4fe2-8cfd-26ff1fd99ed2" application="ESchool.Api" host="PC" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2021-08-08T16:09:05.9498125Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/http://192.168.1.3:45463/GetUserPicName" />
+    </item>
+    <item name="QueryString">
+      <value string="?userId=788" />
+    </item>
+    <item name="RawTarget">
+      <value string="http://localhost:4740/http://192.168.1.3:45463/GetUserPicName?userId=788" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="8000001f-0004-fe00-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip" />
+    </item>
+    <item name="Header_Connection">
+      <value string="Keep-Alive" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="okhttp/3.11.0" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="30000000" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="18302628904424177694" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="127.0.0.1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="5134" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="127.0.0.1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+  <queryString>
+    <item name="userId">
+      <value string="788" />
+    </item>
+  </queryString>
+</error>

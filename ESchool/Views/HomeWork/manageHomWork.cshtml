@@ -1,0 +1,172 @@
+﻿@model List<Es.DataLayerCore.DTOs.HomeworkShowResult>
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+    string thisUrl = string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString);
+    thisUrl = thisUrl.Replace("&", "||");
+}
+
+    <section class=" Chat-page table-plan table-plan-lesson planAlllessons  single-homeWork">
+        <div class="  p-0 chat">
+            @await Html.PartialAsync("Header")
+            <div class=" title-top position-relative">
+                <span> @ViewBag.nameDars</span>
+                <span class=" add-homework-btn"><button onclick="location.href='/HomeWork/CreateHomeWork?courseid=@ViewBag.idcourse&idroom=@ViewBag.idroom&nameDars=@ViewBag.nameDars&roomChatGroupID=@ViewBag.roomChatGroupID&returnUrl=@thisUrl';" class=" btn btn-success"><span class="ml-2 d-flex"><img src="/imagemember/add.svg" /></span><span>افزودن</span></button></span>
+            </div>
+            <div class=" table-div m-3">
+                <table class=" table table-bordered">
+                    <thead>
+                        <tr class=" d-md-none">
+                            <th class="bottom-res-p"><span>عنوان</span></th>
+                            <th><span>نوع</span></th>
+                            <th class="bottom-res-p"><span>تعداد افراد کلاس</span></th>
+                            <th class="bottom-res-p"><span>تعداد ارسالی</span></th>
+                        </tr>
+                        <tr class=" d-none d-md-table-row">
+                            <th><span>عنوان </span></th>
+                            <th><span>نوع</span></th>
+                            <th><span>تعداد افراد کلاس</span></th>
+                            <th><span>تعداد ارسالی</span></th>
+                            <th><span>از</span></th>
+                            <th><span>تا</span></th>
+                            <th class="btn3-padding-res"><span>عملیات</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class=" d-none d-md-table-row">
+                                <td><span class=" day">@item.HomeworkTile</span></td>
+                                <td>
+                                    <div><img style="width:30px;height:30px" src="/imagesuser/icons/@homeworkAnswerStutous.gettype(item.HomeworkTypeID)" class=" rounded-circle img-thumbnail" alt=""></div>
+                                </td>
+
+                                <td><span>@item.StudentAllNumber</span></td>
+                                <td><span>@item.StudentAnswerNumber</span></td>
+                                <td><span>@item.HomeworkStartDate.getPersianDate()</span></td>
+                                <td><span>@item.HomeworkFinishDate.getPersianDate()</span></td>
+                                <td>
+                                    <a asp-controller="HomeWork" asp-action="manageHomWorkDetails" asp-route-idhomework="@item.HomeworkID" asp-route-returnUrl="@thisUrl" class=" add-desc my-1 bg-info">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/eyew.svg"
+                                                 alt="">
+                                        </span><span>مشاهده</span>
+                                    </a>
+
+                                    <a asp-controller="HomeWork" asp-action="UpdateHomeWork" asp-route-homeworkid="@item.HomeworkID" asp-route-nameDars="@ViewBag.nameDars" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" asp-route-returnUrl="@thisUrl" class=" add-desc my-1 bg-warning">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/edit.svg"
+                                                 alt="">
+                                        </span><span>ویرایش</span>
+                                    </a>
+                                    <a asp-controller="HomeWork" asp-action="DeleteHomeWork" asp-route-homeworkid="@item.HomeworkID" asp-route-nameDars="@ViewBag.nameDars" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" asp-route-returnUrl="@thisUrl" class=" add-desc my-1 bg-danger">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/edit.svg"
+                                                 alt="">
+                                        </span><span>حذف</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            //Responsive Mode
+
+                            <tr class=" d-md-none">
+                                <td><span class=" day">@item.HomeworkTile</span></td>
+                                <td>
+                                    <div><img style="width:30px;height:30px" src="/imagesuser/icons/@homeworkAnswerStutous.gettype(item.HomeworkTypeID)" class=" rounded-circle img-thumbnail" alt=""></div>
+                                </td>
+
+                                <td><span>@item.StudentAllNumber</span></td>
+                                <td><span>@item.StudentAnswerNumber</span></td>
+                            </tr>
+                            <tr class=" d-md-none">
+                                <th class=" padding-res"><span>از</span></th>
+                                <td><span>@item.HomeworkStartDate.getPersianDate()</span></td>
+                                <th class=" padding-res"><span>تا</span></th>
+                                <td><span>@item.HomeworkFinishDate.getPersianDate()</span></td>
+                            </tr>
+                            <tr class=" d-md-none">
+                                <th><span>عملیات</span></th>
+                                <td colspan="3">
+                                    <a asp-controller="HomeWork" asp-action="manageHomWorkDetails" asp-route-idhomework="@item.HomeworkID" asp-route-returnUrl="@thisUrl" class=" add-desc my-1 bg-info">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/eyew.svg" alt="">
+                                        </span><span>مشاهده</span>
+                                    </a>
+                                    <a asp-controller="HomeWork" asp-action="UpdateHomeWork" asp-route-homeworkid="@item.HomeworkID" asp-route-nameDars="@ViewBag.nameDars" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-returnUrl="@thisUrl" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" class=" add-desc my-1 bg-warning">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/edit.svg"
+                                                 alt="">
+                                        </span><span>ویرایش</span>
+                                    </a>
+                                    <a asp-controller="HomeWork" asp-action="DeleteHomeWork" asp-route-homeworkid="@item.HomeworkID" asp-route-nameDars="@ViewBag.nameDars" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-returnUrl="@thisUrl" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" class=" add-desc my-1 bg-danger">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/edit.svg"
+                                                 alt="">
+                                        </span><span>حذف</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="..." class=" ltr">
+                <ul class="pagination pagination-sm justify-content-center">
+                    @for (int i = 1; i <= ViewBag.countpage; i++)
+                    {
+                        if (ViewBag.countpage > 10)
+                        {
+                            if (i==1||i== ViewBag.pagenumber||i==ViewBag.countpage||i==ViewBag.pagenumber - 1 || i == ViewBag.pagenumber - 2 || i == ViewBag.pagenumber - 3|| i==ViewBag.pagenumber + 1 || i == ViewBag.pagenumber + 2 || i == ViewBag.pagenumber + 3|| i == ViewBag.countpage-1)
+                            {
+                                if (i == ViewBag.pagenumber)
+                                {
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">
+                                            @i
+                                            <span class="sr-only">(current)</span>
+                                        </span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" asp-controller="HomeWork" asp-action="manageHomWork" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-nameDars="@ViewBag.nameDars" asp-route-pagenumber="@i" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" asp-route-returnUrl="@thisUrl">@i</a></li>
+                                }
+                            }
+                            else if (i == ViewBag.pagenumber - 4 || i == ViewBag.pagenumber - 5||i == ViewBag.pagenumber + 4|| i == ViewBag.pagenumber + 5)
+                            {
+                <li class="page-item " aria-current="page">
+                    <span class="page-link">
+                      .                       
+                    </span>
+                </li>
+                            }
+
+                        }
+                        else if (i == ViewBag.pagenumber)
+                        {
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">
+                                    @i
+                                    <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" asp-controller="HomeWork" asp-action="manageHomWork" asp-route-courseid="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom" asp-route-nameDars="@ViewBag.nameDars" asp-route-pagenumber="@i" asp-route-roomChatGroupID="@ViewBag.roomChatGroupID" asp-route-returnUrl="@thisUrl">@i</a></li>
+                        }
+                    }
+
+
+
+                </ul>
+            </nav>
+        </div>
+    </section>
+

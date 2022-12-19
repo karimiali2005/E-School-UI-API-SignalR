@@ -1,0 +1,54 @@
+﻿@model UserProperties
+
+@{ 
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";    
+}
+
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">تغییر نوع کاربری</p>
+
+        <div class="step opacityOne" id="step1">
+            @foreach (var user in Model.Users)
+            {
+                <div class="row rowInline">
+                    <label class="lbl">@Html.Raw(user.FirstName) @Html.Raw(user.LastName)</label>
+                    <select id="Degree" class="chPreviousColor" title="@user.UserId">
+                        @foreach (var usertype in Model.UserTypes)
+                        {
+
+                            bool selected = usertype.UserTypeId == user.UserTypeId ? true : false;                            
+                            if (selected)
+                            {
+                                <option value="@usertype.UserTypeId" selected="selected">@Html.Raw(usertype.UserTypeTitle)</option>
+                            }
+                            else
+                            {
+
+                                <option value="@usertype.UserTypeId" >@Html.Raw(usertype.UserTypeTitle)</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackSeconday" value="تغییر یابد" onclick="utyped()" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackThirty" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+

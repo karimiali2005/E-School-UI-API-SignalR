@@ -1,0 +1,130 @@
+﻿@model RoomProperties
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int PageNumber = 1;
+    int CourseId = 0;
+    int RoomId = 0;
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { CourseId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["course"]); } catch { CourseId = 0; }
+    try { RoomId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["room"]); } catch { RoomId = 0; }
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <img class="arrow rotate" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowInline">
+                <label class="lbl">آدرس جیتسی</label>
+                <input id="jitsiaddress" value="@System.Web.MyHttpContext.Current.Request.Query["jitsiaddress"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">کلمه عبور جیتسی</label>
+                <input id="jitsipassword" value="@System.Web.MyHttpContext.Current.Request.Query["jitsipassword"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">آدرس ادوب</label>
+                <input id="adobeaddress" value="@System.Web.MyHttpContext.Current.Request.Query["adobeaddress"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">نام کاربری ادوب</label>
+                <input id="adobeusername" value="@System.Web.MyHttpContext.Current.Request.Query["adobeusername"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">کلمه عبور ادوب</label>
+                <input id="adobepassword" value="@System.Web.MyHttpContext.Current.Request.Query["adobepassword"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">آدرس آزمون</label>
+                <input id="examaddress" value="@System.Web.MyHttpContext.Current.Request.Query["examaddress"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+            <div class="row rowInline">
+                <label class="lbl"> آدرس آزمون 2</label>
+                <input id="examaddress2" value="@System.Web.MyHttpContext.Current.Request.Query["examaddress2"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+            <div class="row rowInline">
+                <label class="lbl">آدرس زوم</label>
+                <input id="zoomaddress" value="@System.Web.MyHttpContext.Current.Request.Query["zoomaddress"]" class="chPreviousColor textAlignLeft directionLtr" type="text" placeholder="" />
+            </div>
+
+            <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+            <input type="hidden" id="id" name="id" value="@ViewData["RoomId"]" />
+
+            <div class="row textAlignCenter">
+                <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+                <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="rlived()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :250px" value="حذف کلاس های انتخاب شده" onclick="rteacherdelete()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th>آدرس جیتسی</th>
+            <th>کلمه عبور جیتسی</th>
+            <th>آدرس ادوب</th>
+            <th>نام کاربری</th>
+            <th>کلمه عبور ادوب</th>
+            <th>ادرس آزمون</th>
+            <th>ادرس آزمون2</th>
+            <th>ادرس زوم</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model.RoomTeachers)
+        {
+            //string RoomTitle = item.Room != null ? item.Room.RoomTitle : "";
+            //string CourseTitle = item.Course != null ? item.Course.CourseTitle : "";
+
+            <tr>
+                <td><input type="checkbox" class="chkGrid" value="@item.RoomTeacherId" /></td>
+                <td>@(i+1)</td>                
+                <td>@Html.Raw(item.JitsiLiveAddress)</td>
+                <td>@Html.Raw(item.JitsiLivePassword)</td>
+                <td>@Html.Raw(item.AdobeLiveAddress)</td>
+                <td>@Html.Raw(item.AdobeLiveUsername)</td>
+                <td>@Html.Raw(item.AdobeLivePass)</td>
+                <td>@Html.Raw(item.ExamAddress)</td>
+                <td>@Html.Raw(item.ExamAddress2)</td>
+                <td>@Html.Raw(item.ZoomAddress)</td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+
+</div>
+

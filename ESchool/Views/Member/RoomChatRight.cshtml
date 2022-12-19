@@ -1,0 +1,108 @@
+﻿@model Es.DataLayerCore.DTOs.RoomChat.RoomChatRightViewModel
+<div id="div-roomChatRight" class=" col-xl-3 col-lg-4 col-sm-5 content p-0">
+    @await Html.PartialAsync("HeaderChatRight", Model.RoomLiveShows)
+  
+    <div id="divRoomChatGroupInsert" class=" user-show bg-white">
+        <ul>
+            @* @await Html.PartialAsync("RoomChatRightDetail", Model.RoomChatRightShowResult)*@
+            @foreach (var item in Model.RoomChatRightShowResult)
+            {
+                <li id="liRoomChatRight@(item.RoomChatGroupID)" class=" li-roomChatGroup-list" onclick="RoomChatLeftShow('@item.RoomChatGroupID','@item.RoomChatGroupType','@item.RoomID','@item.TeacherID','@item.CourseID','@item.PicName','@item.RoomChatTitle')">
+                    @if (item.RoomChatGroupType == 2)
+                    {
+                        <div class="dropdown div-option-massage">
+                            <button class="btn shadow-none pb-2 pl-2 p-0 dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu option-massage p-0" aria-labelledby="dropdownMenuButton">
+
+                                <div class=" dropdown-item p-0">
+                                    <button onclick="RoomChatGroupRemove('@item.RoomChatGroupID')" type="button">حذف گفتگو</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class=" d-flex ">
+                        <div class=" img-pro-other ml-3">
+                            @if (item.RoomChatGroupType == 3)
+                            {
+                                <img src="/imagepanel/icons/finance2.png"
+                                     alt="user-img-pro">
+                            }
+                            else if (item.RoomChatGroupType == 4)
+                            {
+                                <img src="/imagepanel/icons/discipline2.png"
+                                     alt="user-img-pro">
+                            }
+                            else if (item.RoomChatGroupType == 5)
+                            {
+                                <img src="/imagepanel/icons/Reportcard2.png"
+                                     alt="user-img-pro">
+                            }
+                            else if (item.RoomChatGroupType == 6)
+                            {
+                                <img src="/imagepanel/icons/Actions-flag-black-icon.png"
+                                     alt="user-img-pro">
+                            }
+                            else if (item.RoomChatGroupType == 7)
+                            {
+                                <img src="/imagepanel/icons/favpng_clip-art-product-design-line.png"
+                                     alt="user-img-pro">
+                            }
+                            else
+                            {
+                                <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                     alt="user-img-pro">
+                            }
+
+                        </div>
+                        <div class="details">
+                            <div class=" detail-user d-flex justify-content-between align-items-center">
+                                <div class="name"><span>@item.RoomChatTitle</span><span></span></div>
+                                <div class=" date-count d-flex align-items-baseline">
+                                    @if (item.HomeWorkNewNumber != 0)
+                                    {
+                                        <div class=" icon-dont-seen">
+
+                                            <div class=" div-img ml-2">
+                                                <img src="/imagemember/homework.svg" alt="">
+                                            </div>
+
+                                            @if (item.HomeWorkNewNumber < 99)
+                                            {
+                                                <div class=" red-circle-top-icon">@item.HomeWorkNewNumber</div>
+                                            }
+                                            else
+                                            {
+                                                <div class=" red-circle-top-icon">+99</div>
+                                            }
+
+                                        </div>
+                                    }
+
+                                    @if (item.MessageNewNumber != 0)
+                                    {
+                                        if (item.MessageNewNumber < 99)
+                                        {
+                                            <div class=" count ml-2">@item.MessageNewNumber</div>
+                                        }
+                                        else
+                                        {
+                                            <div class=" count ml-2">99+</div>
+                                        }
+                                    }
+                                    <div class=" date">@item.RoomChatDate.ToTimeChatString()</div>
+                                </div>
+                            </div>
+                            <div class=" text-massage">
+                                <p class=" pTextChat">@item.TextChat</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

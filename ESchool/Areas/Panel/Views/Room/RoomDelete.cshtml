@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Room>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    RoomOp roomOp = new RoomOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">حذف کلاس/متفرقه های انتخاب شده به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (Room room in Model)
+                {
+                    string RoomType = room.RoomTypeId == 1 ? "کلاس" : "سخنرانی";
+                    string DegreeTitle = room.Degree != null ? room.Degree.DegreeTitle : "";
+                    string GradeTitle = room.Grade != null ? room.Grade.GradeTitle : "";
+                    string StudyFieldTitle = room.StudyField != null ? room.StudyField.StudyFieldTitle : "";
+
+                    var HasRoomDetail = roomOp.HasRoomDetails(room.RoomId);
+                    var HasRoomUser = roomOp.HasRoomUsers(room.RoomId);
+                    if (HasRoomDetail)
+                    {
+                        string text = "امکان حذف " + room.RoomType.RoomTypeTitle + " با نام " + room.RoomTitle + " با مقطع تحصیلی " + DegreeTitle + " با پایه تحصیلی " + GradeTitle;
+                        if (!string.IsNullOrEmpty(StudyFieldTitle))
+                        {
+                            text += " با رشته تحصیلی " + StudyFieldTitle;
+                        }
+                        text += " وجود ندارد. چون دارای برنامه می باشد ";
+                        <label title="@room.RoomId" class="lbl colorError"> @Html.Raw(text) </label>
+                        <br />
+                    }
+                    else if (HasRoomUser)
+                    {
+                        string text = "امکان حذف " + room.RoomType.RoomTypeTitle + " با نام " + room.RoomTitle + " با مقطع تحصیلی " + DegreeTitle + " با پایه تحصیلی " + GradeTitle;
+                        if (!string.IsNullOrEmpty(StudyFieldTitle))
+                        {
+                            text += " با رشته تحصیلی " + StudyFieldTitle;
+                        }
+                        text += " وجود ندارد. چون دارای دانش آموز یا کاربر می باشد ";
+                        <label title="@room.RoomId" class="lbl colorError"> @Html.Raw(text) </label>
+                        <br />
+                    }
+                    else
+                    {
+                        string text = "حذف " + room.RoomType.RoomTypeTitle + " با نام " + room.RoomTitle + " با مقطع تحصیلی " + DegreeTitle + " با پایه تحصیلی " + GradeTitle;
+                        if (!string.IsNullOrEmpty(StudyFieldTitle))
+                        {
+                            text += " با رشته تحصیلی " + StudyFieldTitle;
+                        }
+                        count++;
+                        <label title="@room.RoomId" class="lbl colorPrimary"> @Html.Raw(text) </label>
+                        <br />
+                    }
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (count > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="rdeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

@@ -1,0 +1,237 @@
+﻿@model UserProperties
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var degreeDefault = Model.Degrees.First() != null ? Model.Degrees.First().DegreeId : 0;
+
+    string[] colorUserActives = { "colorYellow", "colorRed", "colorGreen" };
+    string[] svgUserActives = { "/imagepanel/icons/inactiveFill.svg", "/imagepanel/icons/deactiveFill.svg", "/imagepanel/icons/activeFill.svg" };
+    string[] textUserActives = { "معلق", "غیرفعال", "فعال" };
+    int PageNumber = 1;
+    int DegreeId = 0;
+    int GradeId = 0;
+    int StudyFieldId = 0;
+    string q = "";
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { DegreeId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["degree"]); } catch { DegreeId = 0; }
+    try { GradeId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["grade"]); } catch { GradeId = 0; }
+    try { StudyFieldId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["studyField"]); } catch { StudyFieldId = 0; }
+    try { q = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["q"]); } catch { q = ""; }
+
+    degreeDefault = DegreeId > 0 ? DegreeId : degreeDefault;
+
+    string displayNoneGrade = GradeId > 0 ? "" : "displayNone";
+    string displayNoneStudyField = StudyFieldId > 0 ? "" : "displayNone";
+
+    int MaxRows = 0;
+    try { MaxRows = Convert.ToInt32(ViewData["MaxRows"]); } catch { MaxRows = 0; }
+
+
+    int CountRow = 10;
+    try
+    {
+        CountRow = Convert.ToInt32(ViewData["CountRow"]);
+        CountRow = CountRow <= 0 ? 10 : CountRow;
+    }
+    catch
+    {
+        CountRow = 10;
+    }
+
+}
+
+@await Html.PartialAsync("BigButtons")
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray hideOverflow positionRelative">
+
+    <img class="arrow" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                <label class="lbl">مقطع تحصیلی</label>
+                <select id="Degree" class="chPreviousColor" onchange="selectCh(this)">
+                    <option value="0"></option>
+                    @foreach (var degree in Model.Degrees)
+                    {
+
+                        bool selected = degree.DegreeId == DegreeId ? true : false;
+                        string title = !degree.HasGrade ? "" : degree.DegreeId.ToString() + ",r";
+                        if (selected)
+                        {
+                            <option title="@title" value="@degree.DegreeId" selected="selected">@degree.DegreeTitle</option>
+                        }
+                        else
+                        {
+
+                            <option title="@title" value="@degree.DegreeId">@degree.DegreeTitle</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row rowInline @displayNoneGrade">
+                <label class="lbl">پایه تحصیلی</label>
+                <select id="Grade" class="chPreviousColor" onchange="selectCh(this)">
+                    <option value="0"></option>
+                    @foreach (var grade in Model.Grades)
+                    {
+                        string className = grade.DegreeId == degreeDefault ? "" : "displayNone";
+                        bool selected = grade.GradeId == GradeId ? true : false;
+                        string title = !grade.HasStudyField ? grade.DegreeId.ToString() : grade.DegreeId.ToString() + ",r";
+                        if (selected)
+                        {
+                            <option title="@title" value="@grade.GradeId" class="@className" selected="selected">@grade.GradeTitle</option>
+                        }
+                        else
+                        {
+                            <option title="@title" value="@grade.GradeId" class="@className">@grade.GradeTitle</option>
+
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row rowInline @displayNoneStudyField">
+                <label class="lbl">رشته تحصیلی</label>
+                <select id="StudyField" class="chPreviousColor">
+                    <option value="0"></option>
+                    @foreach (var studyfield in Model.StudyFields)
+                    {
+                        bool selected = studyfield.StudyFieldId == StudyFieldId ? true : false;
+                        if (selected)
+                        {
+                            <option value="@studyfield.StudyFieldId" selected="selected">@studyfield.StudyFieldTitle</option>
+                        }
+                        else
+                        {
+                            <option value="@studyfield.StudyFieldId">@studyfield.StudyFieldTitle</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">عبارت جستجو</label>
+                <input id="q" class="chPreviousColor" type="text" value="@q" />
+            </div>
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="getStudents()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :100px" value="فعال" onclick="uactive('Active')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :100px" value="غیرفعال" onclick="uactive('Deactive')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackYellow" style="width :100px" value="معلق" onclick="uactive('Inactive')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackBlue2" style="width :150px" value="تغییر نوع کاربری" onclick="utype()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackBlue2" style="width :100px" value="تغییر مقطع" onclick="redirectChDegree()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackPrimary" style="width :160px" value="تغییر اطلاعات تکمیلی" onclick="extrainfo()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackBlue2" style="width :110px" value="تغییر والدین" onclick="parent()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :110px" value="خروجی اکسل" onclick="getExcel()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43; دانش آموز جدید" onclick="newsStudent()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th style="width: 80px;">عکس کاربر</th>
+            <th>وضعیت</th>
+            <th style="width: 50px;">ورود</th>
+            <th>کد ملی</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>تاریخ تولد</th>
+            <th>مقطع تحصیلی</th>
+            <th>پایه تحصیلی</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model.Users)
+        {
+            var index = item.UserActive == null ? 0 : item.UserActive.Value;
+
+            string DegreeTitle = item.Degree != null ? item.Degree.DegreeTitle : "";
+            string GradeTitle = item.Grade != null ? item.Grade.GradeTitle : "";
+
+            <tr>
+                <td><input type="checkbox" class="chkGrid" value="@item.UserId" /></td>
+                <td>@((PageNumber - 1) * CountRow + i + 1)</td>
+                <td><a target="_blank" href="/Panel/User/Picture?id=@item.UserId&large=1"><img src="/Panel/User/Picture?id=@item.UserId&s=30" /></a></td>
+                <td class="@colorUserActives[index]">@Html.Raw(textUserActives[index])</td>
+                <td>
+                    @Html.Raw(SvgIcon.GetSvg(svgUserActives[index]))
+                </td>
+                <td>@Html.Raw(item.Irnational)</td>
+                <td>@Html.Raw(item.FirstName)</td>
+                <td>@Html.Raw(item.LastName)</td>
+                <td>@Codes.getPersianDate(item.BirthDate)</td>
+                <td>@Html.Raw(DegreeTitle)</td>
+                <td>@Html.Raw(GradeTitle)</td>
+                <td>
+                    <a class="operate" href="#" title="فعال">
+                        <img class="icon" src="/imagepanel/icons/active.png" onclick="uactive('Active', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="غیرفعال">
+                        <img class="icon" src="/imagepanel/icons/deactive.png" onclick="uactive('Deactive', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="معلق">
+                        <img class="icon" src="/imagepanel/icons/inactive.png" onclick="uactive('Inactive', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="منسبین دانش آموز">
+                        <img class="icon" src="/imagepanel/icons/laugh.png" onclick="urelation(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="ویرایش اطلاعات">
+                        <img class="icon" src="/imagepanel/icons/edit.png" onclick="newsStudent(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="حذف">
+                        <img class="icon" src="/imagepanel/icons/delete.png" onclick="udelete(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="تغییر کلمه عبور">
+                        <img class="icon" src="/imagepanel/icons/password2.png" onclick="upwd(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="برش تصویر">
+                        <img class="icon" src="/imagepanel/icons/crop.png" onclick="upic(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="پیام مالی">
+                        <img class="icon" src="/imagepanel/icons/finance.png" onclick="uStudentFinancial(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="پیام انضباطی">
+                        <img class="icon" src="/imagepanel/icons/discipline.png" onclick="uStudentDiscipline(@item.UserId)" />
+                    </a>
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    @if (MaxRows > 0)
+    {
+        @await Html.PartialAsync("Paging", MaxRows)
+    }
+
+</div>

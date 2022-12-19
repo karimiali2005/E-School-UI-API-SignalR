@@ -1,0 +1,560 @@
+﻿.chatbox {
+    display: block;
+    margin: 15px auto auto auto;
+    width: 100%;
+    position: relative;
+}
+
+    .chatbox .backarrow {
+        display: none;
+    }
+
+    .chatbox #imgLock, .chatbox #imgUnLock {
+        display: block;
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: -5px;
+        left: 40px;
+        cursor: pointer;
+    }
+
+    .chatbox #imgJitsi {
+        display: block;
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: -5px;
+        left: 80px;
+        cursor: pointer;
+    }
+
+    .chatbox #imgAdobe {
+        display: block;
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: -5px;
+        left: 120px;
+        cursor: pointer;
+    }
+
+    .chatbox .right {
+        display: inline-block;
+        vertical-align: top;
+        width: 250px;
+    }
+
+    .chatbox .left {
+        display: inline-block;
+        vertical-align: top;
+        /*width: calc(100% - 260px);*/
+        width: 100%;
+        position: relative;
+    }
+
+@media only screen and (max-width: 700px) {
+    .chatbox .backarrow {
+        display: block !important;
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: 0px;
+        left: 5px;
+        cursor: pointer;
+    }
+
+    .chatbox .right {
+        position: absolute;
+        z-index: 1;
+        width: 100% !important;
+        top: 5px;
+        right: -700px;
+        transition: all ease-in-out 1s;
+    }
+
+    .chatbox .left {
+        position: absolute;
+        z-index: 2;
+        width: 100% !important;
+        top: 5px;
+        right: 0px;
+        transition: all ease-in-out 1s;
+    }
+}
+
+.chatbox .in {
+    -webkit-animation-name: in;
+    -webkit-animation-duration: 1s;
+    animation-name: in;
+    animation-duration: 1s;
+}
+
+.chatbox .out {
+    -webkit-animation-name: out;
+    -webkit-animation-duration: 1s;
+    animation-name: out;
+    animation-duration: 1s;
+}
+
+@keyframes in {
+    from {
+        opacity: 0;
+        right: -700px;
+    }
+
+    to {
+        opacity: 1;
+        right: 75px;
+    }
+}
+
+@keyframes out {
+    from {
+        opacity: 1;
+        right: 75px;
+    }
+
+    to {
+        opacity: 0;
+        right: -700px;
+    }
+}
+
+.chatbox .left .divtag {
+    display: block;
+    width: 100%;
+    height: 30px;
+    text-align: right;
+}
+
+    .chatbox .left .divtag div, .chatbox .left .divtag select {
+        display: inline-block;
+        margin-top: 1px;
+        vertical-align: top;
+        width: 120px;
+        height: 17px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: right;
+        font-size: 10pt;
+        padding: 3px;
+    }
+
+    .chatbox .left .divtag select {
+        height: 25px !important;
+    }
+
+.chatbox .left .attach {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    z-index: 5;
+    width: 90%;
+    text-align: center;
+}
+
+    .chatbox .left .attach .attachmsg {
+        display: block;
+        width: calc(100% - 12px);
+        text-align: right;
+        padding: 5px;
+        background-color: #ffeda7;
+    }
+
+        .chatbox .left .attach .attachmsg .close {
+            display: inline-block;
+            margin: auto 5px;
+            vertical-align: top;
+            font-size: 20pt;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .chatbox .left .attach .attachmsg .text {
+            display: inline-block;
+            margin: auto 5px;
+            vertical-align: top;
+            width: calc(100% - 60px);
+            height: 30px;
+            cursor: pointer;
+        }
+
+.chatbox .left #toolbar {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    z-index: 10;
+    width: 98%;
+    height: 50px;
+    background-color: #8010D2;
+    color: #fff;
+    text-align: center;
+}
+
+    .chatbox .left #toolbar img {
+        display: inline-block;
+        vertical-align: top;
+        margin: 8px 15px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+    }
+
+@media only screen and (max-width: 700px) {
+    .chatbox .left #toolbar img {
+        margin: 8px 8px !important;
+    }
+}
+
+.chatbox .left .messages {
+    display: none;
+    width: 98%;
+    height: calc(100vh - 220px);
+    background-color: #F2F0FC;
+    overflow-y: scroll;
+}
+
+.chatbox .left .current {
+    display: block !important;
+}
+
+.chatbox .left .messages .divsender {
+    display: block;
+    margin: 5px auto;
+    text-align: right;
+}
+
+.chatbox .left .messages .divreciever {
+    display: block;
+    margin: 5px auto;
+    text-align: left;
+}
+
+.chatbox .left .messages .divsender .sender {
+    display: inline-block;
+    margin: 5px;
+    text-align: right;
+    padding: 5px;
+    background-color: #9797B8;
+    color: #fff;
+    font-size: 10pt;
+    border-radius: 5px;
+}
+
+.chatbox .left .messages .divreciever .reciever {
+    display: inline-block;
+    margin: 5px;
+    text-align: right;
+    padding: 5px;
+    background-color: #fff;
+    color: #525252;
+    font-size: 11pt;
+    border-radius: 5px;
+}
+
+    .chatbox .left .messages .divsender .sender .parent, .chatbox .left .messages .divreciever .reciever .parent {
+        display: block;
+        width: 80%;
+        margin: 3px auto;
+        text-align: right;
+        font-size: 9pt;
+        border-radius: 5px;
+        border: 1px solid #525252;
+        color: #2a2a2a;
+    }
+
+    .chatbox .left .messages .divsender .sender .file, .chatbox .left .messages .divreciever .reciever .file {
+        display: block;
+        width: 99%;
+        height: auto;
+        margin: 3px auto;
+        border-radius: 5px;
+    }
+
+        .chatbox .left .messages .divsender .sender .file audio,
+        .chatbox .left .messages .divreciever .reciever .file audio,
+        .chatbox .left .messages .divsender .sender .file video,
+        .chatbox .left .messages .divreciever .reciever .file video,
+        .chatbox .left .messages .divsender .sender .file img,
+        .chatbox .left .messages .divreciever .reciever .file img,
+        .chatbox .left .messages .divsender .sender .file a,
+        .chatbox .left .messages .divreciever .reciever .file a {
+            display: block;
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .chatbox .left .messages .divsender .sender .file audio,
+        .chatbox .left .messages .divreciever .reciever .file audio {
+            min-width: 220px;
+            height: 50px !important;
+        }
+
+        .chatbox .left .messages .divsender .sender .file video,
+        .chatbox .left .messages .divreciever .reciever .file video {
+            min-width: 220px;
+        }
+
+        .chatbox .left .messages .divsender .sender .file a span,
+        .chatbox .left .messages .divreciever .reciever .file a span {
+            display: inline-block;
+            vertical-align: top;
+            margin: 3px;
+        }
+
+        .chatbox .left .messages .divsender .sender .file a .icon,
+        .chatbox .left .messages .divreciever .reciever .file a .icon {
+            display: inline-block;
+            vertical-align: top;
+            margin: 3px;
+            width: 24px;
+            height: 24px;
+        }
+
+.chatbox .left .messages .divsender .time, .chatbox .left .messages .divreciever .time {
+    display: inline-block;
+    margin: 5px;
+    float: left;
+    font-size: 9pt;
+}
+
+.chatbox .left .messages .divsender .tag, .chatbox .left .messages .divreciever .tag {
+    display: inline-block;
+    border-radius: 2px;
+    margin: 5px;
+    float: left;
+    font-size: 9pt;
+    background-color: #00ff21;
+    color: #444444;
+}
+
+.chatbox .left .divmsg {
+    display: block;
+    width: 100%;
+    height: 85px;
+    text-align: right;
+}
+
+    .chatbox .left .divmsg #txtChatMsg {
+        display: inline-block;
+        margin-top: 5px;
+        vertical-align: top;
+        width: calc(97% - 285px);
+        height: 40px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: center;
+        padding: 10px 5px 10px 5px;
+    }
+
+        .chatbox .left .divmsg #txtChatMsg:focus {
+            outline: none !important;
+        }
+
+    .chatbox .left .divmsg .fileChat {
+        display: inline-block;
+        margin-top: 5px;
+        vertical-align: top;
+        width: 50px;
+        height: 50px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .chatbox .left .divmsg .fileChat img {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 9px;
+            left: 0;
+            right: 0;
+            margin-right: auto;
+            margin-left: auto;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .chatbox .left .divmsg .fileChat input[type=file] {
+            opacity: 0;
+            display: block;
+            position: absolute;
+            z-index: 3;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+    .chatbox .left .divmsg .fileRecordA {
+        display: inline-block;
+        margin-top: 5px;
+        vertical-align: top;
+        width: 50px;
+        height: 50px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .chatbox .left .divmsg .fileRecordA img {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 9px;
+            left: 0;
+            right: 0;
+            margin-right: auto;
+            margin-left: auto;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+    .chatbox .left .divmsg #slcChatTag {
+        display: inline-block;
+        margin-top: 5px;
+        vertical-align: top;
+        width: 90px;
+        height: 61px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .chatbox .left .divmsg #btnChatSend {
+        display: inline-block;
+        margin-top: 5px;
+        vertical-align: top;
+        width: 50px;
+        height: 61px;
+        color: #525252;
+        border: 1px solid #525252;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+@media only screen and (max-width: 700px) {
+    .chatbox .left .divmsg #txtChatMsg {
+        display: block !important;
+        width: 95%;
+    }
+
+    .chatbox .left .divmsg .fileChat {
+        width: 20% !important;
+    }
+
+    .chatbox .left .divmsg .fileChat {
+        width: 20% !important;
+    }
+
+    .chatbox .left .divmsg #slcChatTag {
+        width: 22% !important;
+        height: 61px;
+    }
+
+    .chatbox .left .divmsg #btnChatSend {
+        width: 22% !important;
+    }
+}
+
+.selectdm {
+    background-color: #e2a8fc;
+}
+
+#backPage {
+    position: fixed;
+    z-index: 1000;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+    #backPage #formChat {
+        border-radius: 8px;
+        background-color: #fff;
+        border: 1px solid #5ca0c0;
+        border-bottom-left-radius: 50px;
+        padding: 20px;
+        max-width: 700px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 80px;
+        margin-right: auto;
+        margin-left: auto;
+        visibility: hidden;
+    }
+
+    #backPage.show {
+        visibility: visible;
+    }
+
+        #backPage.show #formChat.show {
+            visibility: visible;
+            animation: fadein2 1s;
+            -webkit-animation: fadein2 1s;
+            -moz-animation: fadein2 1s;
+        }
+
+
+@-webkit-keyframes fadein2 {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 80px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein2 {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 80px;
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width:375px) {
+    .chatbox .left .divmsg #slcChatTag {
+        width: 45% !important;
+    }
+}

@@ -1,0 +1,170 @@
+﻿@model Es.DataLayerCore.DTOs.RoomChat.RoomChatLeftPropertyResult
+    <div id="headerLeft" class=" header">
+       <div id="roomchatLeftHeaderButton" class=" d-flex justify-content-between align-items-center w-100">
+            @if (Model != null)
+            {
+                <div class=" d-flex align-items-center">
+
+                    <div onclick="openCart()" class="menu-open-cart d-sm-none">
+                        <img src="/imagemember/menu.svg"
+                             alt="">
+                    </div>
+                    @*<div class=" img-pro" data-toggle="modal" data-target="#staticBackdrop">*@
+                <div class=" img-pro" onclick="ShowUserOnline()">
+
+                    @if (Model.RoomChatGroupType == 3)
+                    {
+                        <img src="/imagepanel/icons/finance2.png" alt="">
+                    }
+                    else if (Model.RoomChatGroupType == 4)
+                    {
+                        <img src="/imagepanel/icons/discipline2.png" alt="">
+                    }
+                    else if (Model.RoomChatGroupType == 5)
+                    {
+                        <img src="/imagepanel/icons/Reportcard2.png" alt="">
+                    }
+                    else if (Model.RoomChatGroupType == 6)
+                    {
+                        <img src="/imagepanel/icons/Actions-flag-black-icon.png" alt="">
+                    }
+                    else if (Model.RoomChatGroupType == 7)
+                    {
+                        <img src="/imagepanel/icons/favpng_clip-art-product-design-line.png" alt="">
+                    }
+                    else
+                    {
+                        <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(Model.PicName))" alt="">@*@*<span class=" online-off"></span>*@
+                    }
+
+                </div>
+                    <div class=" name-group-in-header mr-1 text-white">
+                        <span>@Model.RoomChatGroupTitle</span>
+                    </div>
+                </div>
+                <!-- start change20 -->
+
+                <div class=" icons d-flex align-items-center">
+                    @if (Model.RoomChatGroupType == 1)
+                    {
+                        @if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 4 && Model.PermissionCloseChat)
+                        {
+                            if (Model.CloseChat)
+                            {
+                                <div id="ChatLock" onclick="RoomChatUnLock('@Model.RoomChatGroupID')" class=" mx-1 lock"><img src="/imagemember/lock.svg" alt="باز کردن چت"></div>
+                                <div id="ChatUnLock" onclick="RoomChatLock('@Model.RoomChatGroupID')" class=" displayNone mx-1 unlock"><img src="/imagemember/unlocked.svg" alt="بستن چت"></div>
+                            }
+                            else
+                            {
+                                <div id="ChatLock" onclick="RoomChatUnLock('@Model.RoomChatGroupID')" class=" displayNone mx-1 lock"><img src="/imagemember/lock.svg" alt="باز کردن چت"></div>
+                                <div id="ChatUnLock" onclick="RoomChatLock('@Model.RoomChatGroupID')" class=" mx-1 unlock"><img src="/imagemember/unlocked.svg" alt="بستن چت"></div>
+                            }
+
+                        }
+                        <div id="TagLearnUnFilter" onclick="TagLearnFilter()" class=" mx-2"><img src="/imagemember/lessonwm.png" alt="پیام آموزشی"></div>
+                        <div id="TagLearnFilter" onclick="TagLearnFilter()" class=" mx-2 lesson"><img src="/imagemember/lessonrm.png" alt="همه پیام ها"></div>
+                        @*@if (!string.IsNullOrEmpty(Model.ExamAddress))
+                        {
+                            <div onclick="OpenLinkExam('@Model.ExamAddress')" class=" mx-2 homework-header">
+                                <img src="~/imagemember/testw.svg" alt="آزمون">
+
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.JitsiLiveAddress))
+                        {
+                            <div title="جیتسی" onclick="OpenLinkJitsi($('#jitsiLiveAddress').val(),$('#jitsiLivePassword').val())" class=" mx-2 jitsi" tag="">
+                                <img src="~/imagemember/imagesw.png" alt="جیتسی">
+                                <input type="hidden" id="jitsiLiveAddress" value="@Model.JitsiLiveAddress" />
+                                <input type="hidden" id="jitsiLivePassword" value="@Model.JitsiLivePassword" />
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.AdobeLiveAddress))
+                        {
+                            <div title="لایو" onclick="OpenLinkAdobe($('#adobeLiveAddress').val(),$('#adobeLiveUsername').val(),$('#adobeLivePass').val())" class=" mx-2">
+                                <img src="~/imagemember/live.svg" alt="لایو">
+                                <input type="hidden" id="adobeLiveAddress" value="@Model.AdobeLiveAddress" />
+                                <input type="hidden" id="adobeLiveUsername" value="@Model.AdobeLiveUsername" />
+                                <input type="hidden" id="adobeLivePass" value="@Model.AdobeLivePass" />
+                            </div>
+                        }*@
+
+                    }
+                    <div class="dropdown div-option-massage ">
+                        <button class="btn shadow-none dropdown-toggle p-0 div-menu-img" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            <img src="/imagemember/3dot-menu.svg" alt="">
+                            @*<span>21</span>*@
+                        </button>
+                        <div class="dropdown-menu option-chat p-0" aria-labelledby="dropdownMenuButton"
+                             style="">
+                            @if (Model.RoomChatGroupType == 1)
+                            {
+                                if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 4)
+                                {
+                                    <div class=" dropdown-item p-0">
+                                            <button onclick="MangeReportCardTeacher('@Model.RoomChatGroupID')" type="button">مدیریت کارنامه</button>
+                                    </div>
+                                }
+
+                                <div class=" dropdown-item p-0">
+                                    <button type="button">تقویم</button>
+                                    @*<span>+99</span>*@
+                                </div>
+                                <div class=" dropdown-item p-0">
+                                    @if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 4)
+                                    {
+                                        var course = Model.RoomChatGroupTitle.Split("-")[0];
+                                        @*<button onclick="location.href='/HomeWork/manageHomWork?nameDars=@course&idroom=@Model.RoomID&courseid=@Model.CourseID&roomChatGroupID=@Model.RoomChatGroupID&returnUrl='+getUrl();" type="button">مدیریت تکالیف</button>*@
+                                        <button onclick="OpenManageHomWork('@course','@Model.RoomID','@Model.CourseID','@Model.RoomChatGroupID')" type="button">مدیریت تکالیف</button>
+
+                                    }
+                                    else if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 1)
+                                    {
+                                        @*<button onclick="location.href='/HomeWorkStuden/Index?idroom=@Model.RoomID&idcours=@Model.CourseID&returnUrl='+getUrl();" type="button">تکالیف</button>*@
+                                        <button onclick="OpenHomeWorkStudent('@Model.RoomID','@Model.CourseID')" type="button">تکالیف</button>
+
+
+                                    }
+
+                                    @*<span>+99</span>*@
+                                </div>
+                            }
+                            else if (Model.RoomChatGroupType == 2)
+                            {
+                                <div on class=" dropdown-item p-0">
+                                    <button onclick="RoomChatDeletAll('@Model.RoomChatGroupID');" type="button">حذف پیام ها</button>
+                                    @*<span>+99</span>*@
+                                </div>
+                            }
+                            <div on class=" dropdown-item p-0">
+                                <button onclick="RoomChatSearch();" type="button">جستجو</button>
+                                @*<span>+99</span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div title="برگشت" onclick="ReturnToListUser()" class=" d-sm-none"><img src="~/imagemember/Iconly-Light-Arrow - Left@2x.png" alt="برگشت"></div>
+                    <!-- end change6 -->
+
+                </div>
+                <!-- end change20 -->
+
+            }
+
+
+
+        </div>
+        <div id="roomchatLeftHeaderSearch" class=" d-none search-message-box">
+            <div class="swich-message">
+                
+                <div class="mx-1" onclick="RoomChatLeftShowSearch()"><span><img src="/imagemember/search.svg" /></span></div>
+              
+            </div>
+            <div class="search-message">
+                <input id="txtSearchMessage" name="txtSearchMessage" type="search" placeholder="جستجو...">
+            </div>
+            <div class="back" onclick="RoomChatSearchUndo()"><img src="~/imagemember/Iconly-Light-Arrow - Left@2x.svg" alt=""></div>
+        </div>
+    </div>
+
+

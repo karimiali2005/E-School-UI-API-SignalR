@@ -1,0 +1,123 @@
+﻿<error errorId="efd0ec10-c61e-45ae-872a-35a0ecbac867" application="ESchool.Api" host="PC" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2021-09-26T12:34:52.6929152Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="QueryString">
+      <value string="" />
+    </item>
+    <item name="RawTarget">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="8000001a-0002-f800-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept">
+      <value string="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip, deflate, br" />
+    </item>
+    <item name="Header_Accept-Language">
+      <value string="en-US,en;q=0.9" />
+    </item>
+    <item name="Header_Connection">
+      <value string="keep-alive" />
+    </item>
+    <item name="Header_Cookie">
+      <value string="StiMobileDesignerDictionarySettings=%7B%22createFieldOnDoubleClick%22%3Afalse%2C%22createLabel%22%3Afalse%2C%22useAliases%22%3Afalse%7D; StimulsoftMobileDesignerLastTabOnPropertiesPanel=Properties; __RequestVerificationToken=p905ku4xDsgjgONoW4IaoxudMwVFET6PoI3ZvQdkiGCBYjP7SFbc7TB-LC2m98xAk4bAEwKqM-3az9W-HG7k17sADtt8OTqq2DqONoJYd9I1; ASP.NET_SessionId=r3nl1aoimpv4eyplakiqs2hz; AntelopeSurvey.UI=E80FE4BDEA7F4BBD235F47E836A8C89D6B9B6FFFB80CF2D9C27BEBC9EF18F79FF87109FC47A287703B9AC87AB3038FA7FA9BFAA76D984A351E6C934DCF11956E46CA0DF39B9980A642D4EF960E192607ED5908AAA2E4A13697BE6C0F5EE2607D" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36" />
+    </item>
+    <item name="Header_sec-ch-ua">
+      <value string="&quot;Google Chrome&quot;;v=&quot;93&quot;, &quot; Not;A Brand&quot;;v=&quot;99&quot;, &quot;Chromium&quot;;v=&quot;93&quot;" />
+    </item>
+    <item name="Header_sec-ch-ua-mobile">
+      <value string="?0" />
+    </item>
+    <item name="Header_sec-ch-ua-platform">
+      <value string="&quot;Windows&quot;" />
+    </item>
+    <item name="Header_Upgrade-Insecure-Requests">
+      <value string="1" />
+    </item>
+    <item name="Header_Sec-Fetch-Site">
+      <value string="none" />
+    </item>
+    <item name="Header_Sec-Fetch-Mode">
+      <value string="navigate" />
+    </item>
+    <item name="Header_Sec-Fetch-User">
+      <value string="?1" />
+    </item>
+    <item name="Header_Sec-Fetch-Dest">
+      <value string="document" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="30000000" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="17870283331606675481" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="10481" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+  <cookies>
+    <item name="StiMobileDesignerDictionarySettings">
+      <value string="{&quot;createFieldOnDoubleClick&quot;:false,&quot;createLabel&quot;:false,&quot;useAliases&quot;:false}" />
+    </item>
+    <item name="StimulsoftMobileDesignerLastTabOnPropertiesPanel">
+      <value string="Properties" />
+    </item>
+    <item name="__RequestVerificationToken">
+      <value string="p905ku4xDsgjgONoW4IaoxudMwVFET6PoI3ZvQdkiGCBYjP7SFbc7TB-LC2m98xAk4bAEwKqM-3az9W-HG7k17sADtt8OTqq2DqONoJYd9I1" />
+    </item>
+    <item name="ASP.NET_SessionId">
+      <value string="r3nl1aoimpv4eyplakiqs2hz" />
+    </item>
+    <item name="AntelopeSurvey.UI">
+      <value string="E80FE4BDEA7F4BBD235F47E836A8C89D6B9B6FFFB80CF2D9C27BEBC9EF18F79FF87109FC47A287703B9AC87AB3038FA7FA9BFAA76D984A351E6C934DCF11956E46CA0DF39B9980A642D4EF960E192607ED5908AAA2E4A13697BE6C0F5EE2607D" />
+    </item>
+  </cookies>
+</error>

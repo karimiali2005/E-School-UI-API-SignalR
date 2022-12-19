@@ -1,0 +1,60 @@
+﻿@model int
+
+@{ 
+    int CountRow = 10;
+    try
+    {
+        CountRow = Convert.ToInt32(ViewData["CountRow"]);
+        CountRow = CountRow <= 0 ? 10 : CountRow;
+    }
+    catch
+    {
+        CountRow = 10;
+    }
+
+    var controllerName = this.ViewContext.RouteData.Values["Controller"].ToString();
+
+    int PageNumber = 1;
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+
+    int MaxPages = (Model / CountRow) + 1;
+
+    int inPageGroup = 11;
+    int CountPageGroup = PageNumber % inPageGroup == 0 ? (PageNumber-1) / inPageGroup : PageNumber / inPageGroup;
+
+    int start = (CountPageGroup * inPageGroup);
+    int end = start + inPageGroup > MaxPages ? MaxPages : start + inPageGroup;
+
+    string functionName = "get" + controllerName + "s({0})";
+
+
+}
+
+<form class="form textAlignLeft">
+    <div class="row textAlignLeft displayBlock" style="width: 240px; margin: 0 auto 0 0;">
+        <label class="lbl displayInlineBlock" style="vertical-align: middle; width: 100px !important">تعداد سطر</label>
+        <input id="CountRow" class="chPreviousColor displayInlineBlock textAlignCenter" style="vertical-align: middle; width: 30px !important; height: 30px !important; " type="text" value="@CountRow" />
+        <div class="buttonSingle buttonSingle3 colorBackBlue" style="width: 60px !important; height: 25px !important; font-size: 12pt !important; vertical-align: middle;" onclick="@string.Format(functionName, "")">جستجو</div>
+    </div>
+</form>
+
+<div class="pager directionLtr">    
+    
+    @if (PageNumber > inPageGroup)
+    {
+        <span href="#" onclick="@string.Format(functionName, start)">&#60;</span>
+    }    
+
+    @for(int i = start + 1; i <= end; i++)
+    {
+        string select = i == PageNumber ? "select" : "";
+        <span href="#" onclick="@string.Format(functionName, i)" class="@select">@i</span>
+    }
+
+    @if(end < MaxPages)
+    {
+        <span href="#" onclick="@string.Format(functionName, end + 1)">&#62;</span>
+    }
+    
+</div>

@@ -1,0 +1,13 @@
+﻿
+@await Html.PartialAsync("Message")
+
+<div class="form">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackSeconday" value="ثبت نام مجدد" onclick="javascript: window.location.href = '/Account/Register' " />
+    </div>
+
+</div>
+

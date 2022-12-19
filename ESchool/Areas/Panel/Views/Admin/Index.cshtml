@@ -1,0 +1,69 @@
+﻿@model MessageModel
+
+@{
+    ViewData["Title"] = "ورود به پنل مدیریت";
+    string returnUrl = Convert.ToString(ViewData["returnUrl"]);
+}
+
+<form class="form textAlignCenter" method="post" action="/Panel/Admin/Login">
+
+    <p id="formTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    @if (Model != null)
+    {
+        @if (Model.MessageType == "Success")
+        {
+            <div class="divSingle colorSeconday colorBorderSeconday displayBlock">
+                @Html.Raw(Model.MessageText)
+            </div>
+        }
+        else
+        {
+            <div class="divSingle colorError colorErrorBorder displayBlock">
+                @Html.Raw(Model.MessageText)
+            </div>
+        }
+    }
+
+    <div class="colart displayInlineBlock">
+                <div class="row">
+            <label class="lbl">نام کاربری</label>
+            <input id="loginUsername" name="loginUsername" class="chPreviousColor textAlignLeft directionLtr" type="text" value="@ViewData["loginUsername"]" />
+        </div>
+
+        <div class="row positionRelative">
+            <label class="lbl">کلمه عبور</label>
+            <input id="loginPassword" name="loginPassword" class="chPreviousColor textAlignLeft directionLtr" type="password" />
+            <img class="searchIRNational positionAbsolute" src="~/imagepanel/login/eye.png" onclick="shPwdPanel('loginPassword');" />
+        </div>
+
+        <div class="row">
+            <input type="checkbox" id="remeberme" name="remeberme" /><label class="lbl">مرا بخاطر بسپارید</label> 
+        </div>
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle buttonSingle2 colorBackSeconday" value="ورود به پنل" onclick="loginpanel();" />
+        </div>
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl" />
+
+        <div class="row textAlignCenter displayNone">
+            <a href="/Account/Register" target="_top" class="link displayInlineBlock">حساب کاربری ندارید؟ ثبت نام کنید</a>
+            <a href="/Account/ForgetPassword" target="_top" class="link displayInlineBlock">فراموشی کلمه عبور</a>
+        </div>        
+        
+    </div>
+
+    <div class="colart displayInlineBlock">
+        <img src="~/imagepanel/login/login2.png" class="picart" />
+    </div>
+
+</form>
+
+
+

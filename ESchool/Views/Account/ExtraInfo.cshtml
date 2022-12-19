@@ -1,0 +1,118 @@
+﻿@model User
+
+@{ 
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    List<SelectListItem> RightHands = new List<SelectListItem>();
+    RightHands.Add(new SelectListItem { Text = "دست راست", Value = "true" });
+    RightHands.Add(new SelectListItem { Text = "دست چپ", Value = "false" });
+
+    List<SelectListItem> PersianLanguages = new List<SelectListItem>();
+    PersianLanguages.Add(new SelectListItem { Text = "فارسی", Value = "true" });
+    PersianLanguages.Add(new SelectListItem { Text = "سایر زبان ها", Value = "false" });
+
+    List<SelectListItem> IsRelativesParents = new List<SelectListItem>();
+    IsRelativesParents.Add(new SelectListItem { Text = "دارد", Value = "true" });
+    IsRelativesParents.Add(new SelectListItem { Text = "ندارد", Value = "false" });
+
+    List<SelectListItem> IsStudentInsurances = new List<SelectListItem>();
+    IsStudentInsurances.Add(new SelectListItem { Text = "دارد", Value = "true" });
+    IsStudentInsurances.Add(new SelectListItem { Text = "ندارد", Value = "false" });
+
+    List<SelectListItem> PreschoolEducations = new List<SelectListItem>();
+    PreschoolEducations.Add(new SelectListItem { Text = "دارد", Value = "true" });
+    PreschoolEducations.Add(new SelectListItem { Text = "ندارد", Value = "false" });
+
+    List<SelectListItem> IsCityPlaces = new List<SelectListItem>();
+    IsCityPlaces.Add(new SelectListItem { Text = "شهر", Value = "true" });
+    IsCityPlaces.Add(new SelectListItem { Text = "روستا", Value = "false" });
+
+    List<SelectListItem> ReferralReasonNews = new List<SelectListItem>();
+    ReferralReasonNews.Add(new SelectListItem { Text = "نوآموز جدید", Value = "true" });
+    ReferralReasonNews.Add(new SelectListItem { Text = "باقی مانده از کنکور سال های قبل", Value = "false" });
+
+    ViewData["Title"] = "ویرایش اطلاعات تکمیلی " + Model.FirstName + "  " + Model.LastName;
+
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter" action="/Account/ExtraInfo" method="post">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row displayNone">
+                <label class="lbl">ملیت</label>
+                <input id="Nationality" name="Nationality" class="chPreviousColor" type="text" placeholder="مثال: ایران" value="@Model.Nationality" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">بیمه پایه</label>
+                <input id="Insurance" name="Insurance" class="chPreviousColor" type="text" placeholder="مثال: تامین اجتماعی" value="@Model.Insurance" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">تعداد اعضای خانواده</label>
+                <input id="FamilyNumber" name="FamilyNumber" class="chPreviousColor textAlignLeft" type="text" placeholder="مثال: 4" pattern="[0-9]*" inputmode="numeric" value="@Model.FamilyNumber" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">چندمین فرزند</label>
+                <input id="SeveralChildren" name="SeveralChildren" class="chPreviousColor textAlignLeft" type="text" placeholder="مثال: 2" pattern="[0-9]*" inputmode="numeric" value="@Model.SeveralChildren" />
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">دست غالب</label>
+                <select class="chPreviousColor" asp-for="RightHanded" asp-items="RightHands"></select>                  
+            </div>
+
+            <div class="row displayNone">
+                <label class="lbl">زبان</label>
+                <select asp-for="PersianLanguage" class="chPreviousColor" asp-items="PersianLanguages"></select>                  
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">نسبت خویشاوندی بین والدین</label>
+                <select asp-for="IsRelativesParents" class="chPreviousColor" asp-items="IsRelativesParents" ></select>
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">بیمه تکمیلی</label>
+                <select asp-for="IsStudentInsurance" class="chPreviousColor" asp-items="IsStudentInsurances"></select>
+            </div>
+
+            <div class="row displayNone">
+                <label class="lbl">تحصیلات قبل از دبستان</label>
+                <select asp-for="PreschoolEducation" class="chPreviousColor" asp-items="PreschoolEducations"></select>                
+            </div>
+
+            <div class="row displayNone">
+                <label class="lbl">محل سکونت</label>
+                <select asp-for="IsCityPlace " class="chPreviousColor" asp-items="IsCityPlaces"></select>
+            </div>
+
+            <div class="row rowInline displayNone">
+                <label class="lbl">علت مراجعه</label>
+                <select asp-for="ReferralReasonNew" class="chPreviousColor" asp-items="ReferralReasonNews"></select>
+            </div>
+
+            <input type="hidden" id="id" name="id" value="@Model.UserId" />            
+
+            <div class="row textAlignCenter">
+                <input type="button" class="buttonSingle colorBackThirty" value="برگشت" onclick="javascript: window.location.href = '/Class'" />
+                <input type="button" class="buttonSingle colorBackSeconday" value="تغییر داده شود" onclick="extrainfo();" />                
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

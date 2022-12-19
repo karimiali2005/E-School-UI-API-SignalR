@@ -1,0 +1,101 @@
+﻿@{
+    string title = Convert.ToString(ViewData["Title"]);
+    string sitename = "پنل مدیریت";
+    title = string.IsNullOrEmpty(title) ? sitename : title + " - " + sitename;    
+
+    var request = Context.Request;
+    string currenturl = System.Web.HttpUtility.UrlDecode(request.Path + request.QueryString);
+
+    bool IsAthenticaed = this.User.Identity.IsAuthenticated;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+
+    <link href="/Sys/CSSPanel" rel="stylesheet" />
+
+    <script src="/Sys/JSPanel" type="text/javascript"></script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+
+</head>
+<body>
+
+    <header class="header directionRtl">
+        <img class="logo" src="/imagepanel/icons/logo_school.svg" />
+        <img class="alarm displayNone" src="/imagepanel/icons/alarm.png" />
+        @if (IsAthenticaed)
+        {
+            <img id="picProfile" src="/imagepanel/icons/profile.png" />
+            <div id="nameProfile" class="positionRelative">
+                @this.User.FindFirst("Nickname").Value
+                <div class="boxProfile positionAbsolute">
+                    <div class="row">
+                        <img src="/imagepanel/icons/profile2.png" />
+                        <a>پروفایل</a>
+                    </div>
+                    <div class="row">
+                        <img src="/imagepanel/icons/logout.png" />
+                        <a href="/Panel/Admin/Logout">خروج</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </header>
+
+
+    <div class="container displayBlock positionRelative">
+
+        @if (IsAthenticaed)
+        {
+            @await Html.PartialAsync("SlideMenu")
+        }
+
+        <div class="content displayInlineBlock textAlignCenter">
+
+            @RenderBody()
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <footer class="footer colorBackPrimary">
+
+        <div id="footer-content">
+
+            <div class="copyright">
+                <a class="displayBlock textAlignCenter" href="#">کلیه حقوق این سایت به مدرسه تعلق دارد</a>
+                <span class="displayBlock textAlignCenter">Copyright 2020 School Site</span>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <div id="backLdsRoller">
+        <div class="lds-roller">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <div id="txtLoading">لطفا شکیبا باشید</div>
+    </div>
+
+    <div id="alertmessage">
+        <div id="boxmessage" class="colorBackPrimaryLight">
+            <div class="directionRtl">
+                <span id="msg"></span>
+                <input type="button" id="btnAlertMsgClose" value="بستن" class="colorBackPrimary" />
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

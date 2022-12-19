@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.Introduction.IntroductionShowAllResult>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<div class="bigbox colorBackWhite colorBorderGray hideOverflow positionRelative">
+
+
+
+        <form class="form textAlignCenter">
+
+            <div id="diverrors" class="errors textAlignRight">
+                <img src="/imagesite/icons/error.png" />
+                <p id="errormsg"></p>
+                <input type="text" id="focusable" />
+            </div>
+
+            @await Html.PartialAsync("Message", new MessageModel())
+
+
+        </form>
+    </div>*@
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43; جدید" onclick="newsIntroduction()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+
+
+            <th>عنوان</th>
+            <th>مقطع</th>
+            <th>شغل</th>
+            <th>عملیات</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+
+
+                <td>@Html.Raw(item.IntroductionTitle)</td>
+                <td>@Html.Raw(item.IntroductionTypeTitle)</td>
+                <td>@Html.Raw(item.IntroductionPosition)</td>
+            
+                <td>
+                    <a class="operate" href="#" title="ویرایش">
+                        <img class="icon" src="/imagepanel/icons/edit.png" onclick="editIntroduction(@item.IntroductionID)" />
+                    </a>
+
+                    <a class="operate" href="#" title="حذف">
+                        <img class="icon" src="/imagepanel/icons/delete.png" onclick="introductiondelete(@item.IntroductionID)" />
+                    </a>
+                </td>
+            </tr>
+
+
+        }
+
+    </table>
+
+</div>
+
+
+

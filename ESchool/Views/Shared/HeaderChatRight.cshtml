@@ -1,0 +1,80 @@
+﻿@model List<Es.DataLayerCore.DTOs.RoomChat.RoomLiveViewModel>
+    <div class=" header d-flex justify-content-between">
+        <!-- start change6 -->
+        <!-- start change23 -->
+        <div id="SearchRoomChatGroup" class=" search-open displayNone">
+            <div >
+                <label for="" class=" position-absolute"><img onclick="SearchRoomChatGroupHide()" src="/imagemember/arrow.svg" alt=""></label>
+                <input id="boxRoomChatGroup" type="text" placeholder="جستجو..." class="rtl">
+            </div>
+        </div>
+        <!-- end change23 -->
+        <!-- start change21 -->
+        <div class=" contact-option-drop d-flex align-items-center">
+            <div class=" mx-2 d-sm-flex big-scre">
+                <img onclick="SearchRoomChatGroupShow()" src="/imagemember/search.svg" alt="" class=" mx-1">
+                <img onclick="openContact()" class="add-chat  mx-1" src="/imagemember/add.svg" alt="">
+            </div>
+            @if (Model != null)
+            {
+                <div class="dropdown div-option-massage ">
+                    <button class="d-flex btn shadow-none dropdown-toggle p-0 div-menu-img" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        <img src="/imagemember/live-streaming.svg" alt="">
+
+                    </button>
+                    <div class="dropdown-menu option-chat p-0" aria-labelledby="dropdownMenuButton"
+                         style="">
+                        @foreach (var item in Model)
+                        {
+                            @if (item.LiveType == 1)
+                            {
+                                <div onclick="OpenLinkAdobe('@item.LiveAddress','@item.LiveUsername','@item.LivePassword')" class=" dropdown-item p-0">
+                                    <button type="button">
+                                        <span class=" mr-1">@item.RoomChatGroupTitle</span>
+                                        <span><img src="/imagemember/liveb.png" alt=""></span>
+                                    </button>
+
+                                </div>
+                            }
+                            @if (item.LiveType == 2)
+                            {
+                                <div onclick="OpenLinkJitsi('@item.LiveAddress','@item.LivePassword')" class=" dropdown-item p-0">
+                                    <button type="button">
+                                        <span class=" mr-1">@item.RoomChatGroupTitle</span>
+                                        <span><img src="/imagemember/gitsib.png" alt=""></span>
+                                    </button>
+
+                                </div>
+                            }
+                            @if (item.LiveType == 3)
+                            {
+                                <div onclick="OpenLinkZoom('@item.LiveAddress')" class=" dropdown-item p-0">
+                                    <button type="button">
+                                        <span class=" mr-1">@item.RoomChatGroupTitle</span>
+                                        <span><img src="/imagemember/zoom.png" alt=""></span>
+                                    </button>
+
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            @*<div class=" ml-3">
+                <img src="~/imagemember/3dot-menu.svg" alt="" class=" d-sm-none">
+            </div>*@
+        </div>
+        <!-- end change21 -->
+        <div class="name-pro d-sm-none">حسابی</div>
+        <div class=" d-flex align-items-center">
+            <div class="name-pro d-none d-sm-block">حسابی</div>
+            <div onclick="openCart()" class="menu-open-cart">
+                <img src="~/imagemember/menu.svg" alt="" />
+
+            </div>
+        </div>
+        <!-- end change6 -->
+    </div>
+

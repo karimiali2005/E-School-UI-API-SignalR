@@ -1,0 +1,51 @@
+﻿@model EsServiceCore.DTOs.HomeWork.vm_homework
+@{
+    ViewBag.Title = "حذف تکلیف";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    List<Es.DataLayerCore.Model.HomeworkType> homeworkTypes = ViewBag.listTypeHomework as List<Es.DataLayerCore.Model.HomeworkType>;
+    List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult> scoreTypeDetailShowResults = ViewBag.nomreh as List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult>;
+}
+
+
+
+
+<section class=" Chat-page single-sendHomeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+
+            <div class=" chat-screen py-5 px-3">
+                <form asp-action="DeleteHomeWork" method="post">
+                    @* idcourse idroom *@
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <input type="hidden" name="roomChatGroupID" value="@ViewBag.roomChatGroupID" />
+                    <input type="hidden" asp-for="@Model.CourseId" value="@ViewBag.idcourse" />
+                    <input type="hidden" asp-for="@Model.RoomId" value="@ViewBag.idroom" />
+                    <input type="hidden" asp-for="@Model.namedars" value="@ViewBag.nameDars" />
+                    <input type="hidden" asp-for="@Model.HomeworkId" />
+                    <div class=" sh-title-homeWork bg-white">
+                        <span>نام درس : </span><span>@ViewBag.nameDars </span>
+                    </div>
+                    <div class=" sh-desc my-3 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-desc-content w-100">
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                <div class=" mr-2 font-weight-bold">آیا مطمئن هستید که می خواهید حذف کنید ؟</div>
+                            </div>
+                            <div class="form-group">
+                                <label type="text" class="form-control" id="" placeholder="عنوان خود را وارد کنید">@Model.HomeworkTile</label>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class=" sh-submit-btn text-center">
+                        <button type="submit" class="btn bg-danger text-white">بله حذف گردد  </button>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+

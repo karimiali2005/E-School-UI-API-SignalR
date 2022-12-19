@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RoomDetail>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    RoomDetailOp roomDetailOp = new RoomDetailOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">حذف برنامه های انتخاب شده به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (RoomDetail roomDetail in Model)
+                {
+                    string PersianDay = Codes.getPersianDay(roomDetail.RoomDetailDate);
+                    string PersianDate = Codes.getPersianDate(roomDetail.RoomDetailDate);
+
+                    string text = "حذف برنامه " + roomDetail.Room.RoomType.RoomTypeTitle + " در روز " + PersianDay + " مورخ " + PersianDate;
+                    if(roomDetail.Room.RoomTypeId == 1)
+                    {
+                        text += " برای درس " + roomDetail.Course.CourseTitle + " با معلم " + roomDetail.User.FirstName + " " + roomDetail.User.LastName;
+                    }
+
+                    <label title="@roomDetail.RoomDetailId" class="lbl colorPrimary"> @Html.Raw(text) </label>
+                    <br />
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (Model.Count() > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="rddeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+

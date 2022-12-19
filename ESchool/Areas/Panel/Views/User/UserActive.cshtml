@@ -1,0 +1,66 @@
+﻿@model IEnumerable<User>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    string[] colorUserActives = { "colorBackYellow", "colorBackRed", "colorBackGreen" };
+    string[] textUserActives = { "معلق", "غیرفعال", "فعال" };
+    string t = Convert.ToString(ViewData["t"]);
+    int index = 0;
+    if(t == "Deactive")
+    {
+        index = 1;
+    }
+    else if (t == "Active")
+    {
+        index = 2;
+    }
+
+    string explain = Model.Count() == 1 ? Model.First().ReasonInactive : "";
+
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">آیا برای @textUserActives[index] کردن کاربران زیر مطمئن هستید؟</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (User user in Model)
+                {
+                    <label title="@user.UserId" class="lbl colorPrimary">@user.FirstName @user.LastName  با کد ملی @user.Irnational</label>
+                    <br />
+                }
+            </div>
+
+            <input type="hidden" id="t" value="@t" />
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+            @if (index == 0)
+            {
+                <div class="row rowInline">
+                    <label class="lbl">علت</label>
+                    <input id="explain" class="chPreviousColor" type="text" value="@explain" />
+                </div>
+            }
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 @colorUserActives[index]" value="@textUserActives[index] شود" onclick="uactived();" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+
+
+        </div>
+    </form>
+</div>
+
+
+

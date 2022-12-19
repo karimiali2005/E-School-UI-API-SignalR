@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardStudentShowResult>
+@{
+    Layout = null;
+    string thisUrl = string.Format("{0}://{1}{2}", Context.Request.Scheme, Context.Request.Host, "/ReportCardParent/ReportCardParentShow?");
+    var addressReportCard = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.ReportCard;
+}
+@if (Model != null)
+{
+
+    <div class=" table-div m-3">
+        <table class=" table table-bordered">
+            <thead>
+                <tr class=" d-md-none">
+                    <th colspan="2" class="title-res"><span>عنوان کارنامه</span></th>
+                    <th colspan="2"><span>نوع نمره</span></th>
+                </tr>
+                <tr class=" d-none d-md-table-row">
+                    <th class="title-res"><span>عنوان کارنامه</span></th>
+                    <th><span>شروع تاریخ</span></th>
+                    <th><span>پایان تاریخ</span></th>
+                    <th><span>نوع نمره</span></th>
+                    <th><span>کارنامه</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class=" d-none d-md-table-row">
+                        <td><span class=" day">@Html.Raw(item.ReportCardTitle)</span></td>
+                        <td><span>@Codes.getPersianDate(@item.ReportCardDateTimeStart)</span></td>
+                        <td><span>@Codes.getPersianDate(@item.ReportCardDateTimeFinish)</span></td>
+                        <td><span>@Html.Raw(item.ScoreTypeTitle)</span></td>
+                        <td>
+                            @if (item.ReportCardDetailID != null)
+                            {
+                                <a href="@Url.Action("ReportCardParentDetailScore", "ReportCardParent", new { id = item.ReportCardID,userId=ViewBag.UserId, returnUrl=thisUrl+"&returnUrl=/Member/RoomChat" })" class=" add-desc bg-success my-1">
+                                    <span class=" d-flex">
+                                        <img src="/imagemember/eyew.svg" alt="">
+                                    </span><span>مشاهده</span>
+                                </a>
+                            }
+                            @if (item.ReportCardPaperID != null)
+                            {
+                                <a href="@(addressReportCard)@(item.ReportCardPaperDateTime)/@(item.ReportCardPaperFileName)" class=" bg-warning add-desc my-1">
+                                    <span class=" d-flex">
+                                        <img src="/imagemember/edit.svg" alt="">
+                                    </span><span>دریافت فایل</span>
+                                </a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+
+                <!-- ------------------------------------ responsive mode ----------------------------- -->
+                @foreach (var item in Model)
+                {
+                    <tr class=" d-md-none">
+                        <td colspan="2"><span class=" day">@Html.Raw(item.ReportCardTitle)</span></td>
+                        <td colspan="2"><span>@Html.Raw(item.ScoreTypeTitle)</span></td>
+                    </tr>
+                    <tr class=" d-md-none">
+                        <th class=" padding-res"><span>شروع تاریخ</span></th>
+                        <td><span class="span-res-p">@Codes.getPersianDate(@item.ReportCardDateTimeStart)</span></td>
+                        <th class=" padding-res"><span>پایان تاریخ</span></th>
+                        <td><span class="span-res-p">@Codes.getPersianDate(@item.ReportCardDateTimeFinish)</span></td>
+                    </tr>
+                    <tr class=" d-md-none">
+                        <th class="verticalMiddle"><span>کارنامه</span></th>
+                        <td colspan="3">
+                            @if (item.ReportCardDetailID != null)
+                            {
+                                <div class="d-sm-block d-flex">
+                                    <a href="@Url.Action("ReportCardParentDetailScore", "ReportCardParent", new { id = item.ReportCardID, userId = ViewBag.UserId, returnUrl = thisUrl + "&returnUrl=/Member/RoomChat" })" class=" add-desc bg-success my-1">
+                                        <span class=" d-flex">
+                                            <img src="/imagemember/eyew.svg"
+                                                 alt="">
+                                        </span><span>مشاهده</span>
+                                    </a>
+                                </div>
+                            }
+                            @if (item.ReportCardPaperID != null)
+                            {
+                                <a href="@(addressReportCard)@(item.ReportCardPaperDateTime)/@(item.ReportCardPaperFileName)" class=" bg-warning add-desc my-1">
+                                    <span class=" d-flex">
+                                        <img src="/imagemember/edit.svg" alt="">
+                                    </span><span>دریافت فایل</span>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,105 @@
+﻿.container {
+    width: 100%;    
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+
+.content {    
+    margin: auto;    
+    margin-left: 5px;
+    width: calc(100% - 72px);    
+    min-height: 500px;
+    border: 0px solid red;    
+}
+
+
+.slidemenu {    
+    z-index: 100;
+    right: 0;
+    min-height: 1000px;
+}
+
+.slidemenu ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.slidemenu ul li {
+    display: block;
+    position: relative;
+    padding: 10px;
+    list-style-type: none;
+    transition: all .3s ease-in-out;
+    text-align: right;
+    direction: rtl;
+}
+
+.slidemenu ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.slidemenu ul li img {
+    display: inline-block;
+    vertical-align: top;
+    fill: #fff;
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    cursor: pointer;    
+}
+
+.slidemenu ul li span {    
+    display: inline-block;
+    vertical-align: top;   
+    margin-top: 10px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #fff;    
+    font-size: 0pt;
+    opacity: 0;
+    transition: all .3s ease-in-out;
+}
+
+.slidemenu ul li span.show { 
+    opacity: 1 !important;
+   font-size: 12pt !important;
+}
+
+.slidemenu ul li:hover {        
+    text-decoration: none;
+    background-color: #6B0DAF;
+}
+
+/* For Button Menu */
+.buttonmenuPanel {
+    display: block;    
+    cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #fff;
+    margin: 6px 0;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+

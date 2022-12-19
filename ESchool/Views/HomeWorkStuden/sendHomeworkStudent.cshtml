@@ -1,0 +1,365 @@
+﻿@model EsServiceCore.DTOs.HomeWork.vm_AnsverhomeWork
+@{
+    ViewBag.Title = " ارسال تکالیف";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    string adressfile = SettingContext.PathStoreFiles.Instance.Path1;
+    int size = Convert.ToInt32(SettingContext.UploadSize.Instance.HomeworkSize);
+
+}
+<link href="/uploadfile/css/styles-1.0.0.css" rel="stylesheet" />
+<link href="/uploadfile/css/jquery.dm-uploader.min.css" rel="stylesheet" />
+
+<section class=" Chat-page single-sendHomeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+
+            <div class=" chat-screen py-2 px-3">
+                <form asp-action="sendHomeworkStudent" asp-controller="HomeWorkStuden" method="post">
+                    <input asp-for="@Model.HomeworkId" type="hidden" />
+                    <input id="faid" asp-for="@Model.HomeworkAnswerId" type="hidden" />
+                    <input asp-for="@Model.HomeworkTypeID" type="hidden" />
+                    <input asp-for="@Model.RoomId" type="hidden" />
+                    <input asp-for="@Model.CourseId" type="hidden" />
+                    <input id="adressfile" value="@adressfile" type="hidden" />
+                    <input id="sizeuploadhomework" value="@size" type="hidden" />
+                    <div class=" h-title ">
+
+                        <span>فرم ارسال تکالیف</span>
+                        <span class="sh-status-header sh-status-new">جدید</span>
+                    </div>
+                    <div class=" sh-title-homeWork my-3 bg-white">
+                        <span>عنوان: </span><span>@Model.homeworktitel</span>
+                    </div>
+                    <div class=" sh-desc my-2 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-desc-content w-100">
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+                                <div class=" d-felx">
+                                    <img src="../img/Iconly-Light-outline-Folder@2x.png" alt="">
+                                </div>
+                                <div class=" mr-2 font-weight-bold">توضیحات</div>
+                            </div>
+                            <div class="sh-div-textarea">
+                                <textarea id="" cols="30" rows="10" asp-for="@Model.HomeworkAnswerComment" placeholder="توضیحات خود را وارد کنید"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" sh-desc my-2 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-desc-content w-100">
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+                                <div class=" d-felx">
+                                    <img src="/imagemember/Iconly-Light-outline-Folder@2x.png" alt="">
+                                </div>
+                                <div class=" mr-2 font-weight-bold">فایل پیوست</div>
+                            </div>
+                            <div class="sh-div-textarea">
+                                <ul class="list-unstyled p-2 d-flex flex-column col" id="files1">
+                                    @{
+
+                                        if (!String.IsNullOrEmpty(Model.HomeWorkFileName))
+                                        {
+
+                                            <li class="media" id="">
+                                                <div class="media-body mb-1">
+                                                    <div class=" d-flex align-items-center">
+                                                        <div class="namefile">
+                                                            <span>فایل پیوست شده</span>
+                                                        </div>
+
+                                                        <div class="mb-2 mr-2">
+                                                            @Html.Raw(@Codes.FileChatHomeworkStudents(@Model.HomeWorkFileName, adressfile, false, true))
+
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="mt-1 mb-1" />
+                                                </div>
+                                            </li>
+
+
+                                        }
+
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @{
+                        switch (Model.HomeworkTypeID)
+                        {
+                            case 1:
+                                <div class=" sh-file my-2 d-flex justify-content-between p-3 bg-white">
+                                    <div class=" sh-file-content w-100">
+
+                                        <div class=" sh-desc my-2 d-flex justify-content-between p-3 bg-white">
+                                            <div class=" sh-desc-content w-100">
+                                                <div class="sh-title-desc d-flex align-items-center mb-2">
+                                                    <div class=" d-felx">
+                                                        <img src="/imagemember/Iconly-Light-outline-Folder@2x.png" alt="">
+                                                    </div>
+                                                    <div class=" mr-2 font-weight-bold">متن تکلیف</div>
+                                                </div>
+                                                <div class="sh-div-textarea">
+                                                    <textarea id="" cols="30" rows="10" asp-for="@Model.HomeworkResponse"
+                                                              placeholder="محل جواب تکلیف">
+
+</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                break;
+                            case 2:
+                                <div class=" sh-desc my-2 d-flex justify-content-between p-3 bg-white">
+                                    <div class=" sh-desc-content w-100">
+                                        <div class="sh-title-desc d-flex align-items-center mb-2">
+                                            <div class=" d-felx">
+                                                <img src="/imagemember/Iconly-Light-outline-Folder@2x.png" alt="">
+                                            </div>
+                                            <div class=" mr-2 font-weight-bold">لیست فایل ها</div>
+                                        </div>
+                                        <div class="sh-div-textarea">
+                                            <ul class="list-unstyled p-2 d-flex flex-column col" id="files">
+                                                @{
+
+                                                    if (Model.HomeworkResponseFile != null)
+                                                    {
+                                                        int i = 0;
+                                                        @foreach (var item in Model.HomeworkResponseFile)
+                                                        {
+                                                            i += 1;
+                                                            <li class="media" id="li+@item.id">
+                                                                <div class="media-body mb-1">
+                                                                    <div class=" d-flex align-items-center">
+                                                                        <div class="namefile">
+                                                                            <span>فایل @i</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span class=" mx-1">-</span>
+                                                                            <span>وضعیت:</span>
+                                                                            <span class=" mx-1 text-success font-weight-bold">
+                                                                                ارسال شده
+                                                                            </span>
+                                                                            <span class=" mx-1"><button class=" btn btn-danger btn-sm d-inline-flex p-1"><img src="/imagemember/Iconly-Light-Close Square@2xw.png" alt="" style="width:13px" id="0" data-faid="@item.id" onclick="removeFileUpload(this)"></button></span>
+                                                                        </div>
+                                                                        <div class="mb-2">
+                                                                            @Html.Raw(@Codes.FileChatHomeworkStudents(item.filename, adressfile, false, true))
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <hr class="mt-1 mb-1" />
+                                                                </div>
+                                                            </li>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <li class="text-muted text-center empty">فایلی وجود ندارد </li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class=" sh-file my-2 d-flex justify-content-between p-3 bg-white">
+                                    <div class=" sh-file-content w-100">
+                                        <div class="sh-title-file d-flex align-items-center mb-2">
+                                            <div class=" d-felx"><img src="/imagemember/Iconly-Light-Document@2x.png" alt=""></div>
+                                            <div class=" mr-2 font-weight-bold">آپلود فایل</div>
+                                        </div>
+
+                                        <div id="drag-and-drop-zone" class="sh-div-inp-file d-flex align-items-center my-2">
+                                            <input type="file" id="file-input" class=" d-none">
+                                            <label for="file-input">انتخاب فایل</label>
+                                            <input type="text" readonly="" value="فایل مورد نظر خود را انتخاب کنید" class="" id="text-file-input">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+                                break;
+                            case 3:
+                                <div class=" sh-desc my-2 d-flex justify-content-between p-3 bg-white">
+                                    <div class=" sh-desc-content w-100">
+                                        <div class="sh-title-desc d-flex align-items-center mb-2">
+                                            <div class=" d-felx">
+                                                <img src="/imagemember/Iconly-Light-outline-Folder@2x.png" alt="">
+                                            </div>
+                                            <div class=" mr-2 font-weight-bold">لیست فایل ها</div>
+                                        </div>
+                                        <div class="sh-div-textarea">
+                                            <ul class="list-unstyled p-2 d-flex flex-column col" id="files">
+                                                @{
+
+                                                    if (Model.HomeworkResponseFile != null)
+                                                    {
+                                                        int i = 0;
+                                                        @foreach (var item in Model.HomeworkResponseFile)
+                                                        {
+                                                            i += 1;
+                                                            <li class="media" id="li+@item.id">
+                                                                <div class="media-body mb-1">
+                                                                    <div class=" d-flex align-items-center">
+                                                                        <div class="namefile">
+                                                                            <span>فایل @i</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span class=" mx-1">-</span>
+                                                                            <span>وضعیت:</span>
+                                                                            <span class=" mx-1 text-success font-weight-bold">
+                                                                                ارسال شده
+                                                                            </span>
+                                                                            <span class=" mx-1"><button class=" btn btn-danger btn-sm d-inline-flex p-1"><img src="/imagemember/Iconly-Light-Close Square@2xw.png" alt="" style="width:13px" data-faid="@item.id" onclick="removeFileUpload(this)"></button></span>
+                                                                        </div>
+                                                                        <div class="mb-2">
+                                                                            @Html.Raw(@Codes.FileChatHomeworkStudents(item.filename, adressfile, false, true))
+
+                                                                        </div>
+                                                                    </div>
+                                                                    @*<p class="mb-2">
+                                                            <strong>@item.filename</strong> - وضعیت: <span class="text-muted">ارسال شده</span>
+                                                            <img src="/imagesuser/icons/remove_file.png" id="@item.id" onclick="removeFileUpload(this)" />
+
+                                                        </p>
+                                                        <div class="mb-2">
+                                                            @Html.Raw(@Codes.FileChat(item.filename, adressfile, false, true))
+
+                                                        </div>*@
+                                                                    <hr class="mt-1 mb-1" />
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <li class="text-muted text-center empty">فایلی وجود ندارد </li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" sh-file my-2 d-flex justify-content-between p-3 bg-white">
+                                    <div class=" sh-file-content w-100">
+
+                                        <div class="sh-title-file d-flex align-items-center mb-2">
+                                            <div class=" d-felx"><img src="/imagemember/Iconly-Light-Document@2x.png" alt=""></div>
+                                            <div class=" mr-2 font-weight-bold"> آپلود فایل صوتی</div>
+                                        </div>
+                                        <div id="drag-and-drop-zone" class="sh-div-inp-file d-flex align-items-center my-2">
+                                            <label for="file-input"> ضبط صدا</label>
+                                            <input id="filevoice" type="hidden" />
+                                            <img id="imgStartRA" src="/imagesuser/icons/microphone.png" style="width: 50px;height: 50px;" onclick="StartRecording(this)">
+                                            <img id="imgStopRA" src="/imagesuser/icons/microphone_red.png" style="width: 50px;height: 50px;" class="displayNone" onclick="StopRecording(this,'@adressfile')">
+                                        </div>
+                                        @*@if (Model.HomeworkResponseFile_name != null)
+                            {
+                                @foreach (var item in Model.HomeworkResponseFile_name)
+                                {
+                                    <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                        <input type="file" asp-for="@Model.HomeworkResponseFile" id="file-input" class=" d-none" onchange="file1()">
+                                        <label for="file-input">انتخاب فایل</label>
+                                        <input type="text" readonly value="هیچ فایلی وجود ندارد" class=""
+                                               id="text-file-input">
+                                    </div>
+
+                                }
+                            }
+                            else
+                            {
+                                <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                    <input type="file" asp-for="@Model.HomeworkResponseFile" id="file-input" class=" d-none" onchange="file1()">
+                                    <label for="file-input">انتخاب فایل</label>
+                                    <input type="text" readonly value="هیچ فایلی وجود ندارد" class=""
+                                           id="text-file-input">
+                                </div>
+                            }*@
+
+                                    </div>
+                                </div>
+
+
+                                break;
+                        }
+                    }
+
+
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class=" sh-submit-btn text-center">
+                        <button type="submit">ارسال تکلیف</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<script type="text/html" id="files-template">
+    <li class="media">
+        <div class="media-body mb-1">
+
+            <div  class=" d-flex align-items-center">
+                <div class="namefile">
+                    <span>%%filename%%</span>
+                </div>
+                <div>
+                    <span class=" mx-1">-</span>
+                    <span>وضعیت:</span>
+                    <span id="stuspan" class=" mx-1 text-success font-weight-bold">
+                        صبر کنید
+                    </span>
+                    <span class=" mx-1"><button class=" btn btn-danger btn-sm d-inline-flex p-1"><img src="/imagemember/Iconly-Light-Close Square@2xw.png" alt="" style="width:13px" id="0" onclick="removeFileUpload(this)"></button></span>
+                </div>
+            </div>
+
+            <div id="progress" class="progress mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                     role="progressbar"
+                     style="width: 0%"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <hr class="mt-1 mb-1" />
+        </div>
+    </li>
+</script>
+
+
+@section Scripts
+{
+
+    <script type="text/html" id="debug-template">
+        <li class="list-group-item text-%%color%%"><strong>%%date%%</strong>: %%message%%</li>
+    </script>
+
+    <script src="/jsuser/RecordRTC.js"></script>
+    <script src="/uploadfile/js/demo-config-1.0.5.js"></script>
+    <script src="/uploadfile/js/demo-ui-1.0.5.js"></script>
+    <script src="/uploadfile/js/jquery.dm-uploader.min.js"></script>
+}
+

@@ -1,0 +1,201 @@
+﻿@model List<RoomDetailGrouped>
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    string thisUrl = string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString);
+}
+
+@{
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+    var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+    var Nickname = Convert.ToString(this.User.FindFirst("Nickname").Value);
+
+    var timeStrs = Model.Select(x => new { TimeStr = x.TimeStr }).AsEnumerable();
+    timeStrs = timeStrs.GroupBy(x => new { x.TimeStr }).Select(p => new { TimeStr = p.Key.TimeStr }).OrderBy(p => p.TimeStr).ToList();
+
+    var days = Codes.getDays();
+
+    string id = System.Web.MyHttpContext.Current.Request.Query["id"];
+    int previousStep = Convert.ToInt32(ViewData["previousStep"]);
+    int nextStep = Convert.ToInt32(ViewData["nextStep"]);
+    bool showNavigator = Convert.ToBoolean(ViewData["showNavigator"]);
+
+    List<Calendar> calendars = new List<Calendar>();
+    if (ViewBag.Holidays != null)
+    {
+        calendars = (List<Calendar>)ViewBag.Holidays;
+    }
+
+    RoomTeacherOp roomTeacherOp = new RoomTeacherOp();
+}
+
+@{
+    int i = 0;
+}
+
+<div class="form textAlignCenter">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>        
+
+</div>
+
+@if (showNavigator)
+{
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="row textAlignCenter">
+            @if (previousStep != -999999)
+            {
+                <img class="displayInlineBlock verticalMiddle" style="cursor: pointer" src="~/imagesite/icons/next.png" onclick="week(@previousStep, @id)" />
+            }
+            <label id="formTitle" class="textAlignCenter displayInlineBlock verticalMiddle" style="width: 200px; font-weight: bold">@Html.Raw(ViewData["Titr"])</label>
+            @if (nextStep != -999999)
+            {
+                <img class="displayInlineBlock verticalMiddle" style="cursor: pointer" src="~/imagesite/icons/previous.png" onclick="week(@nextStep, @id)" />
+            }
+        </div>
+
+    </form>
+}
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid" id="gridWeek">
+        <tr>
+            <th>روز هفته</th>
+            @foreach (var timeStr in timeStrs)
+            {
+                <th>@Html.Raw(timeStr.TimeStr)</th>
+            }
+        </tr>
+
+        @foreach (var day in days)
+        {
+            var IsHoliday = calendars.Any(p => p.CalendarDate.Date.DayOfWeek == Codes.getDayofWeek(day.Value));
+            string classHoliday = IsHoliday ? "colorBackRed2" : "";
+            string classHolidayTd = IsHoliday ? "colorBackRed2" : "colorBackThirty";
+
+            <tr class="" style="height: 50px;">
+                <td class="@classHolidayTd">@Html.Raw(day.Value)</td>
+                @foreach (var timeStr in timeStrs)
+                {
+                    string[] time = timeStr.TimeStr.Split("تا");
+                    string[] start = time[0].Replace(" ", "").Split(':');
+                    string[] finish = time[1].Replace(" ", "").Split(':');
+
+                    var records = Model.Where(p => p.DayStr == day.Value && p.TimeStr == timeStr.TimeStr).Select(p => new { p.CourseName, p.TeacherName, p.TeacherId, p.Comment, p.RoomId, p.RoomTypeId,p.CourseId });
+                    string CellText = "";
+                    int RoomId = 0;
+                    int TeacherId = 0;
+                    int CourseId = 0;
+                    int rchatgrupeid = 0;
+                    string NameDars = "";
+                    if (records.Count() > 0)
+                    {
+                        var record = records.First();
+                        RoomId = record.RoomId;
+                        TeacherId = record.TeacherId;
+                        CourseId = record.CourseId;
+                        NameDars = record.CourseName;
+                        
+
+                        if (record.RoomTypeId == 1)
+                        {
+                            CellText = "درس: " + "<label class=\"colorPrimary\"><a class=\"link colorPrimary\" href=\"#\" onclick=\"lessonshow(" + RoomId + ", '" + record.CourseName + "')\" >" + record.CourseName + "</a></label><br />";
+                            @if (UserTypeId == 4 && record.TeacherName == Nickname)
+                            {
+                                var Room = (new RoomOp()).GetRoom(record.RoomId);
+                                CellText += "کلاس: " + "<label class=\"colorPrimary\"><a class=\"link colorPrimary\" href=\"#\" onclick=\"usershow(" + RoomId + ")\" >" + Room.RoomTitle + "</a></label><br />"; ;
+                            }
+                            else
+                            {
+                                CellText += "معلم: " + "<label class=\"colorPrimary\">" + record.TeacherName + "</label>";
+                            }
+                        }
+                        else
+                        {
+                            CellText = string.IsNullOrEmpty(record.Comment) ? "Empty" : record.Comment;
+                        }
+                    }
+                    @if (!string.IsNullOrEmpty(CellText))
+                    {
+                        CellText = CellText == "Empty" ? "" : CellText;
+            <td>
+                @Html.Raw(CellText)
+                <a class="operate" href="#" style="float: left" title="جلسات">
+                    <img class="icon displayBlock" src="/imagepanel/icons/eye.png" onclick="sessionshow(@RoomId, '@day.Value', '@start[0]', '@start[1]', '@finish[0]', '@finish[1]')" />
+                </a>
+                <a class="operate" href="#" style="float: left" title="اتاق چت">
+                    <img class="icon displayBlock" src="/imagesuser/icons/chat.png" onclick="chatroom(@RoomId, @TeacherId,0,@CourseId)" />
+                </a>
+                @{
+                    if (UserTypeId == 4)
+                    {
+
+                        @*<a class="operate" href="/HomeWork/manageHomWork?nameDars=@NameDars&idroom=@RoomId&courseid=@CourseId&retwrnurl=@thisUrl" style="float: left" title="مدیریت تکالیف">
+                            <img class="icon displayBlock" src="/imagesuser/icons/book.svg" />
+                        </a>*@
+                        List<RoomTeacher> roomTeachers = roomTeacherOp.GetRoomTeachersByRoomId(RoomId);
+                        if (roomTeachers.Count() > 0)
+                        {
+                            var roomTeacher = roomTeachers.First();
+                            if (!string.IsNullOrEmpty(roomTeacher.JitsiLiveAddress))
+                            {
+                                <a class="operate" href="#" style="float: left" title="لایو جیتسی">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/iconJitsi.png" onclick="openlive('jitsi','@roomTeacher.JitsiLiveAddress','@roomTeacher.JitsiLivePassword',null,null,null,null)" />
+                                    <input type="hidden" id="JitsiAddress" value="@roomTeacher.JitsiLiveAddress" />
+                                    <input type="hidden" id="JitsiPassword" value="@roomTeacher.JitsiLivePassword" />
+                                </a>
+                            }
+                            if (!string.IsNullOrEmpty(roomTeacher.AdobeLiveAddress))
+                            {
+                                <a class="operate" href="#" style="float: left" title="لایو">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/livevideo3.png" onclick="openlive('adobe', null, null,'@roomTeacher.AdobeLiveAddress','@roomTeacher.AdobeLiveUsername','@roomTeacher.AdobeLivePass')" />
+                                    <input type="hidden" id="AdobeAddress" value="@roomTeacher.AdobeLiveAddress" />
+                                    <input type="hidden" id="AdobeUsername" value="@roomTeacher.AdobeLiveUsername" />
+                                    <input type="hidden" id="AdobePassword" value="@roomTeacher.AdobeLivePass" />
+                                </a>
+                            }
+                            if (!string.IsNullOrEmpty(roomTeacher.ExamAddress))
+                            {
+                                <a class="operate" href="#" style="float: left" title="آزمون">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/exam2.png" onclick="openlive('exam',null,null,null,null,null,'@roomTeacher.ExamAddress')" />
+                                    <input type="hidden" id="ExamAddress" value="@roomTeacher.ExamAddress" />
+                                </a>
+                            }
+                        }
+                    }
+                    else if (UserTypeId == 1)
+                    {
+
+                        @*<a class="operate" asp-controller="HomeWorkStuden" asp-action="Index" asp-route-idroom="@RoomId" asp-route-idcours="@CourseId" asp-route-retwrnurl="@ViewBag.back" style="float: left" title="مدیریت تکالیف">
+                            <img class="icon displayBlock" src="/imagesuser/icons/book.svg" />
+                        </a>*@
+                    }
+                }
+
+            </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    <input type="hidden" id="returnUrl" value="@Html.Raw(ViewData["url"])" />
+
+</div>
+
+
+

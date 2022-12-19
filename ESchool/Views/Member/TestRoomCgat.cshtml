@@ -1,0 +1,1160 @@
+﻿@using ESchool.Need.MiddleWare
+
+@model List<Es.DataLayerCore.DTOs.RoomChat.RoomChatLeftShowResult>
+@{
+    ViewData["Title"] = "TestRoomCgat";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+<h1>
+    count:   @OnlineUsersMiddleware.GetOnlineUsersCount()
+</h1>
+<h1>
+    count:   @EndRequestMiddleware.GetCountRequest()
+</h1>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Button used to open the chat form - fixed at the bottom of the page */
+    .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 280px;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+    }
+
+        /* Full-width textarea */
+        .form-container textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+            resize: none;
+            min-height: 200px;
+        }
+
+            /* When the textarea gets focus, do something */
+            .form-container textarea:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+        /* Set a style for the submit/send button */
+        /*.form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }*/
+
+        /* Add a red background color to the cancel button */
+        .form-container .cancel {
+            background-color: red;
+        }
+
+        /* Add some hover effects to buttons */
+        .form-container .btn:hover, .open-button:hover {
+            opacity: 1;
+        }
+</style>
+
+<section class=" Chat-page">
+    <div class=" container-fluid">
+        <div class=" row">
+            <div id="div-roomChatRight" class=" col-xl-3 col-lg-4 col-sm-5 content p-0">
+
+                <button class="open-button" onclick="openForm()">ابزار</button>
+            </div>
+            <div id="div-roomChatLeft" class=" col-xl-9 col-lg-8 col-sm-7  p-0 chat d-none d-sm-block">
+
+                <div id="divChatScreen" class=" div-chat-screen">
+
+                    <div class="chat-screen py-5" id="showchat">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="chat-popup" id="myForm">
+    <div class="form-container" id="formChattest">
+        <h1>ابزار</h1>
+        <div class="form-group">
+            <button class="form-control btn-success  btn btn-group-sm" onclick="sendtextmessage()"> پیام متنی سااده</button>
+            <button class="form-control btn-success btn btn-group-sm" onclick="sendSelftextmessage()">  (خودم)پیام متنی سااده</button>
+            <button class="form-control btn-success btn btn-group-sm" onclick="sendtextmessageByreplay()"> پیام متنی به همراه ریپلی</button>
+            <button class="form-control btn-success btn btn-group-sm" onclick="sendSelftextmessageByreplay()"> (خودم) پیام متنی به همراه ریپلی</button>
+        </div>
+
+        <hr />
+        <div class="form-group">
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendfileimg()"> ارسال عکس </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendSelfFileimg()"> اارسال عکس خودم </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendParentFileimg()"> ارسال عکس ریپلی </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendParentSelfFileimg()"> ارسال عکس ریپلی خودم </button>
+        </div>
+        <hr />
+        <div class="form-group">
+            <button class="form-control btn btn-group-sm btn-primary" onclick="sendFilevideo()"> ارسال ویدئو </button>
+            <button class="form-control btn btn-group-sm btn-primary" onclick="sendSelfFilevideo()"> ارسال ویدئو خودم </button>
+            <button class="form-control btn btn-group-sm btn-primary" onclick="sendParentFilevideo()">ارسال ویدئو ریپلی </button>
+            <button class="form-control btn btn-group-sm btn-primary" onclick="sendSelfParentFilevideo()"> ارسال ویدئو ریلی خودم  </button>
+        </div>
+        <hr />
+        <div class="form-group">
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendFileaudio()"> ارسال صدا </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendSelfFileaudio()">ارسال صدا خودم </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendParentFileaudio()"> ارسال صدا ریپلی </button>
+            <button class="form-control btn btn-group-sm btn-info" onclick="sendSelfParentFileaudio()"> ارسال صدا ریپلی خودم </button>
+        </div>
+
+
+
+
+
+        @* <button type="button" class="btn cancel" onclick="closeForm()">Close</button>*@
+        <button type="button" class="btn cancel" onclick="ChatMessage()">Close</button>
+    </div>
+</div>
+
+
+<script type="text/html" id="msg_normalText">
+    <div id="msg%%divid%%" class=" your-massage px-4 py-2 ltr">
+        <div class=" content">
+
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <!-- end name-sender-massage change-->
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%%</div>
+
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="msg_selfNormalText">
+    <div id="msg%%divid%%" class=" my-massage px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%%</div>
+
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="msg_replyText">
+    <div id="msg%%divid%%" class=" your-massage your-massage-reply px-4 py-2 ltr">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <!-- start replied change-->
+
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <!-- end replied change-->
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%%</div>
+
+            </div>
+        </div>
+    </div>
+
+
+</script>
+<script type="text/html" id="msg_SelfreplyText">
+    <div id="msg%%divid%%" class=" my-massage my-massage-reply px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <!-- start replied change-->
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <!-- end replied change-->
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* =========IMage========================== *@
+@* ....................normal............ *@
+<script type="text/html" id="msg_file_img">
+    <div class=" channel-massage px-4 py-2 ltr" id="msg%%divid%%">
+        <!-- در دیو زیر در بخش استایل باید طول (ویدث) عکس داده شود-->
+        <div class=" content">
+            <!-- start name-sender-massage change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <!-- end name-sender-massage change-->
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+
+            <div class=" img-content">
+                <div class="div-img">
+
+                    <img class="img-fluid" src="%%Filename%%" />
+                </div>
+            </div>
+            <div class=" text-content">
+                <div class=" text">
+                    %%message%%
+                </div>
+                <div class=" details-massage">
+                    <div class=" view">
+                        <span class=" mr-2">
+                            <img src="~/imagemember/61-512.png"
+                                 alt="view">
+                        </span>
+                        <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                    </div>
+                    <div class=" time">%%RoomChatDate%%</div>
+                    @*<div class=" seen">
+                            <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                        </div>*@
+
+                    <div class="category">%%tag%% </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@* --Self-- *@
+<script type="text/html" id="msg_selfFile_img">
+
+    <div id="msg%%divid%%" class=" my-massage px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown -->
+            @*<div class=" name-sender-massage">
+                    <span>علی کریمی</span>
+                </div>*@
+            <div class=" img-content">
+                <div class="div-img">
+                    <img class="img-fluid" src="%%Filename%%" />
+                </div>
+            </div>
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* .....................byParent................ *@
+<script type="text/html" id="msg_file_parentimg">
+    <div id="msg%%divid%%" class=" your-massage your-massage-reply px-4 py-2 ltr">
+        <div class=" content">
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <!-- start replied change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box mb-2 ">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+
+            <!-- end replied change-->
+            <div class=" img-content">
+                <div class="div-img">
+                    <img class="img-fluid" src="%%Filename%%" />
+                </div>
+            </div>
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%%</div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* ......................mySelf............
+*@
+<script type="text/html" id="msg_file_Selfparentimg">
+    <div id="msg%%divid%%" class=" my-massage my-massage-reply px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <!-- start replied change-->
+            @*<div class=" name-sender-massage">
+                    <span>علی کریمی</span>
+                </div>*@
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box mb-1">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <div class=" img-content">
+                <div class="div-img">
+                    <img class="img-fluid" src="%%Filename%%" />
+                </div>
+            </div>
+            <!-- end replied change-->
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* =========EndIMage========================= *@
+@* =========Video========================== *@
+@* ....................normal............ *@
+<script type="text/html" id="msg_file_video">
+    <div id="msg%%divid%%" class=" channel-massage px-4 py-2 ltr">
+        <!-- در دیو زیر در بخش استایل باید طول (ویدث) عکس داده شود-->
+        <div class=" content" style="width: 640px;">
+            <!-- start name-sender-massage change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <!-- end name-sender-massage change-->
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+
+
+            <div class=" img-content">
+                <div class=" div-movie">
+                    <!-- start change6 -->
+                    <video controls><source src="%%Filename%%" type="%%MimeType%%"></video>
+
+
+                    @*<video src="../VID_20180202_104405.mp4" controls></video>*@
+                    <!-- end change6 -->
+                    <!-- <img src="../img/unnamed.png" alt="user-img-sent" class=" img-fluid"> -->
+                    @*<a href="#"><i class="fa fa-play-circle" aria-hidden="true"></i></a>*@
+                </div>
+            </div>
+            <div class=" text-content">
+                <div class=" text">
+                    %%message%%
+                </div>
+                <div class=" details-massage">
+                    <div class=" view">
+                        <span class=" mr-2">
+                            <img src="~/imagemember/61-512.png"
+                                 alt="view">
+                        </span>
+                        <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                    </div>
+                    <div class=" time">%%RoomChatDate%%</div>
+                    @*<div class=" seen">
+                            <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                        </div>*@
+
+                    <div class="category">%%tag%%</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@* ---Self--- *@
+<script type="text/html" id="msg_selfFile_video">
+    <div id="msg%%divid%%" class=" my-massage px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" img-content">
+                <div class=" div-movie">
+                    <!-- start change6 -->
+                    <video controls><source src="%%Filename%%" type="video/mp4"></video>
+                    <!-- end change6 -->
+                </div>
+            </div>
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+
+@* .....................byParent................ *@
+<script type="text/html" id="msg_file_parentvideo">
+    <div id="msg%%divid%%" class=" your-massage your-massage-reply px-4 py-2 ltr">
+        <div class=" content">
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <!-- start replied change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <div onclick="GoToMessage('msg%%RoomChatParentID%%)')" class=" replied-box mb-2 ">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <!-- end replied change-->
+            <div class=" img-content">
+                <div class=" div-movie">
+                    <!-- start change6 -->
+                    <video controls><source src="%%Filename%%" type="video/mp4"></video>
+                    <!-- end change6 -->
+                </div>
+            </div>
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%)</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* ......................mySelf............
+*@
+<script type="text/html" id="msg_file_selfparentvideo">
+    <div id="msg%%divid%%" class=" my-massage my-massage-reply px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown -->
+            @*<div class=" name-sender-massage">
+                    <span>علی کریمی</span>
+                </div>*@
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box  mb-2">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <div class=" img-content">
+                <div class=" div-movie">
+                    <!-- start change6 -->
+                    <video controls><source src="%%Filename%%" type="video/mp4"></video>
+                    <!-- end change6 -->
+                </div>
+            </div>
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* =========EndVideo========================= *@
+
+
+@* =========Audio========================== *@
+@* ....................normal............ *@
+<script type="text/html" id="msg_file_audio">
+    <div id="msg%%divid%%" class=" your-massage-voice px-4 py-2 ltr">
+        <div class=" content">
+            <!-- start name-sender-massage change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <!-- end name-sender-massage -->
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown -->
+            @*<div class=" right">
+                    <div class=" img-pro mx-2 d-flex align-items-center">
+                        <img src="~/imagemember/ali_200.jpg" alt="" class=" img-fluid">
+                    </div>
+
+                </div>*@
+            <div class=" left">
+                <div class="div-voice-massage">
+                    <!-- start change6 -->
+                    <div class="voice-massage">
+                        <audio controls><source src="%%Filename%%" type="%%MimeType%%"></audio>
+                        @*<audio src="../Behnam Bani - Ghorse Ghamar 2 (320).mp3"
+                            controls></audio>*@
+                    </div>
+                    <!-- end change6 -->
+
+                </div>
+                <div class=" text-content">
+                    <div class=" text">
+                        %%message%%
+                    </div>
+                    <div class=" details-massage">
+                        <div class=" view">
+                            <span class=" mr-2">
+                                <img src="~/imagemember/61-512.png"
+                                     alt="view">
+                            </span>
+                            <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                        </div>
+                        <div class=" time">%%RoomChatDate%%</div>
+                        @*<div class=" seen">
+                                <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                            </div>*@
+
+                        <div class="category">%%tag%%</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@* ----Self--- *@
+<script type="text/html" id="msg_selfFile_audio">
+    <div id="msg%%divid%%" class=" my-massage my-massage-reply px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            <div class=" left ">
+                <div class="div-voice-massage">
+                    <!-- start change6 -->
+                    <div class="voice-massage">
+                        <audio controls><source src="%%Filename%%" type="%%MimeType%%"></audio>
+                    </div>
+                    <!-- end change6 -->
+                </div>
+            </div>
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+@* .....................byParent................ *@
+<script type="text/html" id="msg_file_parentaudio">
+    <div id="msg%%divid%%" class="your-massage your-massage-reply your-massage-voice px-4 py-2 ltr">
+        <div class=" content">
+            <!-- start name-sender-massage change-->
+
+            <div class=" name-sender-massage">
+                <span>%%nameSender%%</span>
+            </div>
+            <!-- end name-sender-massage -->
+            <!-- start dropdown change-->
+
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown -->
+            <div onclick="GoToMessage('msg(%%RoomChatParentID%%)')" class=" replied-box mt-3">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+
+            <div class=" left">
+                <div class="div-voice-massage">
+                    <!-- start change6 -->
+                    <div class="voice-massage">
+                        <audio controls><source src="%%Filename%%" type="%%MimeType%%"></audio>
+                    </div>
+                    <!-- end change6 -->
+
+                </div>
+                <div class=" text-content">
+                    <div class=" text">
+                        %%message%%
+                    </div>
+                    <div class=" details-massage">
+                        <div class=" view">
+                            <span class=" mr-2">
+                                <img src="~/imagemember/61-512.png"
+                                     alt="view">
+                            </span>
+                            <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                        </div>
+                        <div class=" time">%%RoomChatDate%%</div>
+                        @*<div class=" seen">
+                                <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                            </div>*@
+
+                        <div class="category">%%tag%% </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@* ......................mySelf............
+*@
+<script type="text/html" id="msg_file_selfparentaudio">
+    <div id="msg%%divid%%" class=" my-massage my-massage-reply px-4 py-2">
+        <div class=" content">
+            <!-- start dropdown change-->
+            <div class="dropdown div-option-massage">
+                <button class="btn shadow-none pb-2 pl-2 p-0 " type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu option-massage p-0"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class=" dropdown-item p-0">
+                        <button type="button">پاسخ</button>
+                    </div>
+                    <div class=" dropdown-item p-0">
+                        <button type="button">حذف</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown change-->
+            @*<div class=" name-sender-massage">
+                    <span>علی کریمی</span>
+                </div>*@
+            <div class=" replied-box mb-2">
+                <div class=" replied-text">
+                    %%ParentTextChat%%
+                </div>
+                <div class=" reply-name">%%ParentSenderName%%</div>
+
+            </div>
+            <div class=" left">
+                <div class="div-voice-massage">
+                    <!-- start change6 -->
+                    <div class="voice-massage">
+                        <audio controls><source src="%%Filename%%" type="%%MimeType%%"></audio>
+                    </div>
+                    <!-- end change6 -->
+                </div>
+
+            </div>
+
+            <div class="text-massage">
+                %%message%%
+            </div>
+            <div class=" details-massage">
+                <div class=" view">
+                    <span class=" mr-2">
+                        <img src="~/imagemember/61-512.png"
+                             alt="view">
+                    </span>
+                    <span class=" mr-1">%%RoomChatViewNumber%%</span>@*<span>k</span>*@
+                </div>
+                <div class=" time">%%RoomChatDate%%</div>
+                @*<div class=" seen">
+                        <span><img src="~/imagemember/dou-tick.svg" alt="seen"></span>
+                    </div>*@
+
+                <div class="category">%%tag%% </div>
+
+            </div>
+
+        </div>
+    </div>
+</script>
+@* =========EndAudio========================= *@
+
+
+
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
+
+
+@section Scripts
+{
+
+    @*<script src="/jsmember/TestSendMessage.js"></script>*@
+    <script src="/jsmember/TestSendMessageUp.js"></script>
+    <script>
+        var objModel = @Html.Raw(Json.Serialize(Model));
+       // console.log(objModel.replace(/"([\w]+)":/g, function ($0, $1) { return ('"' + $1.toUpperCase() + '":'); }));
+       /* console.log(objModel.replace("/\b[a-z]/g", function ($0, $1) {
+            return (
+                $1 = $1.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+                    return letter.toUpperCase();
+                }),
+        }));*/
+          //  ChatMessage(objModel.replace(/"([^"]+)":/g, function ($0, $1) { return ('"' + $1.toUpperCase() + '":'); }));
+        ChatMessage(objModel);
+    </script>
+}
+
+

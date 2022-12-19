@@ -1,0 +1,117 @@
+﻿<error errorId="791fadb4-57c6-4c82-821b-1a67ada8778a" application="ESchool.Api" host="PC" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2021-03-06T14:56:34.9739286Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="QueryString">
+      <value string="" />
+    </item>
+    <item name="RawTarget">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="80000034-0003-fb00-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept">
+      <value string="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip, deflate, br" />
+    </item>
+    <item name="Header_Accept-Language">
+      <value string="en-US,en;q=0.9" />
+    </item>
+    <item name="Header_Connection">
+      <value string="keep-alive" />
+    </item>
+    <item name="Header_Cookie">
+      <value string="StiMobileDesignerDictionarySettings=%7B%22createFieldOnDoubleClick%22%3Afalse%2C%22createLabel%22%3Afalse%2C%22useAliases%22%3Afalse%7D; StimulsoftMobileDesignerLastTabOnPropertiesPanel=Dictionary; .AspNetCore.Antiforgery.diUFCOQw3fc=CfDJ8GBJHzzLXrRCpLsLTl26ti4wqhy1IM0lEzgIO4TjalI50H586gAmr-lijbV1jiFjBjHFP8r137k288EvRwKuZxY8kzajtNGLfF-0Ywri7R9Hxf0YLSxemET4aGegMT0iVdQPRsoSB2NAzw7VcCriKRg; IdentityOverviewESchool=CfDJ8GBJHzzLXrRCpLsLTl26ti5QgRLGqFkaLaeZw5_kg8OihHakZqe3INAB8D01KPehks-85V2aoM-QtRxYZ4HPg0M9TW1fLkV43pfwPBR4I2IkNt7oWECM7Uc0TK-o7b-wJfDbVUk1xTCKOL-yUPpPixH7vz5l2W4FVKMZp79DWj0MoYDwPPf22qiyRg0JKXX_ms6R9Iw_n081mzGlGoOTnByc4t0DsOH9sv73TlfFz9C4HmJ8p3A8pCbW1nWRG91WZReS_jRH10sVTC4u_coju-GMbT_m4q53XnHfp2H9ZZvwlyqk-6ILhpPikkbcFszfq23lfoR2HNbPUJsTa0ebwq4YHi9aTah2Rkyl0k0LWDaFvhB__vLYjFWC9Q-qQ1rssM2vjIu5F_UUJa9vgZq_kkHkQAxdjnV91cYcaFcXkNwovKH3MC9sZWj5VUQ4I6TsFdgoZZrsAGvHI9QVGc88dl4Efz7IdviaWC8XIMn4pOIRZkPmXYHEIKMZH6cjaT61_Mnmx3PsD9WlfnBG4o8uURGJ8HS5ft3k7AAfNusdKCDZHwU9m9ZR5wqEgJLIkOUrehMYLRi-xTW6zGLqibRRT0JJwo-xHk5nUkCZCoJK1PonkHuLA1phREgM54qsyouQtDg1WDr1YnEo7-NoRKyZZr9YhbY09Lb3nGi8jccRPTPpe0L95dx22d6FY_yPWsvvOhGzC6nx7U-Bdbj5ryE2LnyIMYXnMDslg_FByj2AbIPq" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36" />
+    </item>
+    <item name="Header_sec-ch-ua">
+      <value string="&quot;Chromium&quot;;v=&quot;88&quot;, &quot;Google Chrome&quot;;v=&quot;88&quot;, &quot;;Not A Brand&quot;;v=&quot;99&quot;" />
+    </item>
+    <item name="Header_sec-ch-ua-mobile">
+      <value string="?0" />
+    </item>
+    <item name="Header_Upgrade-Insecure-Requests">
+      <value string="1" />
+    </item>
+    <item name="Header_Sec-Fetch-Site">
+      <value string="none" />
+    </item>
+    <item name="Header_Sec-Fetch-Mode">
+      <value string="navigate" />
+    </item>
+    <item name="Header_Sec-Fetch-User">
+      <value string="?1" />
+    </item>
+    <item name="Header_Sec-Fetch-Dest">
+      <value string="document" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="30000000" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="18086456118015426611" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="9895" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+  <cookies>
+    <item name="StiMobileDesignerDictionarySettings">
+      <value string="{&quot;createFieldOnDoubleClick&quot;:false,&quot;createLabel&quot;:false,&quot;useAliases&quot;:false}" />
+    </item>
+    <item name="StimulsoftMobileDesignerLastTabOnPropertiesPanel">
+      <value string="Dictionary" />
+    </item>
+    <item name=".AspNetCore.Antiforgery.diUFCOQw3fc">
+      <value string="CfDJ8GBJHzzLXrRCpLsLTl26ti4wqhy1IM0lEzgIO4TjalI50H586gAmr-lijbV1jiFjBjHFP8r137k288EvRwKuZxY8kzajtNGLfF-0Ywri7R9Hxf0YLSxemET4aGegMT0iVdQPRsoSB2NAzw7VcCriKRg" />
+    </item>
+    <item name="IdentityOverviewESchool">
+      <value string="CfDJ8GBJHzzLXrRCpLsLTl26ti5QgRLGqFkaLaeZw5_kg8OihHakZqe3INAB8D01KPehks-85V2aoM-QtRxYZ4HPg0M9TW1fLkV43pfwPBR4I2IkNt7oWECM7Uc0TK-o7b-wJfDbVUk1xTCKOL-yUPpPixH7vz5l2W4FVKMZp79DWj0MoYDwPPf22qiyRg0JKXX_ms6R9Iw_n081mzGlGoOTnByc4t0DsOH9sv73TlfFz9C4HmJ8p3A8pCbW1nWRG91WZReS_jRH10sVTC4u_coju-GMbT_m4q53XnHfp2H9ZZvwlyqk-6ILhpPikkbcFszfq23lfoR2HNbPUJsTa0ebwq4YHi9aTah2Rkyl0k0LWDaFvhB__vLYjFWC9Q-qQ1rssM2vjIu5F_UUJa9vgZq_kkHkQAxdjnV91cYcaFcXkNwovKH3MC9sZWj5VUQ4I6TsFdgoZZrsAGvHI9QVGc88dl4Efz7IdviaWC8XIMn4pOIRZkPmXYHEIKMZH6cjaT61_Mnmx3PsD9WlfnBG4o8uURGJ8HS5ft3k7AAfNusdKCDZHwU9m9ZR5wqEgJLIkOUrehMYLRi-xTW6zGLqibRRT0JJwo-xHk5nUkCZCoJK1PonkHuLA1phREgM54qsyouQtDg1WDr1YnEo7-NoRKyZZr9YhbY09Lb3nGi8jccRPTPpe0L95dx22d6FY_yPWsvvOhGzC6nx7U-Bdbj5ryE2LnyIMYXnMDslg_FByj2AbIPq" />
+    </item>
+  </cookies>
+</error>

@@ -1,0 +1,162 @@
+﻿@if (this.User.Identity.IsAuthenticated)
+{
+    var href = "#";
+    var typeUserId = UserContext.GetClaimValueInteger(ClaimName.UserTypeId);
+    @if (typeUserId == 1)
+    {
+        href = "/Exam/MyExams";
+    } 
+    else if (typeUserId==4)
+    {
+        href = "/Exam/Exams";
+    }
+
+        <!-- start cart aside -->
+        <div class="add-to-cart right" id="cart-side">
+            <a href="#" onclick="closeCart()" class="overlay" id="a"></a>
+            <div class="cart-inn">
+                <div class=" header">
+                    <div>
+                        <div class=" img-pro pt-2">
+                            <div class=" position-relative">
+                                <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(UserContext.GetClaimValueString(ClaimName.PicName)))" alt="">
+                                <span class=" blue-tick"><img src="~/imagemember/blue-tick.svg" alt="blue-tick"></span>
+                            </div>
+                        </div>
+                        <div class="name my-2 text-center">@UserContext.GetClaimValueString(ClaimName.Nickname)</div>
+                        <div class="mobile-number text-center">@UserContext.GetClaimValueString(ClaimName.MobileNumber)</div>
+                    </div>
+                    <div class="three-icons">
+                        <button type="button" class="profile"><img src="~/imagemember/profile.svg" alt="profile"></button>
+                        <button type="button" class="cload"><img src="~/imagemember/cloud.svg" alt="cload"></button>
+                        <button type="button" class="callender">
+                            <img src="~/imagemember/callender-menu.svg"
+                                 alt="callender">
+                        </button>
+                    </div>
+                </div>
+                <div class=" optoins">
+                    <ul>
+                        @*<li>
+            <a href="#">
+                <div class=" icon">
+                    <div><img src="~/imagemember/chat.svg" alt=""></div>
+                </div>
+                <div>تکالیف / لورم ایپسوم</div>
+            </a>
+        </li>*@
+                        <li>
+
+                            @*<a href="@UserContext.GetClaimValueString(ClaimName.ExamAddress)">*@
+                            <a href="@href">
+                                <!-- change2 -->
+                                <div class=" icon">
+                                    <div><img src="~/imagemember/Iconly-Light-Paper@2x.png" alt=""></div>
+                                </div>
+                                <div>آزمون های داخلی</div>
+                                <!-- change2 -->
+                            </a>
+
+                        </li>
+                        <li>
+                            @*<a href="@UserContext.GetClaimValueString(ClaimName.ExamAddress)">*@
+                            <a href="#" onclick="OpenExam()">
+                                <!-- change2 -->
+                                <div class=" icon">
+                                    <div><img src="~/imagemember/Iconly-Light-Paper@2x.png" alt=""></div>
+                                </div>
+                                <div>آزمون های خارجی</div>
+                                <!-- change2 -->
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="#">
+                                <div class=" icon">
+                                    <div><img src="~/imagemember/share.svg" alt=""></div>
+                                </div>
+                                <div>تکالیف</div>
+                            </a>
+                        </li>
+
+                        <!-- start change6 -->
+                        @*<li>
+            <a href="#">
+                <div class=" icon">
+                    <div><img src="~/imagemember/Iconly-Light-Paper@2x.png" alt=""></div>
+                </div>
+                <div>تکالیف / لورم ایپسوم</div>
+                <div class=" count-notif">99+</div>
+
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <div class=" icon">
+                    <div><img src="~/imagemember/Iconly-Light-Notification@2x.png" alt=""></div>
+                </div>
+                <div>تکالیف / لورم ایپسوم</div>
+                <div class=" count-notif">10</div>
+            </a>
+        </li>*@
+                        <!-- end change6 -->
+                        @if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 1)
+                        {
+                            <li>
+
+                                <a href="/ReportCardStudent/Index?returnUrl=/Member/RoomChat">
+                                    <div class=" icon">
+                                        <div><img src="~/imagemember/bookmark.svg" alt=""></div>
+                                    </div>
+                                    <div>کارنامه</div>
+                                </a>
+                            </li>
+                        }
+                       @* @if ((UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 2) || (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 3))*@
+                       else {
+                            <li>
+
+                                <a href="/ReportCardParent/ReportCardParentShow?returnUrl=/Member/RoomChat">
+                                    <div class=" icon">
+                                        <div><img src="~/imagemember/bookmark.svg" alt=""></div>
+                                    </div>
+                                    <div>کارنامه</div>
+                                </a>
+                            </li>
+                        }
+                        @*else
+        {
+            <li>
+
+                <a href="#">
+                    <div class=" icon">
+                        <div><img src="~/imagemember/bookmark.svg" alt=""></div>
+                    </div>
+                    <div>کارنامه</div>
+                </a>
+            </li>
+
+        }*@
+
+
+                        <li>
+                            <a href="/Accounts/Logout">
+                                <div class=" icon">
+                                    <div><img src="~/imagemember/exit.svg" alt=""></div>
+                                </div>
+                                <div>خروج</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class=" footer">
+                    <div class="design">
+                        طراحی شده ...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end cart aside -->
+
+    }

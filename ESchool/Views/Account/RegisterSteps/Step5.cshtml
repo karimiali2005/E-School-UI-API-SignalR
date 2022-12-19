@@ -1,0 +1,83 @@
+﻿<div class="step opacityZero" id="step5">
+
+    <div class="row displayNone">
+        <label class="lbl">ملیت</label>
+        <input id="Nationality" class="chPreviousColor" type="text" placeholder="مثال: ایران" value="ایران" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">بیمه پایه</label>
+        <input id="Insurance" class="chPreviousColor" type="text" placeholder="مثال: تامین اجتماعی" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">تعداد اعضای خانواده</label>
+        <input id="FamilyNumber" class="chPreviousColor textAlignLeft" type="text" placeholder="مثال: 4" pattern="[0-9]*" inputmode="numeric" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">چندمین فرزند</label>
+        <input id="SeveralChildren" class="chPreviousColor textAlignLeft" type="text" placeholder="مثال: 2" pattern="[0-9]*" inputmode="numeric" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">دست غالب</label>
+        <select id="RightHanded" class="chPreviousColor">
+            <option value="true">دست راست</option>
+            <option value="false">دست چپ</option>
+        </select>
+    </div>
+
+    <div class="row displayNone">
+        <label class="lbl">زبان</label>
+        <select id="PersianLanguage" class="chPreviousColor">
+            <option value="true">فارسی</option>
+            <option value="false">سایر زبان ها</option>
+        </select>
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">نسبت خویشاوندی بین والدین</label>
+        <select id="IsRelativesParents" class="chPreviousColor">
+            <option value="true">دارد</option>
+            <option value="false">ندارد</option>
+        </select>
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">بیمه تکمیلی</label>
+        <select id="IsStudentInsurance" class="chPreviousColor">
+            <option value="true">دارد</option>
+            <option value="false">ندارد</option>
+        </select>
+    </div>
+
+    <div class="row displayNone">
+        <label class="lbl">تحصیلات قبل از دبستان</label>
+        <select id="PreschoolEducation" class="chPreviousColor">
+            <option value="true">دارد</option>
+            <option value="false">ندارد</option>
+        </select>
+    </div>
+
+    <div class="row displayNone">
+        <label class="lbl">محل سکونت</label>
+        <select id="IsCityPlace" class="chPreviousColor">
+            <option value="true">شهر</option>
+            <option value="false">روستا</option>
+        </select>
+    </div>
+
+    <div class="row rowInline displayNone">
+        <label class="lbl">علت مراجعه</label>
+        <select id="ReferralReasonNew" class="chPreviousColor">
+            <option value="true">نوآموز جدید</option>
+            <option value="false">باقی مانده از کنکور سال های قبل</option>
+        </select>
+    </div>
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackThirty" value="بازگشت/مرحله قبل" onclick="step4('a');" />
+        <input type="button" class="buttonSingle colorBackSeconday" value="پایان/ثبت نهایی" onclick="final();" />
+    </div>
+</div>

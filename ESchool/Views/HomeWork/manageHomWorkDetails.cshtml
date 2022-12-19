@@ -1,0 +1,176 @@
+﻿@model List<Es.DataLayerCore.DTOs.HomeworkDetailShowResult>
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+    string thisUrl = string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString);
+    thisUrl = thisUrl.Replace("&", "||");
+}
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons managementHomeWork  single-homeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        <div class=" title-top">
+            @ViewBag.nameDars
+        </div>
+        <div class=" table-div m-3">
+            <table class=" table table-bordered">
+                <thead>
+                    <tr class=" d-md-none">
+                        <th class="bottom-res-p"><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                        <th class="bottom-res-p"><span>نتیجه</span></th>
+                        <th class="bottom-res-p"><span>توضیحات</span></th>
+                    </tr>
+                    <tr class=" d-none d-md-table-row">
+                        <th><span>عکس</span></th>
+                        <th><span>نام و نام خانوادگی</span></th>
+                        <th><span>نتیجه</span></th>
+                        <th><span>توضیحات</span></th>
+                        <th><span>از</span></th>
+                        <th><span>تا</span></th>
+                        <th><span>وضعیت</span></th>
+                        <th><span>عملیات</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr class=" d-none d-md-table-row">
+                            <td>
+                                @if (item.HomeworkAnswerTeacherSee == false && item.HomeworkAnswerStatusID > 2)
+                                {
+                                    <div class=" d-flex justify-content-center align-items-center">
+                                        <div class=" img-pro-other Live-border-img mx-2">
+                                            <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                                 alt="user-img-pro"><span class=" Live">جدید</span>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div><img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))" class=" rounded-circle img-thumbnail" alt=""></div>
+
+                                }
+
+
+                            </td>
+                            <td><span class=" day">@item.FullName</span></td>
+                            <td><span>@item.FinalScore</span></td>
+                            @*       <td><span>@item.HomeworkAnswerComment</span></td>*@
+                            <td class="btn-desc-techStu">
+                                <span>
+
+                                    @{ if (!String.IsNullOrEmpty(item.HomeworkAnswerComment))
+                                        {
+                                            <span class="btn btn-info d-inline-flex p-2 btn-stu-desc-show">
+                                                <img alt="" class="img-fluid" src="/imagemember/reading-book.svg" />
+                                                <div class="desc-stu">
+                                                    <span>@item.HomeworkAnswerComment</span>
+                                                </div>
+                                            </span>
+                                        }
+                                    }
+                                    @if (!String.IsNullOrEmpty(item.TeacherComment))
+                                    {
+                                        <span class="d-inline-flex p-2 btn btn-danger  btn-teach-desc-show">
+                                            <img alt="" class="img-fluid" src="/imagemember/class.svg" />
+                                            <div class="desc-teach">
+                                                <span>@item.TeacherComment</span>
+                                            </div>
+                                        </span>
+                                    }
+
+
+                                </span>
+                            </td>
+                            <td><span>@item.HomeworkAnswerSartDate.getPersianDate()</span></td>
+                            <td><span>@item.HomeworkAnswerFinishDate.getPersianDate()</span></td>
+                            <td><span>@item.HomeworkAnswerStatusTitle</span></td>
+                            <td>
+                                <a asp-controller="HomeWork" asp-action="manageAnswerHomWorkDetails" asp-route-idanswerhomework="@item.HomeworkAnswerID" asp-route-idhomework="@item.HomeworkID" asp-route-idstudents="@item.UserID" asp-route-returnUrl="@thisUrl" asp-route-thisurl="@ViewBag.returnUrl" class=" add-desc my-1">
+                                    <span class=" d-flex">
+                                        <img src="/imagemember/eyew.svg"
+                                             alt="">
+                                    </span><span>مشاهده</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- ------------------------------------ responsive mode ----------------------------- -->
+                <tr class=" d-md-none">
+                    <td>
+                        @if (item.HomeworkAnswerTeacherSee == false && item.HomeworkAnswerStatusID > 2)
+                        {
+                            <div class=" d-flex justify-content-center align-items-center">
+                                <div class=" img-pro-other Live-border-img mx-2">
+                                    <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                         alt="user-img-pro"><span class=" Live">جدید</span>
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div><img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))" class=" rounded-circle img-thumbnail" alt=""></div>
+
+                        }
+                    </td>
+                    <td><span class=" day">@item.FullName</span></td>
+                    <td><span>@item.FinalScore</span></td>
+                    @*<td><span>@item.HomeworkAnswerComment</span></td>*@
+                <td class="btn-desc-techStu">
+                    <span>
+                        @{ if (!String.IsNullOrEmpty(item.HomeworkAnswerComment))
+                            {
+                                <span class="btn btn-info d-inline-flex p-2 btn-stu-desc-show">
+                                    <img alt="" class="img-fluid" src="/imagemember/reading-book.svg" />
+                                    <div class="desc-stu">
+                                        <span>lorem asdfjihasdfl;asdf a;sldfj asd;flkj asdf;l akjdf ;laskdjf a;lskdj a;lskdj al;skdjf al;sdkj a;sldf ;slkdj sl;dkj s;ldkj as;ld jasdl;kj</span>
+                                    </div>
+                                </span>
+                            }
+                        }
+                        @if (!String.IsNullOrEmpty(item.TeacherComment))
+                        {
+                            <span class="d-inline-flex p-2 btn btn-danger  btn-teach-desc-show">
+                                <img alt="" class="img-fluid" src="/imagemember/class.svg" />
+                                <div class="desc-teach">
+                                    <span>@item.TeacherComment</span>
+                                </div>
+                            </span>
+                        }
+
+                    </span>
+                </td>
+
+                </tr>
+                        <tr class=" d-md-none">
+                            <th class=" padding-res"><span>از</span></th>
+                            <td class="padding-res-td"><span>@item.HomeworkAnswerSartDate.getPersianDate()</span></td>
+                            <th class=" padding-res"><span>تا</span></th>
+                            <td class="padding-res-td"><span>@item.HomeworkAnswerFinishDate.getPersianDate()</span></td>
+                        </tr>
+                        <tr class=" d-md-none">
+                            <th class="padding-res-th3"><span>وضعیت</span></th>
+                            <td><span>@item.HomeworkAnswerStatusTitle</span></td>
+                            <th class="padding-res-th3"><span>عملیات</span></th>
+                            <td>
+                                <a asp-controller="HomeWork" asp-action="manageAnswerHomWorkDetails" asp-route-idanswerhomework="@item.HomeworkAnswerID" asp-route-idhomework="@item.HomeworkID" asp-route-idstudents="@item.UserID"  asp-route-returnUrl="@thisUrl" asp-route-thisurl="@ViewBag.returnUrl" class=" add-desc my-1">
+                                    <span class=" d-flex">
+                                        <img src="/imagemember/eyew.svg" alt="">
+                                    </span><span>مشاهده</span>
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+

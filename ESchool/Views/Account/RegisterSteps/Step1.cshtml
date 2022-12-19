@@ -1,0 +1,58 @@
+﻿@model UserProperties
+@{ 
+    var degreeDefault = Model.Degrees.First() != null ? Model.Degrees.First().DegreeId : 0;
+}
+<div class="step opacityOne" id="step1">
+    <div class="row">
+        <label class="lbl">مقطع تحصیلی</label>
+        <select id="Degree" class="chPreviousColor" onchange="selectCh(this)">
+            @foreach (var degree in Model.Degrees)
+            {
+                if (!degree.HasGrade)
+                {
+                    <option value="@degree.DegreeId">@degree.DegreeTitle</option>
+                }
+                else
+                {
+                    string title = degree.DegreeId.ToString() + ",r";
+                    <option title="@title" value="@degree.DegreeId" >@degree.DegreeTitle</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="row displayNone">
+        <label class="lbl">پایه تحصیلی</label>
+        <select id="Grade" class="chPreviousColor" onchange="selectCh(this)">
+            @foreach (var grade in Model.Grades)
+            {
+                string className = grade.DegreeId == degreeDefault ? "" : "displayNone";
+
+                if (!grade.HasStudyField)
+                {
+                    <option title="@grade.DegreeId" value="@grade.GradeId" class="@className">@grade.GradeTitle</option>
+                }
+                else
+                {
+                    string title = grade.DegreeId.ToString() + ",r";
+                    <option title="@title" value="@grade.GradeId" class="@className">@grade.GradeTitle</option>
+                }
+            }            
+        </select>
+    </div>
+
+    <div class="row displayNone">
+        <label  class="lbl">رشته تحصیلی</label>
+        <select id="StudyField" class="chPreviousColor">
+            @foreach (var studyfield in Model.StudyFields)
+            {
+                <option value="@studyfield.StudyFieldId">@studyfield.StudyFieldTitle</option>
+            }
+        </select>
+    </div>
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackSeconday" value="تاييد/مرحله بعد" onclick="step2();" />
+    </div>
+
+</div>

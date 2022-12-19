@@ -1,0 +1,46 @@
+﻿@await Html.PartialAsync("Message")
+
+<div class="form">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+    <div class="row textAlignCenter">
+
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            var UserActive = Convert.ToInt32(this.User.FindFirst("UserActive").Value);
+            var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+
+            if (UserActive == 2)
+            {
+                <img class="picstudent displayBlock" src="/Account/PictureUser" />
+                @if (UserTypeId == 4)
+                {
+                    <input type="button" class="buttonSingle colorBackSeconday" value="کلاس های معلم" onclick="javascript: window.location.href = '/Class/Teacher' " />
+                }
+                <input type="button" class="buttonSingle colorBackSeconday" value="لیست کلاس ها" onclick="javascript: window.location.href = '/Class' " />
+                <input type="button" class="buttonSingle colorBackSeconday" value="تغییر کلمه عبور" onclick="javascript: window.location.href = '/Account/ChangePass' " />
+            }
+            else if (UserActive == 0)
+            {
+                MessageModel messageModel = new MessageModel();
+                messageModel.MessageText = this.User.FindFirst("ReasonInactive").Value;
+
+                @await Html.PartialAsync("Message")
+
+                if (this.User.FindFirst("UserTypeId").Value == "1")
+                {
+                    <input type="button" class="buttonSingle colorBackSeconday" value="تغییر اطلاعات تکمیلی" onclick="javascript: window.location.href = '/Account/ExtraInfo' " />
+                }
+                <input type="button" class="buttonSingle colorBackSeconday" value="تغییر پروفایل" onclick="javascript: window.location.href = '/Account/Profile' " />
+            }
+            <input type="button" class="buttonSingle colorBackSeconday" value="خروج از پنل" onclick="logoutuser();" />
+        }
+        else
+        {
+            <input type="button" class="buttonSingle colorBackSeconday" value="ورود به پنل" onclick="javascript: window.location.href = '/Account/Login' " />
+        }
+    </div>
+
+</div>
+

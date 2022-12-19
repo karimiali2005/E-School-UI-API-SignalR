@@ -1,0 +1,141 @@
+﻿@model List<Es.DataLayerCore.DTOs.HomeworkAnswerStudentShowResult>
+@{
+    ViewBag.Title = " تکالیف";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    DateTime now = DateTime.Now;
+
+}
+ <section class=" Chat-page single-homeWork">
+        <div class=" p-0 chat ">
+            @await Html.PartialAsync("Header")
+            <div class=" div-chat-screen">
+                <!-- start change18 -->
+                <div class=" chat-screen py-4 px-3">
+
+                    <div class=" h-title ">
+                        <span>تکالیف</span>
+                    </div>
+                    @foreach (var x in Model)
+                    {
+                        <div class=" h-item my-4 d-flex justify-content-between p-1 px-3 bg-white">
+                            <div class=" h-right">
+                                <div class=" h-expire my-1">
+                                    <div>
+                                        <span>مهلت ارسال: </span><span class="h-date">@x.HomeworkFinishDate.getPersianDateByMinutes()</span>
+                                    </div>
+                                    @if (!String.IsNullOrEmpty(x.HomeworkAnswerScore))
+                                    {
+                                        <div class="score"><span class="mx-1">نتیجه: </span><span class="mx-1">@x.HomeworkAnswerScore</span></div>
+                                    }
+                                </div>
+                                <div class=" h-what-doing my-1"><span>@x.HomeworkTile</span></div>
+                                <div class="text-danger">
+                                    @if (!String.IsNullOrEmpty(x.TeacherComment))
+                                    {
+                                        <span class="text-danger">@x.TeacherComment</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class=" h-left">
+
+                                @{
+                                    if (now > x.HomeworkFinishDate)
+                                    {
+                                        <div class=" h-status  my-1">
+                                            <span class="h-not-sent"> پایان</span>
+                                        </div>
+
+                                        <div class="h-send my-1">
+                                            <button type="button" disabled="" class="h-disabled">ارسال</button>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class=" h-status  my-1">
+                                            @{
+                                                if (String.IsNullOrEmpty(x.HomeworkAnswerStatusTitle))
+                                                {
+                                                    <span class="h-sent">
+                                                        جدید
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="h-sent">
+                                                        @x.HomeworkAnswerStatusTitle
+                                                    </span>
+                                                }
+
+
+                                            }
+
+
+                                        </div>
+                                        <div class="h-send my-1"><button onclick="location.href='/HomeWorkStuden/sendHomeworkStudent?id=@x.HomeworkID&returnUrl='+getUrl();" type="button">ارسال</button></div>
+
+
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <nav aria-label="..." class=" ltr">
+                        <ul class="pagination pagination-sm justify-content-center">
+                            @for (int i = 1; i <= ViewBag.countpage; i++)
+                            {
+                                if (ViewBag.countpage > 10)
+                                {
+                                    if (i == 1 || i == ViewBag.pagenumber || i == ViewBag.countpage || i == ViewBag.pagenumber - 1 || i == ViewBag.pagenumber - 2 || i == ViewBag.pagenumber - 3 || i == ViewBag.pagenumber + 1 || i == ViewBag.pagenumber + 2 || i == ViewBag.pagenumber + 3 || i == ViewBag.countpage - 1)
+                                    {
+                                        if (i == ViewBag.pagenumber)
+                                        {
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">
+                                                    @i
+                                                    <span class="sr-only">(current)</span>
+                                                </span>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item"><a class="page-link" asp-controller="HomeWorkStuden" asp-action="Index" asp-route-idcours="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom"  asp-route-pagenumber="@i">@i</a></li>
+                                        }
+                                    }
+                                    else if (i == ViewBag.pagenumber - 4 || i == ViewBag.pagenumber - 5 || i == ViewBag.pagenumber + 4 || i == ViewBag.pagenumber + 5)
+                                    {
+                                        <li class="page-item " aria-current="page">
+                                            <span class="page-link">
+                                                .
+                                            </span>
+                                        </li>
+                                    }
+
+                                }
+                                else if (i == ViewBag.pagenumber)
+                                {
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">
+                                            @i
+                                            <span class="sr-only">(current)</span>
+                                        </span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" asp-controller="HomeWorkStuden" asp-action="Index" asp-route-idcours="@ViewBag.idcourse" asp-route-idroom="@ViewBag.idroom"  asp-route-pagenumber="@i">@i</a></li>
+                                }
+                            }
+
+
+
+                        </ul>
+                    </nav>
+                </div>
+                <!-- end change18 -->
+
+            </div>
+
+        </div>
+    </section>

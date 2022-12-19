@@ -1,0 +1,209 @@
+﻿@model Es.DataLayerCore.DTOs.Home.HomeViewModel
+@{
+    ViewBag.Title = "صفحه اصلی";
+    Layout = "LayoutMain";
+    var addressDownload = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.Article;
+}
+<header>
+    <header>
+        <div class="bigfoto">
+            <div class="container">
+                <div class="menu">
+                    <div class="row">
+                        <div class="logo col-2 ">
+                            <img src="~/imagemember/01logohesabi1.png" alt="logo">
+                        </div>
+                        <div class="right col-lg-7 col-3">
+                            <div id="bars" class="d-block d-lg-none text-right">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </div>
+                            <ul id="menu">
+                                <li> <a href="/Home/Index">صفحه اصلی</a></li>
+                                <li> <a href="/Account/Register">ثبت دانش آموزان</a></li>
+                                <li> <a href="#">معرفی اساتید</a></li>
+                                <li> <a href="#">اخبار</a></li>
+                                <li> <a href="/Home/Gallery">گالری تصاویر</a></li>
+                                <li> <a href="/Home/About">درباره ما</a></li>
+                                <li> <a href="#mainfooter">تماس با ما</a></li>
+                            </ul>
+                        </div>
+                        <div class="v-seite col-lg-3 col-5">
+                            <div>
+                                <a href="/Accounts/Login">
+                                    <span>
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    </span>ورود به سایت
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="buttom col-lg-12">
+                                <h1>شروع پیش ثبت نام مجموعه آموزشی دکتر حسابی</h1>
+                                <h3>برای ثبت نام روی دکمه پیش ثبت نام کلیک کنید</h3>
+                                <div class="btn">
+                                    <a href="/Home/PreRegistration">پیش ثبت نام</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+
+</header>
+
+<section class="section1">
+    <div class="container">
+        <div class="row">
+            <div class=" br col-md-3 col-6">
+                <h1>پیش ثبت نام</h1>
+                <h3>دوره متوسطه اول</h3>
+            </div>
+            <div class="br col-md-3 col-6">
+                <h1>پیش ثبت نام</h1>
+                <h3>دوره متوسطه اول</h3>
+            </div>
+            <div class="br col-md-3 col-6">
+                <h1>پیش ثبت نام</h1>
+                <h3>دوره متوسطه اول</h3>
+            </div>
+            <div class="col-md-3 col-6">
+                <h1>پیش ثبت نام</h1>
+                <h3>دوره متوسطه اول</h3>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="section2 mosalas">
+    <div class=" container mtp">
+        <div class="moarfi">
+            <h1>معرفی اساتید</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="steps">
+                    <a href="/Home/IntroductionGroup?id=4">
+                        <div class="img-step">
+                            <div class="div-svg">
+                                <img src="../imagemember/111.png" alt="" height="87" width="87">
+                            </div>
+                        </div>
+                        <div class="div-txt">
+                            <h3>پرسنل مدرسه دکتر حسابی</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="steps">
+                    <a href="/Home/IntroductionGroup?id=1">
+                        <div class="img-step">
+                            <div class="div-svg">
+                                <img src="../imagemember/12.png" alt="" height="87" width="87">
+                            </div>
+                        </div>
+                        <div class="div-txt">
+                            <h3>اساتید دوره دبستان</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="steps">
+                    <a href="/Home/IntroductionGroup?id=2">
+                        <div class="img-step">
+                            <div class="div-svg">
+                                <img src="../imagemember/13.png" alt="" height="87" width="87">
+                            </div>
+                        </div>
+                        <div class="div-txt">
+                            <h3>اساتید دوره متوسطه اول</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="steps">
+                    <a href="/Home/IntroductionGroup?id=3">
+                        <div class="img-step">
+                            <div class="div-svg">
+                                <img src="../imagemember/13.png" alt="" height="87" width="87">
+                            </div>
+                        </div>
+                        <div class="div-txt">
+                            <h3>اساتید دوره متوسطه دوم</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<section class="section3">
+
+
+    <div class=" div-bnf">
+        <a href="/Home/Gallery">گالری تصاویر و ویدئو ها</a>
+
+    </div>
+
+
+</section>
+<section class="section5">
+    <div class="container">
+        <div>
+            <h2>اخبار</h2>
+
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Article)
+            {
+                <dic class="col-md-4">
+                    <div class="card">
+                        <div class="div-img"><img class="img-fluid" src="@(addressDownload)@item.ArticlePic" alt=""></div>
+                        <div class="div-txt">
+                            <h3>@item.ArticleTitle</h3>
+                            <p>@item.ArticleBody</p>
+                        </div>
+                        <div class="div-a"><a href="/Home/Article_Detail?id=@item.ArticleID">ادامه مطلب</a></div>
+                    </div>
+                </dic>
+
+            }
+
+
+            @*<div class="col-md-4">
+                <div class="card">
+                    <div class="div-img"><img class="img-fluid" src="../imagemember/2a.jpg" alt=""></div>
+                    <div class="div-txt">
+                        <h3>کلاس انلاینو پلت فرمممممم</h3>
+                        <p>روشی است که سایت یا صفحات وب نسبت به دستگاه کاربر چون گوشی تلفن هوشمند،آی پد ، لب تاپ ، انواع مانیتور کامپیوتر خانگی و تلویزیون ها واکنش نشان داده و خود را بر مبنای اندازه صفحه و اسکرین نمایش می دهند.</p>
+                    </div>
+                    <div class="div-a"><a href="#">ادامه مطلب</a></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="div-img"><img class="img-fluid" src="../imagemember/03a .jpg" alt=""></div>
+                    <div class="div-txt">
+                        <h3>تدریس خصوصی</h3>
+                        <p>همه‌ی ما حین کار کردن با نرم‌افزارهای مختلف با مواردی رو به رو شده‌ایم که سیستم‌ها ظاهر زیبایی دارند اما کارکردن با آنها بسیار سخت است و یا بالعکس. این موضوع به دو مفهوم UI و UX اشاره دارد که بحث امروز مقاله‌ی ماست.</p>
+                    </div>
+                    <div class="div-a"><a href="#">ادامه مطلب</a></div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,138 @@
+﻿<error errorId="60ac3be2-e65f-4bbe-8986-008c40a2fbde" application="ESchool.Api" host="PC" type="HTTP" message="NotFound" detail="# caller: @C:\Source\ElmahCore\ElmahCore\Internal$\CallerInfo.cs:10&#xD;&#xA;ElmahCore.HttpException: NotFound" time="2022-07-23T19:43:31.4494545Z" statusCode="404">
+  <serverVariables>
+    <item name="HttpVersion">
+      <value string="1.1" />
+    </item>
+    <item name="Scheme">
+      <value string="http" />
+    </item>
+    <item name="Method">
+      <value string="GET" />
+    </item>
+    <item name="PathBase">
+      <value string="" />
+    </item>
+    <item name="Path">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="QueryString">
+      <value string="" />
+    </item>
+    <item name="RawTarget">
+      <value string="/weatherforecast" />
+    </item>
+    <item name="HasResponseStarted">
+      <value string="False" />
+    </item>
+    <item name="RemotePort">
+      <value string="0" />
+    </item>
+    <item name="LocalPort">
+      <value string="0" />
+    </item>
+    <item name="RequestConnectionId">
+      <value string="18302628887244308516" />
+    </item>
+    <item name="TraceIdentifier">
+      <value string="80000025-0000-fe00-b63f-84710c7967bb" />
+    </item>
+    <item name="Header_Accept">
+      <value string="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" />
+    </item>
+    <item name="Header_Accept-Encoding">
+      <value string="gzip, deflate, br" />
+    </item>
+    <item name="Header_Accept-Language">
+      <value string="en-US,en;q=0.9,fa;q=0.8" />
+    </item>
+    <item name="Header_Connection">
+      <value string="keep-alive" />
+    </item>
+    <item name="Header_Cookie">
+      <value string="StiMobileDesignerDictionarySettings=%7B%22createFieldOnDoubleClick%22%3Afalse%2C%22createLabel%22%3Afalse%2C%22useAliases%22%3Afalse%7D; StimulsoftWebViewerExportSettingsOpeningGroups=%7B%22SavingReportGroup%22%3Atrue%2C%22PageRangeGroup%22%3Atrue%2C%22SettingsGroup%22%3Afalse%7D; StimulsoftWebViewerExportSettingsPdf=%7B%22PageRange%22%3A%22All%22%2C%22ImageResolution%22%3A%22100%22%2C%22ImageCompressionMethod%22%3A%22Jpeg%22%2C%22ImageQuality%22%3A%220.75%22%2C%22EmbeddedFonts%22%3Atrue%2C%22ExportRtfTextAsImage%22%3Afalse%2C%22PdfACompliance%22%3Afalse%2C%22OpenAfterExport%22%3Afalse%2C%22AllowEditable%22%3A%22No%22%2C%22PasswordInputUser%22%3A%22%22%2C%22PasswordInputOwner%22%3A%22%22%2C%22KeyLength%22%3A%22Bit40%22%2C%22UseDigitalSignature%22%3Afalse%2C%22GetCertificateFromCryptoUI%22%3Afalse%2C%22UserAccessPrivileges%22%3A%22PrintDocument%2C%20ModifyContents%2C%20CopyTextAndGraphics%2C%20AddOrModifyTextAnnotations%22%7D; StimulsoftMobileDesignerLastTabOnPropertiesPanel=Properties; _ga=GA1.1.1857287089.1655062137; _ga_F4Z4J2QSW7=GS1.1.1657013315.20.1.1657016656.0; .AspNetCore.Session=CfDJ8E6g5LGzc1xAvDp5nPjUTlAQjsu3x62Els9ra%2F98OAK0k057IgwnZryVec57bP6MxTJny6QXxFaV6sB9iEpGBGIJlFHnoBh%2BDxZYvt8tdRS3KXX2dimiQLy%2BEzrBfNcete1wmvTmvYMXl9XG0EJM6w4J37clKtYPQgscULGDj1mk; .AspNetCore.Antiforgery.JDr2vpnf_vw=CfDJ8E6g5LGzc1xAvDp5nPjUTlA9YUD5Wy1x7oTEzWMlqlwVmxw662TkuFj17UtuM9776fW_Ty98m-sSq9xpkHDu2K3vDlpkfrjmoHY4lVQxz8WrxULqJtVTdnPyq9JdOC6ikYL2a6Ph2Dx8XJEpm1wmUSY; IdentityOverviewESchool=CfDJ8E6g5LGzc1xAvDp5nPjUTlCaInF0CRFmiXcWBiFbD1axnPpPeUs9y2xjFgi7FB_ZLjtIYVqiy8MBXyMa648t-FOsl8kBzFZJXp0sGmgVC7k_izNJg01OGw3-7X9yem8lutabeJDz5bS6mLENR-_OyRWAsw4XF1lSDBTumJu-_uauaxcyh2FJKMco_rWTMMYW2IfnTnPvHqh6endcLfCpvbMUjR97XA-2wvm--8LCg8pzUydAr1qANLZB5CxJuKKXTqEDylLlBYZgFO1YcFKGbhQ0D9g0YyW8PEWB09vGW27l9QcL1gxhLWwX1YHVL_eb4i55gXYqNloerpjXKi_p_Ku8HnjsDPZbLl_1yUGsQ5-_ag1rpHoV8y_U9xp7PA6z4pOWnFXJHKqdARyM0EnKdB_DB8KP2a0p2VNS8sYG9wEmu0ECiLefyGWeFd3TtPrSCX_CQNDfQG6JTBz_9-R8BBNynV7E9RGuxcdcWoFUxpE235oBOkV9MIy60dVU0vIkp27Hd9wlsLJ1EL3kFZUiDEyZMuzRDzeigY88K3CRfsiRYteifET8eYiHUGEsz9VY937qNRUbiGbbj2PnkKfwdWSPbMMV2Dny0pbxwgS_XIQK9uSbJ4NchwMy06Ts-CCiNLDQiAmy34fWs-EjrcdI0t-CUF8q50yTbhak45gFUqaTFlTy0CkXN4JEw3f3R6tcBNJj2LhN1Xg90IwAK6mQe-ohD28lcAYsMn5HQuRQ2PSvDA_OkIeeFoOHtgUHcOFswA" />
+    </item>
+    <item name="Header_Host">
+      <value string="localhost:4740" />
+    </item>
+    <item name="Header_User-Agent">
+      <value string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" />
+    </item>
+    <item name="Header_sec-ch-ua">
+      <value string="&quot;.Not/A)Brand&quot;;v=&quot;99&quot;, &quot;Google Chrome&quot;;v=&quot;103&quot;, &quot;Chromium&quot;;v=&quot;103&quot;" />
+    </item>
+    <item name="Header_sec-ch-ua-mobile">
+      <value string="?0" />
+    </item>
+    <item name="Header_sec-ch-ua-platform">
+      <value string="&quot;Windows&quot;" />
+    </item>
+    <item name="Header_Upgrade-Insecure-Requests">
+      <value string="1" />
+    </item>
+    <item name="Header_Sec-Fetch-Site">
+      <value string="none" />
+    </item>
+    <item name="Header_Sec-Fetch-Mode">
+      <value string="navigate" />
+    </item>
+    <item name="Header_Sec-Fetch-User">
+      <value string="?1" />
+    </item>
+    <item name="Header_Sec-Fetch-Dest">
+      <value string="document" />
+    </item>
+    <item name="MaxRequestBodySize">
+      <value string="2147483647" />
+    </item>
+    <item name="StatusCode">
+      <value string="404" />
+    </item>
+    <item name="Connection_Id">
+      <value string="18302628887244308516" />
+    </item>
+    <item name="Connection_RemoteIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_RemotePort">
+      <value string="10356" />
+    </item>
+    <item name="Connection_LocalIpAddress">
+      <value string="::1" />
+    </item>
+    <item name="Connection_LocalPort">
+      <value string="4740" />
+    </item>
+    <item name="HttpStatusCode">
+      <value string="404" />
+    </item>
+  </serverVariables>
+  <cookies>
+    <item name="StiMobileDesignerDictionarySettings">
+      <value string="{&quot;createFieldOnDoubleClick&quot;:false,&quot;createLabel&quot;:false,&quot;useAliases&quot;:false}" />
+    </item>
+    <item name="StimulsoftWebViewerExportSettingsOpeningGroups">
+      <value string="{&quot;SavingReportGroup&quot;:true,&quot;PageRangeGroup&quot;:true,&quot;SettingsGroup&quot;:false}" />
+    </item>
+    <item name="StimulsoftWebViewerExportSettingsPdf">
+      <value string="{&quot;PageRange&quot;:&quot;All&quot;,&quot;ImageResolution&quot;:&quot;100&quot;,&quot;ImageCompressionMethod&quot;:&quot;Jpeg&quot;,&quot;ImageQuality&quot;:&quot;0.75&quot;,&quot;EmbeddedFonts&quot;:true,&quot;ExportRtfTextAsImage&quot;:false,&quot;PdfACompliance&quot;:false,&quot;OpenAfterExport&quot;:false,&quot;AllowEditable&quot;:&quot;No&quot;,&quot;PasswordInputUser&quot;:&quot;&quot;,&quot;PasswordInputOwner&quot;:&quot;&quot;,&quot;KeyLength&quot;:&quot;Bit40&quot;,&quot;UseDigitalSignature&quot;:false,&quot;GetCertificateFromCryptoUI&quot;:false,&quot;UserAccessPrivileges&quot;:&quot;PrintDocument, ModifyContents, CopyTextAndGraphics, AddOrModifyTextAnnotations&quot;}" />
+    </item>
+    <item name="StimulsoftMobileDesignerLastTabOnPropertiesPanel">
+      <value string="Properties" />
+    </item>
+    <item name="_ga">
+      <value string="GA1.1.1857287089.1655062137" />
+    </item>
+    <item name="_ga_F4Z4J2QSW7">
+      <value string="GS1.1.1657013315.20.1.1657016656.0" />
+    </item>
+    <item name=".AspNetCore.Session">
+      <value string="CfDJ8E6g5LGzc1xAvDp5nPjUTlAQjsu3x62Els9ra/98OAK0k057IgwnZryVec57bP6MxTJny6QXxFaV6sB9iEpGBGIJlFHnoBh+DxZYvt8tdRS3KXX2dimiQLy+EzrBfNcete1wmvTmvYMXl9XG0EJM6w4J37clKtYPQgscULGDj1mk" />
+    </item>
+    <item name=".AspNetCore.Antiforgery.JDr2vpnf_vw">
+      <value string="CfDJ8E6g5LGzc1xAvDp5nPjUTlA9YUD5Wy1x7oTEzWMlqlwVmxw662TkuFj17UtuM9776fW_Ty98m-sSq9xpkHDu2K3vDlpkfrjmoHY4lVQxz8WrxULqJtVTdnPyq9JdOC6ikYL2a6Ph2Dx8XJEpm1wmUSY" />
+    </item>
+    <item name="IdentityOverviewESchool">
+      <value string="CfDJ8E6g5LGzc1xAvDp5nPjUTlCaInF0CRFmiXcWBiFbD1axnPpPeUs9y2xjFgi7FB_ZLjtIYVqiy8MBXyMa648t-FOsl8kBzFZJXp0sGmgVC7k_izNJg01OGw3-7X9yem8lutabeJDz5bS6mLENR-_OyRWAsw4XF1lSDBTumJu-_uauaxcyh2FJKMco_rWTMMYW2IfnTnPvHqh6endcLfCpvbMUjR97XA-2wvm--8LCg8pzUydAr1qANLZB5CxJuKKXTqEDylLlBYZgFO1YcFKGbhQ0D9g0YyW8PEWB09vGW27l9QcL1gxhLWwX1YHVL_eb4i55gXYqNloerpjXKi_p_Ku8HnjsDPZbLl_1yUGsQ5-_ag1rpHoV8y_U9xp7PA6z4pOWnFXJHKqdARyM0EnKdB_DB8KP2a0p2VNS8sYG9wEmu0ECiLefyGWeFd3TtPrSCX_CQNDfQG6JTBz_9-R8BBNynV7E9RGuxcdcWoFUxpE235oBOkV9MIy60dVU0vIkp27Hd9wlsLJ1EL3kFZUiDEyZMuzRDzeigY88K3CRfsiRYteifET8eYiHUGEsz9VY937qNRUbiGbbj2PnkKfwdWSPbMMV2Dny0pbxwgS_XIQK9uSbJ4NchwMy06Ts-CCiNLDQiAmy34fWs-EjrcdI0t-CUF8q50yTbhak45gFUqaTFlTy0CkXN4JEw3f3R6tcBNJj2LhN1Xg90IwAK6mQe-ohD28lcAYsMn5HQuRQ2PSvDA_OkIeeFoOHtgUHcOFswA" />
+    </item>
+  </cookies>
+</error>

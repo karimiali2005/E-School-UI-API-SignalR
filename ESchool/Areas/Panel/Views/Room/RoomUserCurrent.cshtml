@@ -1,0 +1,121 @@
+﻿@model RoomProperties
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    int RoomId = Model.Rooms.First().RoomId;
+
+    string[] colorUserActives = { "colorYellow", "colorRed", "colorGreen" };
+    string[] svgUserActives = { "/imagepanel/icons/inactiveFill.svg", "/imagepanel/icons/deactiveFill.svg", "/imagepanel/icons/activeFill.svg" };
+    string[] textUserActives = { "معلق", "غیرفعال", "فعال" };
+
+    var users = Model.UserCurrentViewModels.ToList();
+
+
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+        <input type="text" id="focusable" />
+    </div>
+
+    <div class="step opacityOne" id="step1">
+        <div class="row rowInline">
+            <label class="lbl">عبارت جستجو</label>
+            <input id="q" class="chPreviousColor" type="text" />
+        </div>
+        <div class="row rowInline textAlignLeft">
+            <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="filterTable()" />
+        </div>
+    </div>
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+        @*<input type="button" class="buttonSingle colorBackSeconday" value=" + عضو جدید" onclick="ruser(@RoomId)" />*@
+    </div>
+</form>
+
+<input type="hidden" id="id" value="@Model.Rooms.First().RoomId" />
+<input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+
+            <th>ردیف</th>
+            <th>وضعیت</th>
+            <th style="width: 50px;">ورود</th>
+            <th>کد ملی</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>تاریخ تولد</th>
+            <th>همراه</th>
+            <th>نوع کاربر</th>
+            <th>مقطع تحصیلی</th>
+            <th>پایه تحصیلی</th>
+            <th>رشته تحصیلی</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in users)
+        {
+            var index = item.UserActive == null ? 0 : item.UserActive.Value;
+
+            string DegreeTitle = item.Degree != null ? item.Degree.DegreeTitle : "";
+            string GradeTitle = item.Grade != null ? item.Grade.GradeTitle : "";
+            string StudyFieldTitle = item.StudyField != null ? item.StudyField.StudyFieldTitle : "";
+
+            string UserTypeTitle = item.UserType != null ? item.UserType.UserTypeTitle : "";
+
+            <tr class="satr">
+               
+                <td>@(i + 1)</td>
+                <td class="@colorUserActives[index]">@Html.Raw(textUserActives[index])</td>
+                <td>
+                    @Html.Raw(SvgIcon.GetSvg(svgUserActives[index]))
+                </td>
+                <td>@Html.Raw(item.Irnational)</td>
+                <td>@Html.Raw(item.FirstName)</td>
+                <td>@Html.Raw(item.LastName)</td>
+                <td>@Codes.getPersianDate(item.BirthDate)</td>
+                <td>@Html.Raw(item.MobileNumber)</td>
+                <td>@Html.Raw(UserTypeTitle)</td>
+                <td>@Html.Raw(DegreeTitle)</td>
+                <td>@Html.Raw(GradeTitle)</td>
+                <td>@Html.Raw(StudyFieldTitle)</td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.ReportCardAddress))
+                    {
+                        <a class="operate" href="#" title="کارنامه">
+                            <img class="icon" src="/imagepanel/icons/report-card.png" onclick="reportcard('@RoomId', @item.UserId)" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="operate" href="#" title="کارنامه">
+                            <img class="icon" src="/imagepanel/icons/report-card-active.png" onclick="reportcard('@RoomId', @item.UserId)" />
+                        </a>
+                    }
+
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+
+</div>

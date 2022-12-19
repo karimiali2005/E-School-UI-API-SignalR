@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TeacherCourse>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    UserOp userOp = new UserOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">دروس انتخاب شده برای حذف به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (TeacherCourse item in Model)
+                {
+                    string DegreeTitle = item.Degree != null ? item.Degree.DegreeTitle : "";
+                    string GradeTitle = item.Grade != null ? item.Grade.GradeTitle : "";
+                    string StudyFieldTitle = item.StudyField != null ? item.StudyField.StudyFieldTitle : "";
+                    string CourseTitle = item.Course != null ? item.Course.CourseTitle : "";
+                    string Nickname = item.User != null ? item.User.FirstName + " " + item.User.LastName : "";
+
+                    string Text = "درس " + CourseTitle + " برای معلم " + Nickname;
+                    if(!string.IsNullOrEmpty(DegreeTitle))
+                    {
+                        Text += " با مقطع تحصیلی " + DegreeTitle;
+                        if (!string.IsNullOrEmpty(GradeTitle))
+                        {
+                            Text += " با پایه تحصیلی " + GradeTitle;
+                            if (!string.IsNullOrEmpty(StudyFieldTitle))
+                            {
+                                Text += " با رشته تحصیلی " + StudyFieldTitle;
+                            }
+                        }
+                    }
+
+                    count++;
+
+                    <label title="@item.TeacherCourseId" class="lbl colorPrimary">@Html.Raw(Text)</label>
+                    <br /><br />
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />            
+
+            <div class="row rowInline textAlignLeft">
+                @if (count > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="tcoursedeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

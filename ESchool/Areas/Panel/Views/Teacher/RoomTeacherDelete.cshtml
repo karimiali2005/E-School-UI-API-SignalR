@@ -1,0 +1,57 @@
+﻿@model IEnumerable<RoomTeacher>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    UserOp userOp = new UserOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">کلاس های انتخاب شده برای حذف به شرح ذیل است</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                @foreach (RoomTeacher item in Model)
+                {
+                    string RoomTitle = item.Room != null ? item.Room.RoomTitle : "";
+                    string RoomTypeTitle = "";
+                    if(!string.IsNullOrEmpty(RoomTitle))
+                    {
+                        RoomTypeTitle = item.Room.RoomType != null ? item.Room.RoomType.RoomTypeTitle : "";
+                    }
+                    string CourseTitle = item.Course != null ? item.Course.CourseTitle : "";
+                    string Nickname = item.User != null ? item.User.FirstName + " " + item.User.LastName : "";
+
+                    string Text = RoomTypeTitle + " " + RoomTitle +  " با درس " + CourseTitle + " برای معلم " + Nickname;                    
+
+                    count++;
+
+                    <label title="@item.RoomTeacherId" class="lbl colorPrimary">@Html.Raw(Text)</label>
+                    <br /><br />
+                }
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                @if (count > 0)
+                {
+                    <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="حذف شوند" onclick="rteacheredeleted();" />
+                }
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

@@ -1,0 +1,163 @@
+﻿@model EsServiceCore.DTOs.HomeWork.vm_homework
+@{
+    ViewBag.Title = "افزودن تکلیف";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    List<Es.DataLayerCore.Model.HomeworkType> homeworkTypes = ViewBag.listTypeHomework as List<Es.DataLayerCore.Model.HomeworkType>;
+    List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult> scoreTypeDetailShowResults = ViewBag.nomreh as List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult>;
+}
+@section Styles
+{
+    <link href="/datePicker2/css/persian-datepicker.min.css" rel="stylesheet" />
+}
+<section class=" Chat-page single-homeWork add-homeWork single-sendHomeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+            <!-- start change18 -->
+            <div class=" chat-screen check-homework py-4 px-3">
+                <!-- end change18 -->
+                <div class=" option p-3 mt-0 mx-5 bg-white font-weight-bold text-center">
+                    <div><span class="ml-1">نام درس:</span><span>@ViewBag.nameDars</span></div>
+                </div>
+                <div class=" card-all">
+                    <form asp-action="CreateHomeWork" enctype="multipart/form-data" method="post">
+                        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+                        <input type="hidden" name="roomChatGroupID" value="@ViewBag.roomChatGroupID"/>
+                        <input type="hidden" asp-for="@Model.CourseId" value="@ViewBag.idcourse" />
+                        <input type="hidden" asp-for="@Model.RoomId" value="@ViewBag.idroom" />
+                        <input type="hidden" asp-for="@Model.namedars" value="@ViewBag.nameDars" />
+                        <div class=" option">
+                            <div class=" key"><span><img src="/imagemember/title.svg" alt=""></span><span>عنوان</span></div>
+                            <div class=" value">
+                                <div class=" div-input score">
+                                    <input asp-for="@Model.HomeworkTile" type="text" autocomplete="off" placeholder="عنوان خود را وارد کنید">
+
+                                </div>
+                                <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                    <input type="file" id="file-input1" asp-for="@Model.HomeWorkFileName_file" onchange="file1()" class=" d-none" >
+                                    <label for="file-input1">انتخاب فایل</label>
+                                    <input type="text" readonly="" value="هیچ فایلی وجود ندارد" class="" id="text-file-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key"><span><img src="/imagemember/grid.svg" alt=""></span><span>نوع</span></div>
+                            <div class=" value">
+                                <select class="custom-select" id="validationCustom04" asp-for="@Model.HomeworkTypeId">
+                                    @foreach (var x in homeworkTypes)
+                                    {
+                                        <option value="@x.HomeworkTypeId">@x.HomeworkTypeTitle</option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key">
+                                <span>
+                                    <img src="/imagemember/icons8-leaderboard-24.png"
+                                         alt="">
+                                </span><span>نتیجه</span>
+                            </div>
+                            <div class=" value">
+                                <select class="custom-select" id="validationCustom04" asp-for="@Model.ScoreTypeId">
+                                    @foreach (var x in scoreTypeDetailShowResults)
+                                    {
+                                        <option value="@x.ScoreTypeID">@x.SumScoreTypeDetailTitle</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key ">
+                                <span>
+                                    <img src="/imagemember/Iconly-Light-Time Circle@2x.png"
+                                         alt="">
+                                </span><span>بازه زمانی از</span>
+                            </div>
+                            <div class=" score ">
+                                <div class=" div-input"><input type="text" id="dateRangePicker" asp-for="start" autocomplete="off" placeholder="توضیحات خود را وارد کنید"></div>
+                            </div>
+                        </div>
+                        <div class=" option">
+                            <div class=" key ">
+                                <span>
+                                    <img src="/imagemember/Iconly-Light-Time Circle@2x.png"
+                                         alt="">
+                                </span><span>بازه زمانی تا</span>
+                            </div>
+                            <div class=" score ">
+                                <div class=" div-input"><input type="text" asp-for="end" id="dateRangePickerEnd" autocomplete="off" placeholder="توضیحات خود را وارد کنید"></div>
+                            </div>
+                        </div>
+                        <div class=" accept-cancel ">
+                            <div class=" "><button type="submit" class="w-100 btn btn-success">افزودن تکالیف</button></div>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts
+{
+<script>
+    let fileInput1 = document.getElementById("file-input1")
+    let textfile1 = document.getElementById("text-file-input")
+    const file1 = () => {
+        textfile1.value = fileInput1.value
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+    });
+</script>
+
+    <script src="/datePicker2/js/persian-date.min.js"></script>
+    <script src="/datePicker2/js/persian-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dateRangePicker").persianDatepicker({
+                altField: '#dateRangePicker',
+                altFormat: "YYYY/MM/DD - HH:mm",
+                observer: true,
+                format: 'YYYY/MM/DD - HH:mm',
+                initialValue: false,
+                initialValueType: 'persian',
+                autoClose: true,
+                position: [-341, 0],
+                minDate: 'today',
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                }
+            });
+            $("#dateRangePickerEnd").persianDatepicker({
+                altField: '#dateRangePickerEnd',
+                altFormat: "YYYY/MM/DD - HH:mm",
+                observer: true,
+                format: 'YYYY/MM/DD - HH:mm',
+                initialValue: false,
+                initialValueType: 'persian',
+                autoClose: true,
+                position: [-341, 0],
+                minDate: 'today',
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                }
+            });
+        });
+    </script>
+}

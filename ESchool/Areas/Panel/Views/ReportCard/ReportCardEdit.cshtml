@@ -1,0 +1,134 @@
+﻿@model Es.DataLayerCore.Model.ReportCard
+
+@{
+    string Title = " ویرایش";
+
+    ViewData["Title"] = "ویرایش";
+
+
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row rowInline">
+            <label class="lbl">عنوان</label>
+            <input asp-for="@Model.ReportCardTitle" value="@Model.ReportCardTitle" class="chPreviousColor" type="text" />
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">مقطع</label>
+            <select id="GradeId" class="chPreviousColor" title="@Model.GradeId">
+                @foreach (var grade in ViewBag.Grades)
+                {
+                    bool selected = grade.GradeId == Model.GradeId ? true : false;
+                    if (selected)
+                    {
+                        <option value="@grade.GradeId" selected="selected">@Html.Raw(grade.GradeTitle)</option>
+                    }
+                    else
+                    {
+
+                        <option value="@grade.GradeId">@Html.Raw(grade.GradeTitle)</option>
+                    }
+
+
+
+                }
+            </select>
+
+        </div>
+
+        <div class="row rowbox">
+            <div class="row rowInline2">
+                <label class="lbl">روز شروع</label>
+                <select id="StartDay" class="chPreviousColor" asp-items="ViewBag.DaysStart"></select>
+            </div>
+
+            <div class="row rowInline2">
+                <label class="lbl">ماه شروع</label>
+                <select id="StartMonth" class="chPreviousColor" asp-items="ViewBag.MonthsStart"></select>
+            </div>
+
+            <div class="row rowInline2">
+                <label class="lbl">سال شروع</label>
+                <input id="StartYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1380" value="@ViewData["StartYear"]" />
+            </div>
+        </div>
+
+        <div class="row rowbox">
+            <div class="row rowInline2">
+                <label class="lbl">روز پایان</label>
+                <select id="FinishDay" class="chPreviousColor" asp-items="ViewBag.DaysFinish"></select>
+            </div>
+
+            <div class="row rowInline2">
+                <label class="lbl">ماه پایان</label>
+                <select id="FinishMonth" class="chPreviousColor" asp-items="ViewBag.MonthsFinish"></select>
+            </div>
+
+            <div class="row rowInline2">
+                <label class="lbl">سال پایان</label>
+                <input id="FinishYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1380" value="@ViewData["FinishYear"]" />
+            </div>
+        </div>
+
+
+        <div class="row rowInline">
+            <label class="lbl">نوع نمره</label>
+
+            <select id="ScoreTypeId" class="chPreviousColor" title="@Model.ScoreTypeId">
+                @foreach (var scoreType in ViewBag.ScoreTypes)
+                {
+                    bool selected = scoreType.ScoreTypeId == Model.ScoreTypeId ? true : false;
+                    if (selected)
+                    {
+                        <option value="@scoreType.ScoreTypeId" selected="selected">@Html.Raw(scoreType.ScoreTypeTitle)</option>
+                    }
+                    else
+                    {
+
+                        <option value="@scoreType.ScoreTypeId">@Html.Raw(scoreType.ScoreTypeTitle)</option>
+                    }
+
+
+
+                }
+            </select>
+
+
+        </div>
+
+        <div class="row rowInline">
+            <label class="lbl">کارنامه نمایش داده شود</label>
+            <select id="reportCardShowUser" class="chPreviousColor" asp-items="ViewBag.ReportCardShowUser"></select>
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">فعال کردن نمره برای معلم ها</label>
+            <select id="reportCardScoreEnable" class="chPreviousColor" asp-items="ViewBag.ReportCardScoreEnable"></select>
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">انتخاب خودکار درس برای گروهها</label>
+            <select id="reportCardAuto" class="chPreviousColor" asp-items="ViewBag.ReportCardAuto"></select>
+        </div>
+
+
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="editedReportCard(@Model.ReportCardId)" />
+        </div>
+    </div>
+
+
+
+</form>

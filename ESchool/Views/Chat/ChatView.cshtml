@@ -1,0 +1,296 @@
+﻿@model RoomProperties
+
+@{
+    RoomChatOp roomChatOp = new RoomChatOp();
+
+    bool AllowChat = Convert.ToBoolean(ViewData["AllowChat"]);
+    string DomainPrefix = Codes.GetDomainPrefixWS();
+    string DomainName = Codes.GetDomainName();
+    string wsChat = ESchool.AppServer.wsConfig.wsChat;
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+    var Nickname = Convert.ToString(this.User.FindFirst("Nickname").Value);
+    var UserType = Convert.ToString(this.User.FindFirst("UserType").Value);
+    var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+
+    int RoomId = Convert.ToInt32(ViewData["RoomId"]);
+    string RoomTitle = Convert.ToString(ViewData["RoomTitle"]);
+    string RoomTypeTitle = Convert.ToString(ViewData["RoomTypeTitle"]);
+
+    int TeacherId = Convert.ToInt32(ViewData["TeacherId"]);
+    int CourseId = Convert.ToInt32(ViewData["CourseId"]);
+
+
+
+    int i = 0;
+}
+<script src="/jsuser/common.js"></script>
+<script src="/jsuser/RecordRTC.js"></script>
+<div class="chatbox">
+   
+    @*<div class="right">
+
+        @await Html.PartialAsync("ChatUser", Model)
+
+    </div>*@
+
+    <div class="left">
+
+        <img src="/imagesuser/icons/backarrow.png" class="backarrow" onclick="chRightLeft('R');" />
+        @if (UserTypeId == 4)
+        {
+            <img src="/imagesuser/icons/lock2.png" id="imgLock" class="displayNone" onclick="lock()" />
+            <img src="/imagesuser/icons/unlock2.png" id="imgUnLock" class="displayNone" onclick="unlock();" />
+        }
+
+        @if (/*Model.RoomTeachers.Count() > 0*/ false)
+        {
+            var roomTeacher = Model.RoomTeachers.First();
+            if (!string.IsNullOrEmpty(roomTeacher.JitsiLiveAddress))
+            {
+                <img src="/imagesuser/icons/iconJitsi.png" id="imgJitsi" onclick="openlive('jitsi','@roomTeacher.JitsiLiveAddress','@roomTeacher.JitsiLivePassword',null,null,null,null)" />
+                <input type="hidden" id="JitsiAddress" value="@roomTeacher.JitsiLiveAddress" />
+                <input type="hidden" id="JitsiPassword" value="@roomTeacher.JitsiLivePassword" />
+            }
+            if (!string.IsNullOrEmpty(roomTeacher.AdobeLiveAddress))
+            {
+                <img src="/imagesuser/icons/iconAdobe.png" id="imgAdobe" onclick="openlive('adobe', null, null,'@roomTeacher.AdobeLiveAddress','@roomTeacher.AdobeLiveUsername','@roomTeacher.AdobeLivePass')" />
+                <input type="hidden" id="AdobeAddress" value="@roomTeacher.AdobeLiveAddress" />
+                <input type="hidden" id="AdobeUsername" value="@roomTeacher.AdobeLiveUsername" />
+                <input type="hidden" id="AdobePassword" value="@roomTeacher.AdobeLivePass" />
+            }
+        }
+
+        <div class="divtag">
+            <div>نمایش مطالب با تگ : </div>
+            <select onchange="chTag(this);">
+                <option value="">همه</option>
+                <option value="آموزشی">آموزشی</option>
+            </select>
+        </div>
+
+        @{
+            bool CurrentRoomLock = false;
+            List<Room> rooms = Model.Rooms.ToList();
+        }
+
+        @foreach (var room in rooms)
+        {
+            var roomChats = Model.RoomChats.Where(x => x.RoomId == room.RoomId && x.AttachMsg == false);
+
+            string messagesid = "messages" + room.RoomId;
+
+            string lockid = "lock" + room.RoomId;
+            string lockpermissionid = "lockpermission" + room.RoomId;
+            string editpermissionid = "editpermission" + room.RoomId;
+            string delpermissionid = "delpermission" + room.RoomId;
+
+            var PermissionEdit = room.PermissionStudentChatEdit && UserTypeId == 4;
+            var PermissionDel = room.PermissionStudentChatDelete && UserTypeId == 4;
+
+            string messagesClass = "messages";
+            if (RoomId > 0)
+            {
+                if (RoomId == room.RoomId)
+                {
+                    messagesClass = "messages current";
+                    CurrentRoomLock = room.CloseChat;
+
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    messagesClass = "messages current";
+                    CurrentRoomLock = room.CloseChat;
+
+                }
+                i++;
+            }
+
+            <div class="attach">
+                @{
+                    var AttachMsgs = Model.RoomChats.Where(x => x.RoomId == room.RoomId && x.AttachMsg == true && x.RecieverId == UserId);
+                    if (AttachMsgs.Count() > 0)
+                    {
+                        foreach (var roomChat in AttachMsgs)
+                        {
+                            <div class="attachmsg">
+                                <div class="text">@Html.Raw(roomChat.TextChat)</div>
+                                <div class="close" onclick="closeAttachMsg(this, @roomChat.RoomChatId)">X</div>
+                            </div>
+                        }
+
+                    }
+                }
+            </div>
+
+
+
+            <div class="@messagesClass" id="@messagesid" title="@Html.Raw(room.RoomTitle)">
+                <input type="hidden" id="@lockid" value="@room.CloseChat.ToString()" />
+                <input type="hidden" id="@lockpermissionid" value="@room.PermissionCloseChat.ToString()" />
+                <input type="hidden" id="@editpermissionid" value="@PermissionEdit.ToString()" />
+                <input type="hidden" id="@delpermissionid" value="@PermissionDel.ToString()" />
+                
+                @{
+                    var addressDownload = AppSettingClass.GetPathStoreFiles();
+                }
+
+                @foreach (var roomChat in roomChats)
+                {
+                    string parent = "";
+                    if (roomChat.RoomChatParentId != null)
+                    {
+                        var roomChatParent = roomChatOp.GetRoomChat(roomChat.RoomChatParentId.Value);
+                        if (roomChatParent != null)
+                        {
+                            parent = "<div class=\"parent\" onclick=\"gotomessage('msg"+roomChat.RoomChatParentId+"')\">";
+                            parent += roomChatParent.SenderName + " : " + "<br/>" + Codes.getSubr(roomChatParent.TextChat);
+                            parent += "</div>";
+                        }
+                    }
+
+                    string file = "";
+                    if (!string.IsNullOrEmpty(roomChat.Filename))
+                    {
+                        file = Codes.FileChat(roomChat.Filename, addressDownload, roomChat.TagLearn);
+                    }
+
+                    string msg = "";
+
+                    string tagLearn = roomChat.TagLearn == false ? "" : "آموزشی";
+
+                    if (roomChat.SenderId == UserId)
+                    {
+                        if (!string.IsNullOrEmpty(roomChat.Filename))
+                        {
+                            var addressDownloadNew = "";
+                            if (roomChat.TagLearn == true)
+                            {
+                                addressDownloadNew=addressDownload+ "Learn/";
+                            }
+                            else
+                            {
+                                addressDownloadNew = addressDownload + "Normal/";
+                            }
+                            msg = "<div onmousedown=\"onMousDown(this);\" ondblclick=\"slcBoxMsg(this)\" id=\"msg" + roomChat.RoomChatId + "\" class=\"divsender\"><div class=\"sender\">" + parent + file + roomChat.SenderName + ":" + "<br/>" + roomChat.TextChat + "<br/><span class=\"time\">" + roomChat.RoomChatDate.ToString("HH:mm:ss") + "</span><span class=\"tag\">" + tagLearn + "</span> <a href=\"" + addressDownloadNew + roomChat.Filename + "\"> <img src=\"/imagepanel/icons/dwonLoad2.png\" /></a></div></div>";
+                        }
+                        else
+                        {
+                            msg = "<div onmousedown=\"onMousDown(this);\" ondblclick=\"slcBoxMsg(this)\" id=\"msg" + roomChat.RoomChatId + "\" class=\"divsender\"><div class=\"sender\">" + parent + file + roomChat.SenderName + ":" + "<br/>" + roomChat.TextChat + "<br/><span class=\"time\">" + roomChat.RoomChatDate.ToString("HH:mm:ss") + "</span><span class=\"tag\">" + tagLearn + "</span></div></div>";
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(roomChat.Filename))
+                        {
+                            var addressDownloadNew = "";
+                            if (roomChat.TagLearn == true)
+                            {
+                                addressDownloadNew=addressDownload+ "Learn/";
+                            }
+                            else
+                            {
+                                addressDownloadNew = addressDownload + "Normal/";
+                            }
+                            msg = "<div onmousedown=\"onMousDown(this);\" ondblclick=\"slcBoxMsg(this)\" id=\"msg" + roomChat.RoomChatId + "\" class=\"divreciever\"><div class=\"reciever\">" + parent + file + roomChat.SenderName + ":" + "<br/>" + roomChat.TextChat + "<br/><span class=\"time\">" + roomChat.RoomChatDate.ToString("HH:mm:ss") + "</span><span class=\"tag\">" + tagLearn + "</span> <a href=\"" + addressDownloadNew + roomChat.Filename + "\"> <img src=\"/imagepanel/icons/dwonLoad2.png\" /></a></div></div>";
+                        }
+                        else
+                        {
+                            msg = "<div onmousedown=\"onMousDown(this);\" ondblclick=\"slcBoxMsg(this)\" id=\"msg" + roomChat.RoomChatId + "\" class=\"divreciever\"><div class=\"reciever\">" + parent + file + roomChat.SenderName + ":" + "<br/>" + roomChat.TextChat + "<br/><span class=\"time\">" + roomChat.RoomChatDate.ToString("HH:mm:ss") + "</span><span class=\"tag\">" + tagLearn + "</span></div></div>";
+                        }
+                    }
+
+                    @Html.Raw(msg)
+                }
+
+            </div>
+        }
+
+        @{
+            string Show1 = "divmsg";
+            string Show2 = "divmsg displayNone";
+
+            if (UserTypeId != 4)
+            {
+                /*Show1 = CurrentRoomLock ? Show1 + " displayNone" : Show1;
+                Show2 = CurrentRoomLock ? "divmsg" : Show2;*/
+                Show1 = true ? Show1 + " displayNone" : Show1;
+                Show2 = true ? "divmsg" : Show2;
+            }
+
+            var size = 0;
+           
+            if (UserTypeId == 1)
+            {
+                size = Convert.ToInt32(SettingContext.UploadSize.Instance.StudentSize);
+            }
+            else
+            {
+                size = Convert.ToInt32(SettingContext.UploadSize.Instance.TeacherSize);
+            }
+       
+
+            var addressDownload2 = AppSettingClass.GetPathStoreFiles();
+        }
+
+        <div id="divUnlock" class="@Show1">
+            <textarea type="text" id="txtChatMsg" onkeydown="keydownTxtChatMsg(event)" placeholder="پیام خود را در اینجا بنویسید ..."></textarea>
+            <div class="fileChat">
+                <img src="~/imagesuser/icons/attach.png" />
+                <input type="file" id="file" onchange="fileUpload('@size','@addressDownload2')" />
+            </div>
+            <div class="fileChat">
+                <img id="imgStartRA" src="/imagesuser/icons/microphone.png" onclick="StartRecording(this)">
+                <img id="imgStopRA" src="/imagesuser/icons/microphone_red.png" class="displayNone" onclick="StopRecording(this,'@addressDownload2')">
+            </div>
+            <select id="slcChatTag">
+                <option value="false">ساده</option>
+                <option value="true">آموزشی</option>
+            </select>
+            <input type="button" id="btnChatSend" onclick="btnSendMessage()" value="ارسال" />
+        </div>
+
+        <div id="divLock" class="@Show2">
+            <div id="txtChatMsg" style="width: 97% !important">امکان گفتگو برای دانش آموزان بسته شده است</div>
+        </div>
+
+        <div id="toolbar" class="displayNone">
+            <img id="imgTrash" class="displayNone" src="~/imagesuser/icons/trash.png" onclick="trash();" />
+            <img id="imgEdit" class="displayNone" src="~/imagesuser/icons/edit.png" onclick="edit();" />
+            <img id="imgReplay" src="~/imagesuser/icons/replay.png" onclick="replay();" />
+            @if (UserTypeId == 4)
+            {
+                <img id="imgAttachMsg" class="displayNone" src="~/imagesuser/icons/attach_msg.png" onclick="attachmsg();" />
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@*
+@{
+    string uri = DomainPrefix + "://" + DomainName + wsChat + "?id=" + UserId + "&tid=" + TeacherId + "&cid=" + CourseId;
+    string text = "به اتاق گفتگوی " + RoomTypeTitle + ' ' + RoomTitle + " " + "وارد شده است";
+
+}
+
+<script>
+
+    var uri = '@Html.Raw(uri)';
+
+    var textopen = '@Html.Raw(text)';
+
+</script>
+
+<script src="/jsuser/chatopen.js"></script>
+*@
+<script>
+    DivMessagesScrollDown();
+</script>
+<audio id="audioTag"></audio>

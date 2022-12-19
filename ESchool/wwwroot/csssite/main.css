@@ -1,0 +1,232 @@
+﻿@font-face {
+    font-family: iranyekan;
+    src: url('/fonts/iranyekanwebregular.eot') format('eot'), url('/fonts/iranyekanwebregular.woff') format('woff'), url('fonts/iranyekanwebregular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekanbold;
+    src: url('/fonts/iranyekanwebbold.eot') format('eot'), url('/fonts/iranyekanwebbold.woff') format('woff'), url('/fonts/iranyekanwebbold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekanboldextra;
+    src: url('/fonts/iranyekanwebextrabold.eot') format('eot'), url('/fonts/iranyekanwebextrabold.woff') format('woff'), url('/fonts/iranyekanwebextrabold.ttf') format('truetype');
+}
+
+
+* {
+    font-family: iranyekan;
+    font-size: 12pt;
+    direction: rtl;
+}
+
+body {
+    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;    
+}
+
+.colorErrorBorder {
+    border: 1px solid #EF3E46 !important;
+}
+
+.colorError {
+    color: #EF3E46 !important;
+}
+
+.colorBackMain {
+    background-color: #F8F8FB;
+}
+
+.colorPrimary {
+    color: #8010D2 !important;
+}
+
+.colorBorderPrimary {
+    border: 1px solid #8010D2 !important;
+}
+
+.colorBackPrimary {
+    background-color: #8010D2;
+}
+
+.colorBackPrimaryLight {
+    background-color: rgba(138,29,177, 0.1);
+}
+
+.colorBackPrimaryDark {
+    background-color: #6B0DAF;
+}
+
+.colorSeconday {
+    color: #24B86D !important;
+}
+
+.colorBorderSeconday {
+    border: 1px solid #24B86D !important;
+}
+
+.colorBackSeconday {
+    background-color: #24B86D;
+}
+
+.colorBackThirty {
+    background-color: #D2AF3C;
+}
+
+.colorBorderThirty {    
+    border: 1px solid #D2AF3C !important;
+}
+
+.colorBorderGray {
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+}
+
+.colorBackWhite {
+    background-color: #fff;
+}
+
+.colorWhite {
+    color: #fff;
+}
+
+.colorBackBlue {
+    background-color: #42BBFA;
+}
+
+.colorBackBlue2 {
+    background-color: #5BC6D2;
+}
+
+.colorBackGreen {
+    background-color: #42B885;
+}
+
+.colorBackYellow {
+    background-color: #F6A740;
+}
+
+.colorBackRed {
+    background-color: #EE3567;
+}
+
+.colorBackRed2 {
+    background-color: #FF6767;
+}
+
+
+.colorBlue {
+    color: #42BBFA;
+}
+
+.colorBlue2 {
+    color: #5BC6D2;
+}
+
+.colorGreen {
+    color: #42B885;
+}
+
+.colorYellow {
+    color: #F6A740;
+}
+
+.colorRed {
+    color: #EE3567;
+}
+
+.colorThirty {
+    color: #D2AF3C;
+}
+
+
+.colorFillBlue {
+    fill: #42BBFA;
+}
+
+.colorFillBlue2 {
+    fill: #5BC6D2;
+}
+
+.colorFillGreen {
+    fill: #42B885;
+}
+
+.colorFillYellow {
+    fill: #F6A740;
+}
+
+.colorFillRed {
+    fill: #EE3567;
+}
+
+.displayNone {
+    display: none !important;
+    opacity: 0;
+}
+
+.displayBlock {
+    display: block !important;
+    opacity: 1;
+}
+
+.displayInlineBlock {
+    display: inline-block !important;
+}
+
+.textAlignCenter {
+    text-align: center !important;
+}
+
+.textAlignRight {
+    text-align: right !important;
+}
+
+.textAlignLeft {
+    text-align: left !important;
+}
+
+.directionLtr {
+    direction: ltr !important;
+}
+
+.directionRtl {
+    direction: rtl !important;
+}
+
+.positionRelative {
+    position: relative;
+}
+
+.positionAbsolute {
+    position: absolute;
+}
+
+.opacityZero {
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow-y: hidden;
+}
+
+.opacityOne {
+    opacity: 1 !important;
+    height: auto !important;
+    overflow-y: auto;
+}
+
+.directionLtr {
+    direction: ltr !important;
+}
+
+.verticalMiddle {
+    vertical-align: middle;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+

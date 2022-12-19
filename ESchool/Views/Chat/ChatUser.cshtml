@@ -1,0 +1,57 @@
+﻿@model RoomProperties
+
+@{ 
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+    var RoomId = Convert.ToInt32(ViewData["RoomId"]);
+    var TeacherId = Convert.ToInt32(ViewData["TeacherId"]);
+}
+
+<div class="chatusers">
+
+   
+    @foreach(var roomuser in Model.RoomUsers)
+    {
+        int Id = RoomId == 0 ? roomuser.Room.RoomId : roomuser.User.UserId;
+        string Nickname = RoomId == 0 ? roomuser.Room.RoomTitle : roomuser.User.FirstName + " " + roomuser.User.LastName;
+
+        var LastTexts = RoomId == 0
+            ? Model.RoomChats.Where(x => (x.TeacherId == UserId && x.RoomId == roomuser.RoomId) ).OrderByDescending(x => x.RoomChatId).ThenByDescending(x => x.RoomChatDate)
+            : Model.RoomChats.Where(x => (x.RecieverId == roomuser.UserId || x.SenderId == roomuser.UserId) ).OrderByDescending(x => x.RoomChatId).ThenByDescending(x => x.RoomChatDate);
+        var LastText = "";
+        if(LastTexts.Count() > 0)
+        {
+            LastText = LastTexts.First().TextChat;
+        }
+
+        string classNameRow = RoomId == 0 ? "row cursor" : "row cursor";
+        string Pic = RoomId == 0 ? "/imagesuser/icons/picstucdent.png" : "/Account/PictureUser?id="+ Id+ "&s=75";
+        string classNameSpan = RoomId == 0 ? "off displayNone" : "off";
+        if(RoomId > 0)
+        {
+            classNameRow = UserId == Id ? classNameRow + " back" : classNameRow;
+        }
+        else
+        {
+            var roomid = Model.Rooms.Count() > 0 ? Model.Rooms.First().RoomId : -1;
+            classNameRow = roomid == Id ? classNameRow + " back" : classNameRow;
+        }
+
+        string onclick = "chRightLeft()";
+        @if (RoomId == 0)
+        {
+            onclick = "chChatRoom(this, " + Id + ")";
+        }
+
+        <div onclick="@onclick"  class="@classNameRow">
+            <div class="userpic">
+                <img title="@Html.Raw(Nickname)" alt="@Html.Raw(Nickname)" src="@Pic" />
+                <span title="@Id" class="@classNameSpan"></span>
+            </div>
+            <div class="userdata">
+                <span>@Html.Raw(Nickname)</span>
+                <label>@Html.Raw(Codes.getSubr(LastText))</label>
+            </div>
+        </div>
+    }
+
+</div>

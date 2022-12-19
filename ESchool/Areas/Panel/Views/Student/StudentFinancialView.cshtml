@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.Finacial.FinancialShowResult>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <img class="arrow rotate" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowInline">
+                <label class="lbl">ارسال</label>
+                <select id="FinancialSendTypeId" class="chPreviousColor">
+                    @foreach (var financialSendType in ViewBag.FinancialSendType)
+                    {
+
+
+                        <option value="@financialSendType.FinancialSendTypeId ">@Html.Raw(financialSendType.FinancialSendTypeText)</option>
+
+                    }
+                </select>
+
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">متن</label>
+                <textarea id="FinancialText" class="chPreviousColor"></textarea>
+            </div>
+
+
+
+
+
+            <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+            <input type="hidden" id="id" name="id" value="@ViewData["UserID"]" />
+
+            <div class="row textAlignCenter">
+                <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+                <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="uStudentFinancialed()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :250px" value="حذف پیام مالی" onclick="studentFinancialdelete()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th>تاریخ</th>
+            <th>ارسال</th>
+            <th>متن</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+                <td><input type="checkbox" class="chkGrid" value="@item.FinancialID" /></td>
+                <td>@(i+1)</td>
+                <td>@Codes.getPersianDate(item.FinancialDate)</td>
+                <td>@Html.Raw(item.FinancialSendTypeText)</td>
+                <td>@Html.Raw(item.FinancialText)</td>
+
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+
+</div>

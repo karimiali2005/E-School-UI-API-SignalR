@@ -1,0 +1,135 @@
+﻿@model List<RoomDetailGrouped>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int RoomId = Convert.ToInt32(ViewData["RoomId"]);
+    int RoomTypeId = Convert.ToInt32(ViewData["RoomTypeId"]);
+
+    var timeStrs = Model.Select(x => new { TimeStr = x.TimeStr }).AsEnumerable();
+    timeStrs = timeStrs.GroupBy(x => new { x.TimeStr }).Select(p => new { TimeStr = p.Key.TimeStr }).OrderBy(p => p.TimeStr).ToList();
+
+    var days = Codes.getDays();
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <form class="form textAlignCenter">
+
+        <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row">
+
+                <div class="row rowInline3">
+                    <label class="lbl">دقیقه شروع</label>
+                    <select id="StartMinute" class="chPreviousColor" asp-items="ViewBag.StartMinutes"></select>
+                </div>
+
+                <div class="row rowInline3">
+                    <label class="lbl">ساعت شروع</label>
+                    <select id="StartHour" class="chPreviousColor" asp-items="ViewBag.StartHours"></select>
+                </div>
+
+                <div class="row rowInline3">
+                    <label class="lbl">دقیقه پایان</label>
+                    <select id="FinishMinute" class="chPreviousColor" asp-items="ViewBag.FinishMinutes"></select>
+                </div>
+
+                <div class="row rowInline3">
+                    <label class="lbl">ساعت پایان</label>
+                    <select id="FinishHour" class="chPreviousColor" asp-items="ViewBag.FinishHours"></select>
+                </div>
+
+                <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :120px;" value=" &#43; ستون جدید" onclick="AddCToWeek()" />
+
+            </div>
+            
+        </div>
+
+    </form>
+</div>
+
+@{
+    int i = 0;
+}
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid" id="gridWeek">
+        <tr>
+            <th>روز هفته</th>
+            @foreach (var timeStr in timeStrs)
+            {
+                <th>@Html.Raw(timeStr.TimeStr)</th>
+            }
+        </tr>
+
+        @foreach (var day in days)
+        {
+            <tr>
+                <td class="colorBackThirty">@Html.Raw(day.Value)</td>
+                @foreach (var timeStr in timeStrs)
+                {
+                    string[] time = timeStr.TimeStr.Split("تا");
+                    string[] start = time[0].Replace(" ", "").Split(':');
+                    string[] finish = time[1].Replace(" ", "").Split(':');
+
+                    var records = Model.Where(p => p.DayStr == day.Value && p.TimeStr == timeStr.TimeStr).Select(p => new { p.CourseName, p.TeacherName, p.Comment });
+                    string CellText = "";
+                    if(records.Count() > 0)
+                    {
+                        var record = records.First();
+                        if (RoomTypeId == 1)
+                        {
+                            CellText = "درس: " + "<label class=\"colorPrimary\">" + record.CourseName + "</label><br />" + "معلم: " + "<label class=\"colorPrimary\">" + record.TeacherName + "</label>";
+                        }
+                        else
+                        {
+                            CellText = string.IsNullOrEmpty(record.Comment) ? "Empty" : record.Comment;
+                        }
+                    }
+                    @if(!string.IsNullOrEmpty(CellText))
+                    {
+                        CellText = CellText == "Empty" ? "" : CellText;
+                        <td>
+                             @Html.Raw(CellText)
+                            <a class="operate" href="#" style="float: left">
+                                <img class="icon displayInlineBlock" src="/imagepanel/icons/delete.png" onclick="rddelete2(@RoomId, '@day.Value', '@start[0]', '@start[1]', '@finish[0]', '@finish[1]')" />                                
+                            </a>
+                            <a class="operate" href="#" style="float: left">
+                                <img class="icon displayBlock" src="/imagepanel/icons/eye.png" onclick="rdshow(@RoomId, '@day.Value', '@start[0]', '@start[1]', '@finish[0]', '@finish[1]')" />
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="operate" href="#" >
+                                <img class="icon" src="/imagepanel/icons/schedule1.png" onclick="newsRoomDetail(1, 0, '@day.Value', '@start[0]', '@start[1]', '@finish[0]', '@finish[1]')" />
+                             </a>
+                        </td>
+                    }
+                }
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    <input type="hidden" id="id" value="@RoomId" />
+
+</div>
+
+

@@ -1,0 +1,167 @@
+﻿@model EsServiceCore.DTOs.HomeWork.vm_homework
+@{
+    ViewBag.Title = "ویرایش تکلیف";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    List<Es.DataLayerCore.Model.HomeworkType> homeworkTypes = ViewBag.listTypeHomework as List<Es.DataLayerCore.Model.HomeworkType>;
+    List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult> scoreTypeDetailShowResults = ViewBag.nomreh as List<Es.DataLayerCore.DTOs.ScoreTypeDetailShowResult>;
+}
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />*@
+@*<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <link href="~/Content/PersianDatePicker.css" rel="stylesheet" />*@
+
+@section Styles
+{
+
+    <link href="/datePicker2/css/persian-datepicker.min.css" rel="stylesheet" />
+}
+
+<section class=" Chat-page single-sendHomeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+
+            <div class=" chat-screen py-5 px-3">
+                <form asp-action="UpdateHomeWork" method="post" enctype="multipart/form-data">
+                    @* idcourse idroom *@
+                   
+                    <input type="hidden" asp-for="@Model.CourseId" value="@ViewBag.idcourse" />
+                    <input type="hidden" name="roomChatGroupID" value="@ViewBag.roomChatGroupID" />
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <input type="hidden" asp-for="@Model.RoomId" value="@ViewBag.idroom" />
+                    <input type="hidden" asp-for="@Model.namedars" value="@ViewBag.nameDars" />
+                    <input type="hidden" asp-for="@Model.HomeworkId" />
+                    <div class=" sh-title-homeWork bg-white">
+                        <span>نام درس : </span><span>@ViewBag.nameDars </span>
+                    </div>
+                    <div class=" sh-desc my-3 d-flex justify-content-between p-3 bg-white">
+                        <div class=" sh-desc-content w-100">
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                <div class=" mr-2 font-weight-bold">عنوان</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" asp-for="@Model.HomeworkTile" class="form-control" id="" placeholder="عنوان خود را وارد کنید" />
+                                <div class="sh-div-inp-file d-flex align-items-center my-2">
+                                    <input type="file" id="file-input1" asp-for="@Model.HomeWorkFileName_file" onchange="file1()" class=" d-none">
+                                    <label for="file-input1">انتخاب فایل</label>
+                                    <input type="text" readonly="" value="@(String.IsNullOrEmpty(Model.HomeWorkFileName)?"هیچ فایلی وجود ندارد ":Model.HomeWorkFileName)" class="" id="text-file-input">
+                                </div>
+                            </div>
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                <div class=" mr-2 font-weight-bold">نوع</div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" asp-for="@Model.HomeworkTypeId">
+                                    @foreach (var x in homeworkTypes)
+                                    {
+                                        <option value="@x.HomeworkTypeId">@x.HomeworkTypeTitle</option>
+                                    }
+                                </select>
+
+                            </div>
+                            <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                <div class=" mr-2 font-weight-bold">نتیجه</div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" asp-for="@Model.ScoreTypeId">
+                                    @foreach (var x in scoreTypeDetailShowResults)
+                                    {
+                                        <option value="@x.ScoreTypeID">@x.SumScoreTypeDetailTitle</option>
+                                    }
+                                </select>
+
+
+
+                            </div>
+
+                            <div class=" sh-desc-content w-100">
+                                <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                    <div class=" mr-2 font-weight-bold">بازه زمانی از</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="dateRangePicker" asp-for="start" autocomplete="off" placeholder="توضیحات خود را وارد کنید" />
+                                </div>
+
+
+                                <div class="sh-title-desc d-flex align-items-center mb-2">
+
+                                    <div class=" mr-2 font-weight-bold">بازه زمانی تا</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" asp-for="end" id="dateRangePickerEnd" autocomplete="off" placeholder="توضیحات خود را وارد کنید" />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class=" sh-submit-btn text-center">
+                        <button type="submit">افزودن تکلیف  </button>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        let fileInput1 = document.getElementById("file-input1")
+        let textfile1 = document.getElementById("text-file-input")
+        const file1 = () => {
+            textfile1.value = fileInput1.value
+        }
+    </script>
+    <script src="/datePicker2/js/persian-date.min.js"></script>
+    <script src="/datePicker2/js/persian-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dateRangePicker").persianDatepicker({
+                altField: '#dateRangePicker',
+                altFormat: "YYYY/MM/DD - HH:mm",
+                observer: true,
+                format: 'YYYY/MM/DD - HH:mm',
+                initialValue: false,
+                initialValueType: 'persian',
+                autoClose: true,
+                minDate: 'today',
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                }
+            });
+            $("#dateRangePickerEnd").persianDatepicker({
+                altField: '#dateRangePickerEnd',
+                altFormat: "YYYY/MM/DD - HH:mm",
+                observer: true,
+                format: 'YYYY/MM/DD - HH:mm',
+                initialValue: false,
+                position: [-341, 0],
+                initialValueType: 'persian',
+                autoClose: true,
+                minDate: 'today',
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                }
+            });
+        });
+    </script>
+}

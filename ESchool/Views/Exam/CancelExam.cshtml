@@ -1,0 +1,68 @@
+﻿@model Exam
+@using Es.DataLayerCore.Model
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    var hide = "alert-danger d-none";
+    if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        hide = "alert-danger";
+
+    }
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+
+<section class=" Chat-page single-homeWork add-homeWork single-sendHomeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+            <!-- start change18 -->
+            <div class=" chat-screen check-homework py-4 px-3">
+                <!-- end change18 -->
+                <div class=" option p-3 mt-0 mx-5 bg-white font-weight-bold text-center">
+                    <div><span>@Model.ExamTitle</span></div>
+                </div>
+                <div class=" card-all">
+                    <div class="alert  alert-dismissible @hide" id="myalertContainer">
+                        <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                        <p class="text-right" id="myalert">@ViewBag.Message</p>
+                    </div>
+                    <form asp-action="CancelExam" method="post">
+                        @Html.HiddenFor(m => m.ExamId)
+
+                        <div class=" option">
+                            <div class=" key"><span><img src="/imagemember/title.svg" alt=""></span><span>دلیل لغو شدن آزمون: </span></div>
+                            <div class=" value">
+                                <div class=" div-input score">
+                                    <input type="text" placeholder="دلیل لغو آزمون را وارد نمایید" required data-val-required="لطفا دلیل لغو آزمون را وارد نمایید " data-val="true" data-val-length="حداکثر تعداد کارکتر 500 میباشد" data-val-length-max="500" id="ExamCancelReason" maxlength="500" name="ExamCancelReason" value="@Model.ExamCancelReason" aria-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" accept-cancel ">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+
+                            <button type="submit" class="w-50 btn btn-success d-inline">ثبت</button>
+                            <a href="@Url.Action("Exams","Exam")" class="w-50 btn btn-info d-inline float-left">برگشت</a>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@section Scripts
+{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/jsexam/exam.js"></script>
+
+}
+
+

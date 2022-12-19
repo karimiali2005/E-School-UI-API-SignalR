@@ -1,0 +1,96 @@
+﻿@{
+    string title = Convert.ToString(ViewData["Title"]);
+    string sitename = "پنل کاربران";
+    title = string.IsNullOrEmpty(title) ? sitename : title + " - " + sitename;    
+
+    var request = Context.Request;
+    string currenturl = System.Web.HttpUtility.UrlDecode(request.Path + request.QueryString);
+
+    bool IsAthenticaed = this.User.Identity.IsAuthenticated;
+
+    bool ShowTitle = Convert.ToBoolean(ViewData["ShowTitle"]);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+
+    <link href="/Sys/CSSUser" rel="stylesheet" />
+
+
+    <script src="/Sys/JSUser" type="text/javascript"></script>
+    <script src="/jssite/jquery-3.5.1.min.js"></script>
+    <script src="/jssite/jquery.browser.min.js"></script>
+    <script src="/jssite/YeKe.js"></script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" />
+
+</head>
+<body>
+
+    <header class="header directionRtl">
+        <a id="picProfile" href="/Account/PictureUser" target="_blank"><img src="/Account/PictureUser?s=50" /></a>
+        <div id="nameProfile" class="positionRelative">@Html.Raw(this.User.FindFirst("Nickname").Value)</div>
+        @if (ShowTitle)
+        {
+            <div class="title positionRelative">@Html.Raw(ViewData["Title"])</div>
+        }
+        <img class="alarm displayNone" src="/imagepanel/icons/alarm.png" />
+        <img id="logout" src="/imagesuser/icons/logout.png" onclick="logoutuser();" />
+    </header>
+
+
+    <div class="container displayBlock positionRelative">
+
+        @if (IsAthenticaed)
+        {
+            @await Html.PartialAsync("SlideMenuUser")
+        }
+
+        <div class="content displayInlineBlock textAlignCenter">
+
+            @RenderBody()
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <footer class="footer colorBackPrimary">
+
+        <div id="footer-content">
+
+            <div class="copyright">
+                <a class="displayBlock textAlignCenter" href="#">کلیه حقوق این سایت به مدرسه تعلق دارد</a>
+                <span class="displayBlock textAlignCenter">Copyright 2020 School Site</span>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <div id="backLdsRoller">
+        <div class="lds-roller">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <div id="txtLoading">لطفا شکیبا باشید</div>
+        <input type="button" id="btnLoadingClose" value="بستن" class="colorBackPrimary displayNone" />
+    </div>
+
+    <div id="alertmessage">
+        <div id="boxmessage" class="colorBackPrimaryLight">
+            <div class="directionRtl">
+                <span id="msg"></span>
+                <input type="button" id="btnAlertMsgClose" value="بستن"  class="colorBackPrimary"   />
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

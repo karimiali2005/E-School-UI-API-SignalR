@@ -1,0 +1,47 @@
+﻿@model RoomDetail
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@{
+    int RoomId = Model.RoomId;
+    string RoomTitle = Model.RoomId > 0 ? Model.Room.RoomTitle : "";
+    string SaveButtonText = Model.RoomId > 0 ? "ویرایش شود" : "ایجاد شود";
+
+    bool TeacherCourse = Convert.ToBoolean(ViewData["TeacherCourse"]);
+    int Week = Convert.ToInt32(ViewData["Week"]);
+
+}
+
+<div class="form textAlignCenter">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>   
+
+</div>
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <form class="form textAlignCenter">
+
+        <div class="row row90">
+            <label class="lbl">توضیحات</label>
+            <textarea id="comment" value="@Model.Comment" class="chPreviousColor">@Model.Comment</textarea>
+        </div>
+
+
+        <div class="row textAlignLeft">
+            <input type="button" class="buttonSingle colorBackThirty displayInlineBlock" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday displayInlineBlock" value="@Html.Raw(SaveButtonText)" onclick="classedited()" />
+        </div>
+
+
+    </form>
+</div>
+
+
+<input type="hidden" id="roomid" value="@RoomId" />
+<input type="hidden" id="id" value="@Model.RoomDetailId" />
+<input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+

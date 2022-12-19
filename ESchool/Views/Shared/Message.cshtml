@@ -1,0 +1,45 @@
+﻿@{
+    MessageModel messageModel = null;
+    try
+    {
+        messageModel = (MessageModel)ViewBag.MessageModel;
+    }
+    catch
+    {
+
+    }
+}
+
+
+@if (messageModel != null)
+{
+    if (!string.IsNullOrEmpty(messageModel.MessageText))
+    {
+        @if (messageModel.MessageType == "Success")
+        {
+            <div class="msgform textAlignCenter colorSeconday colorBorderSeconday displayBlock">
+                @Html.Raw(messageModel.MessageText)
+            </div>
+        }
+        else if (messageModel.MessageType == "Error")
+        {
+            <div class="msgform textAlignCenter colorError colorErrorBorder displayBlock">
+                @Html.Raw(messageModel.MessageText)
+            </div>
+        }
+        else if (messageModel.MessageType == "Warning")
+        {
+            <div class="msgform textAlignCenter colorThirty colorBorderThirty displayBlock">
+                @Html.Raw(messageModel.MessageText)
+            </div>
+        }
+        else
+        {
+            <div class="msgform textAlignCenter colorPrimary colorBorderPrimary displayBlock">
+                @Html.Raw(messageModel.MessageText)
+            </div>
+        }
+    }
+}
+
+

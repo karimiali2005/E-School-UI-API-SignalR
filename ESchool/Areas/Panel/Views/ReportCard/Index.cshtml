@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardShowAllResult>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    int PageNumber = 1;
+    string q = "";
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { q = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["q"]); } catch { q = ""; }
+
+    int MaxRows = 0;
+    try { MaxRows = Convert.ToInt32(ViewData["MaxRows"]); } catch { MaxRows = 0; }
+
+    int CountRow = 10;
+    try
+    {
+        CountRow = Convert.ToInt32(ViewData["CountRow"]);
+        CountRow = CountRow <= 0 ? 10 : CountRow;
+    }
+    catch
+    {
+        CountRow = 10;
+    }
+}
+
+<div class="bigbox colorBackWhite colorBorderGray hideOverflow positionRelative">
+
+    <img class="arrow" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        @await Html.PartialAsync("Message", new MessageModel())
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowInline">
+                <label class="lbl">عبارت جستجو</label>
+                <input id="q" class="chPreviousColor" type="text" value="@q" />
+            </div>
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="getReportCard()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43; جدید" onclick="newsReportCard()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>ردیف</th>
+            <th>عنوان</th>
+            <th>مقطع</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ پایان</th>
+            <th>نوع نمره</th>
+            <th>نمایش کارنامه</th>
+            <th>فعال کردن</th>
+            <th>خودکار</th>
+
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+    <tr>
+
+        <td>@((PageNumber - 1) * CountRow + i + 1)</td>
+        <td>@Html.Raw(item.ReportCardTitle)</td>
+        <td>@Html.Raw(item.GradeTitle)</td>
+        <td>@Codes.getPersianDate(item.ReportCardDateTimeStart)</td>
+        <td>@Codes.getPersianDate(item.ReportCardDateTimeFinish)</td>
+        <td>@Html.Raw(item.ScoreTypeTitle)</td>
+        @if (item.ReportCardShowUser)
+        {
+            <td>بله</td>
+        }
+        else
+        {
+            <td>خیر</td>
+        }
+        @if (item.ReportCardScoreEnable)
+        {
+            <td>بله</td>
+        }
+        else
+        {
+            <td>خیر</td>
+        }
+
+        @if (item.ReportCardAuto)
+        {
+            <td>بله</td>
+        }
+        else
+        {
+            <td>خیر</td>
+        }
+
+        <td>
+            <a class="operate" href="#" title="ویرایش">
+                <img class="icon" src="/imagepanel/icons/edit.png" onclick="editReportCard(@item.ReportCardID)" />
+            </a>
+            @if (!item.ReportCardAuto)
+            {
+                <a class="operate" href="#" title="درس ها">
+                    <img class="icon" src="/imagepanel/icons/chat-group.png" onclick="rTeacherCourse(@item.ReportCardID,@item.GradeID)" />
+                </a>
+            }
+        </td>
+    </tr>
+
+            i++;
+        }
+
+    </table>
+
+    @if (MaxRows > 0)
+    {
+        @await Html.PartialAsync("Paging", MaxRows)
+    }
+
+</div>
+
+
+

@@ -1,0 +1,124 @@
+﻿@model RoomDetail
+
+@{
+    int RoomId = Model.RoomId;
+    string RoomTitle = Model.RoomId > 0 ? Model.Room.RoomTitle : "";
+    string SaveButtonText = Model.RoomId > 0 ? "ویرایش شود" : "ایجاد شود";
+
+    bool TeacherCourse = Convert.ToBoolean(ViewData["TeacherCourse"]);
+    int Week = Convert.ToInt32(ViewData["Week"]);
+
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <form class="form textAlignCenter">
+
+        <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>       
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowbox">
+                <div class="row rowInline2">
+                    <label class="lbl">دقیقه شروع</label>
+                    <select id="StartMinute" class="chPreviousColor" asp-items="ViewBag.StartMinutes"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">ساعت شروع</label>
+                    <select id="StartHour" class="chPreviousColor" asp-items="ViewBag.StartHours"></select>
+                </div>
+            </div>
+
+            <div class="row rowbox">
+                <div class="row rowInline2">
+                    <label class="lbl">دقیقه پایان</label>
+                    <select id="FinishMinute" class="chPreviousColor" asp-items="ViewBag.FinishMinutes"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">ساعت پایان</label>
+                    <select id="FinishHour" class="chPreviousColor" asp-items="ViewBag.FinishHours"></select>
+                </div>
+            </div>
+
+            @if (Week == 0)
+            {
+                <div class="row rowbox">
+                    <div class="row rowInline2">
+                        <label class="lbl">روز</label>
+                        <select id="Day" class="chPreviousColor" asp-items="ViewBag.Days"></select>
+                    </div>
+
+                    <div class="row rowInline2">
+                        <label class="lbl">ماه</label>
+                        <select id="Month" class="chPreviousColor" asp-items="ViewBag.Months"></select>
+                    </div>
+
+                    <div class="row rowInline2">
+                        <label class="lbl">سال</label>
+                        <input id="Year" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1399" value="@ViewData["Year"]" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row rowInline">
+                    <label class="lbl">روز هفته</label>
+                    <select id="Week" class="chPreviousColor" asp-items="ViewBag.Weeks"></select>
+                </div>
+            }
+
+
+            @if (TeacherCourse)
+            {
+                <div class="row rowInline">
+                    <label class="lbl">درس</label>
+                    <select id="teacherCourse" class="chPreviousColor" asp-items="ViewBag.TeacherCourses"></select>
+                </div>
+            }
+
+            <div class="row rowInline">
+                <label class="lbl">کلاس سر وقت شروع و اتمام یابد</label>
+                <select id="teacherCourse" class="chPreviousColor" asp-items="ViewBag.CloseOnTime"></select>
+            </div>
+
+            @if (Model.RoomDetailId == 0)
+            {
+                <div class="row rowInline">
+                    <label class="lbl">روزهای تعطیل اعمال شود</label>
+                    <select id="AllowHoliday" class="chPreviousColor">
+                        <option value="false">خیر</option>
+                        <option value="true">بلی</option>
+                    </select>
+                </div>
+            }
+
+            <div class="row row90">
+                <label class="lbl">توضیحات</label>
+                <textarea id="comment" value="@Model.Comment" class="chPreviousColor">@Model.Comment</textarea>
+            </div>
+
+
+            <div class="row textAlignLeft">
+                <input type="button" class="buttonSingle colorBackThirty displayInlineBlock" value="بازگشت" onclick="cancelCh()" />
+                <input type="button" class="buttonSingle colorBackSeconday displayInlineBlock" value="@Html.Raw(SaveButtonText)" onclick="newsRoomDetailed()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<input type="hidden" id="roomid" value="@RoomId" />
+<input type="hidden" id="id" value="@Model.RoomDetailId" />
+<input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+

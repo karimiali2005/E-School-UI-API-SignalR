@@ -1,0 +1,38 @@
+﻿.footer {
+    width: 100%;
+    min-height: 60px;
+    position: relative;
+    margin-top: 0;
+}
+
+#footer-content {
+    display: block;
+    width: 100%;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.footer .copyright {   
+    display: block;    
+    color: #fff;    
+}
+
+.footer .copyright a {   
+    margin: auto;
+    width: 100%;   
+    color: #fff;
+    text-decoration: none; 
+    font-size: 10pt;
+}
+
+.footer .copyright span {    
+    margin: auto;
+    width: 100%;        
+    font-size: 10pt;
+}
+
+
+
+
+
+

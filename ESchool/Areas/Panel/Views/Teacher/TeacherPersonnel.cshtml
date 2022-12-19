@@ -1,0 +1,47 @@
+﻿@model User
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+   
+
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">آیا برای پرسنل کردن کاربر زیر مطمئن هستید؟</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+               
+                    <label title="@Model.UserId" class="lbl colorPrimary">@Model.FirstName @Model.LastName  با کد ملی @Model.Irnational</label>
+                    <br />
+              
+            </div>
+
+     
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+            
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackGreen" value="پرسنل شود" onclick="tpersonneled(@Model.UserId,1);" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackRed" value="پرسنل نشود" onclick="tpersonneled(@Model.UserId,0);" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+
+
+        </div>
+    </form>
+</div>
+
+
+

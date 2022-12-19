@@ -1,0 +1,45 @@
+﻿@model Es.DataLayerCore.Model.GalleryDetail
+
+@{
+    string Title = " جدید";
+
+    ViewData["Title"] = " جدید";
+
+
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row rowInline">
+            <label style="width:0px" class="lbl">فایل</label>
+
+            <input type="file" style="width:80%;opacity:1;position:unset " class=" form-control png" id="filePic">
+
+        </div>
+
+        <div class="row rowInline">
+            <label class="lbl">پیش فرض</label>
+            <input id="GalleryIsDefault" name="GalleryIsDefault" class="chPreviousColor" type="checkbox" />
+        </div>
+
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="newGalleryDetailVideoShowInsert(@Model.GalleryId)" />
+        </div>
+    </div>
+
+
+
+</form>

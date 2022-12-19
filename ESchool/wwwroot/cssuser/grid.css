@@ -1,0 +1,92 @@
+﻿.grid {
+    width: 100%;    
+    margin: 0;    
+    padding: 0;
+    direction: rtl;
+}
+
+.grid th {
+    cursor: pointer;
+    background-color: #F2F4F9;
+    text-align: center;
+    padding: 2px;
+    margin: 0;
+    height: 50px;
+    border: 1px solid #e1e1e1;
+}
+
+
+.grid td {    
+    text-align: center;
+    padding: 2px;
+    margin: 0;
+    border: 1px solid #e1e1e1;
+}
+
+.grid input[type=checkbox] {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+.grid img {
+    width: auto;
+    height: 30px;    
+    margin: auto;         
+}
+
+.grid .icon {
+    display: block;
+    margin: auto;
+    width: 30px;
+    height: 30px;
+}
+
+.grid a.operate {
+    display: inline-block;
+    vertical-align: top;
+    margin: 3px;
+    width: 30px;
+    height: 30px;
+}
+
+.grid a.link {
+    text-decoration: none;
+    border-bottom: 0px solid;
+    transition: all ease-in-out .3s;
+}
+
+.grid a.link:hover {
+    border-bottom: 1px solid;
+}
+
+.pager {
+    display: block;
+    margin: 10px auto 15px auto;
+    text-align: center;
+}
+
+.pager span {
+    display: inline-block;
+    margin: 5px;
+    border-radius: 50%;
+    padding: 12px 15px 8px 15px;
+    color:#000;
+    background-color: #e8e8e8;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+.pager span.select {
+    background-color: #6B0DAF;
+    color: #fff;
+}
+
+.pager span:hover {
+    background-color: #8010D2;
+    color: #fff;
+}
+
+

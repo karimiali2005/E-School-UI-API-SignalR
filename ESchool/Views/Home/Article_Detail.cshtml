@@ -1,0 +1,230 @@
+﻿
+@model Es.DataLayerCore.DTOs.Article.ArticleViewModel
+@{
+    ViewBag.Title = "اخبار";
+    Layout = "LayoutMain";
+    var addressDownload = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.Article;
+    var time = "";
+    switch (Model.Article.ArticleStudyTime)
+    {
+        case 1: time = "یک";
+            break;
+        case 2:
+            time = "دو";
+            break;
+        case 3:
+            time = "سه";
+            break;
+        default:
+            time = "چهار";
+            break;
+
+    }
+}
+
+
+<header class="log-reg-header">
+    <div class=" container-fluid d-flex justify-content-between align-items-center">
+        <div class="menu-logo">
+            <div class=" logo">
+                <!-- start cahnge11 -->
+                <img src="../imagemember/logo1.png" alt="">
+                <!-- end cahnge11 -->
+            </div>
+            <div class="barsmenu-h">
+                <div id="bars" class="d-block d-lg-none text-right">
+                    <img src="../imagemember/Component 1 – 10@2x.png" alt="">
+                </div>
+                <div class=" menu" id="menu">
+                    <ul>
+                        <li class="active">
+                            <a href="/Home/Index">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="/Account/Register">ثبت دانش آموزان</a>
+                        </li>
+                        <li>
+                            <a href="#">معرفی اساتید</a>
+                        </li>
+                        <li>
+                            <a href="#">اخبار</a>
+                        </li>
+
+
+                        <li>
+                            <a href="/Home/Gallery">گالری تصاویر</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About">درباره ما</a>
+                        </li>
+                        <li>
+                            <a href="#mainfooter">تماس با ما</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class=" Article">
+    <div class="back-blue-img p-5">
+        <div class=" container">
+            <div class=" title">
+                <h1>@Model.Article.ArticleTitle</h1>
+                @*<h4 class=" mt-5">لورم ایپزوم متن پیشرفض طراحان</h4>*@
+            </div>
+        </div>
+    </div>
+    <div class=" container pos-top">
+        <div class=" row">
+            <div class=" Specifications mb-5 p-0 d-lg-none col-12">
+                <div class="row">
+                    <div class=" col-12 row mx-0 ">
+                        <div class=" col-5 offset-2 time-read">
+                            <div class=" img">
+                                <img class=" img-fluid" src="../imagemember/035-essay-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" />
+                            </div>
+                            <div class=" pb-xl-3 pb-2 text-center">
+                                <div class=" mb-xl-3 mb-2 mt-1 key">مدت زمان مطالعه</div>
+                                <div class=" value">@time دقیقه</div>
+                            </div>
+                        </div>
+                        <div class=" col-5 author">
+                            <div class=" img">
+                                <img class=" img-fluid" src="../imagemember/005-science-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" />
+                            </div>
+                            <div class=" pb-xl-3 pb-2 text-center">
+                                <div class=" mb-xl-3 mb-2 mt-1 key">نویسنده</div>
+                                <div class=" value">@Model.Article.CreateUser</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-12 row mx-0 mt-5">
+                        <div class=" col-5 offset-2 type-learning">
+                            <div class=" img">
+                                <img class=" img-fluid" src="../imagemember/045-microphone-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" />
+                            </div>
+                            <div class=" pb-xl-3 pb-2 text-center">
+                                <div class=" mb-xl-3 mb-2 mt-1 key">نوع آموزش</div>
+                                <div class=" value">متن</div>
+                            </div>
+                        </div>
+                        <div class=" col-5 source">
+                            <div class=" img">
+                                <img class=" img-fluid" src="../imagemember/013-globe-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" />
+                            </div>
+                            <div class=" pb-xl-3 pb-2 text-center">
+                                <div class=" mb-xl-3 mb-2 mt-1 key">منبع</div>
+                                <div class=" value">مدرسه حسابی</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class=" col-lg-8">
+                <div class=" main-img-article mb-5">
+                    <img class="img-fluid" src="@(addressDownload)@Model.Article.ArticlePic" alt="" />
+                </div>
+                <div class=" details my-5">
+                    <div class=" writer">
+                        <div class=" ml-2"><i class="fa fa-user" aria-hidden="true"></i></div>
+                        <div>@Model.Article.CreateUser</div>
+                    </div>
+                    <div class=" date">
+                        <div class=" ml-2"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                        <div>@Codes.getPersianDate(Model.Article.ArticleCreateDate)</div>
+                    </div>
+                    <div class=" view">
+                        <div class=" ml-2"><i class="fa fa-eye" aria-hidden="true"></i></div>
+                        <div><span class=" ml-2">بازدید</span><span>@Model.Article.ArticleCountor</span></div>
+                    </div>
+                </div>
+                <div class=" desc ">
+                    <div class=" text-article">
+                        <p>
+                            @Model.Article.ArticleBody
+                        </p>
+                      
+                    </div>
+                   
+
+                </div>
+            </section>
+            <aside class=" col-lg-4">
+                <div class=" Specifications mb-5 p-0 d-lg-block d-none">
+                    <div class="row">
+                        <div class=" col-12 row mx-0 ">
+                            <div class=" col-5 offset-2 time-read">
+                                <div class=" img">
+                                    <img class=" img-fluid" src="../imagemember/035-essay-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" />
+                                </div>
+                                <div class=" pb-xl-3 pb-2 text-center">
+                                    <div class=" mb-xl-3 mb-2 mt-1 key">مدت زمان مطالعه</div>
+                                    <div class=" value">سه دقیقه</div>
+                                </div>
+                            </div>
+                            <div class=" col-5 author">
+                                <div class=" img"><img class=" img-fluid" src="../imagemember/005-science-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" /></div>
+                                <div class=" pb-xl-3 pb-2 text-center">
+                                    <div class=" mb-xl-3 mb-2 mt-1 key">نویسنده</div>
+                                    <div class=" value">علی کریمی</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col-12 row mx-0 mt-5">
+                            <div class=" col-5 offset-2 type-learning">
+                                <div class=" img"><img class=" img-fluid" src="../imagemember/045-microphone-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" /></div>
+                                <div class=" pb-xl-3 pb-2 text-center">
+                                    <div class=" mb-xl-3 mb-2 mt-1 key">نوع آموزش</div>
+                                    <div class=" value">متن</div>
+                                </div>
+                            </div>
+                            <div class=" col-5 source">
+                                <div class=" img"><img class=" img-fluid" src="../imagemember/013-globe-os4p3wrks7n8koc7k7hv8utlosf1jzzcsn2sb94v5a.png" alt="" /></div>
+                                <div class=" pb-xl-3 pb-2 text-center">
+                                    <div class=" mb-xl-3 mb-2 mt-1 key">منبع</div>
+                                    <div class=" value">مدرسه دکتر حسابی</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class=" rate-shortLink my-5">
+                    <div class=" short-link">
+                        <div class=" mb-4 font-weight-bold f-20">لینک کوتاه</div>
+                        <div class=" link">
+                            <a href="#">
+                                https://www.hesabischool.com/?p=71724
+                            </a>
+                        </div>
+                    </div>
+                </div>*@
+                <div class=" lastNews-lastWorks">
+                    <div class=" last-news">
+                        <div class=" title">
+                            آخرین اخبار
+                        </div>
+                        @foreach (var item in Model.ArticleShowTops)
+                        {
+                            <a href="/Home/Article_Detail?id=@item.ArticleID" class=" item-news my-3">
+                                <div class=" ml-3"><img class=" img-fluid" src="@(addressDownload)@item.ArticlePic" alt=""></div>
+                                <div>@item.ArticleTitle</div>
+                            </a>
+                        }
+
+                        @*<a href="#" class=" item-news my-3">
+                            <div class=" ml-3"><img class=" img-fluid" src="../imagemember/Layer0.png" alt=""></div>
+                            <div>لورم ایپزوم متن برای طراحان</div>
+                        </a>
+                        <a href="#" class=" item-news my-3">
+                            <div class=" ml-3"><img class=" img-fluid" src="../imagemember/Layer0.png" alt=""></div>
+                            <div>
+                                لورم ایپزوم متن برای طراحانلورم ایپزوم متن برای طراحانلورم ایپزوم متن برای
+                            </div>
+                        </a>*@
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>

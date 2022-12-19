@@ -1,0 +1,51 @@
+﻿@model Es.DataLayerCore.Model.Ceremony
+
+@{
+    string Title = " جدید";
+
+    ViewData["Title"] = " جدید";
+
+
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row rowInline">
+            <label class="lbl">ارسال</label>
+            <select id="CeremonyTypeId" class="chPreviousColor">
+                @foreach (var ceremonyType in ViewBag.CeremonyType)
+                {
+
+
+                    <option value="@ceremonyType.CeremonyTypeId ">@Html.Raw(ceremonyType.CeremonyTypeText)</option>
+
+                }
+            </select>
+
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">متن</label>
+            <textarea id="CeremonyText" class="chPreviousColor"></textarea>
+        </div>
+
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="newdedCeremony()" />
+        </div>
+    </div>
+
+
+
+</form>

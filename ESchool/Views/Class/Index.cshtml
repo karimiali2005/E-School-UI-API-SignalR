@@ -1,0 +1,88 @@
+﻿@model List<RoomUser>
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    RoomTeacherOp roomTeacherOp = new RoomTeacherOp();
+}
+
+@await Html.PartialAsync("Message")
+
+<div class="form textAlignCenter">
+
+    <p id="contentTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>ردیف</th>
+            <th>نام کاربر</th>
+            <th>نوع کاربر</th>
+            <th>نام کلاس</th>
+            <th>نوع</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ پایان</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@Html.Raw(item.User.FirstName + " " + item.User.LastName)</td>
+                <td>@Html.Raw(item.User.UserType.UserTypeTitle)</td>
+                <td>@Html.Raw(item.Room.RoomTitle)</td>
+                <td>@Html.Raw(item.Room.RoomType.RoomTypeTitle)</td>
+                <td>@Codes.getPersianDate(item.Room.RoomStartDate)</td>
+                <td>@Codes.getPersianDate(item.Room.RoomFinishDate)</td>
+                <td>
+                    <a class="operate" href="/Class/Week?id=@item.RoomId" title="جدول کلاس ها">
+                        <img class="icon" src="/imagepanel/icons/schedule.png" />
+                    </a>
+                 
+                  
+                    @{
+                        List<RoomTeacher> roomTeachers = roomTeacherOp.GetRoomTeachersByRoomId(item.RoomId);
+                        @if (roomTeachers.Count() > 0)
+                        {
+                            var roomTeacher = roomTeachers.First();
+                            if (!string.IsNullOrEmpty(roomTeacher.JitsiLiveAddress))
+                            {
+                                <a class="operate" href="#" title="لایو جیتسی">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/iconJitsi.png" onclick="openlive('jitsi','@roomTeacher.JitsiLiveAddress','@roomTeacher.JitsiLivePassword',null,null,null,null)" />
+                                    <input type="hidden" id="JitsiAddress" value="@roomTeacher.JitsiLiveAddress" />
+                                    <input type="hidden" id="JitsiPassword" value="@roomTeacher.JitsiLivePassword" />
+                                </a>
+                            }
+                            if (!string.IsNullOrEmpty(roomTeacher.AdobeLiveAddress))
+                            {
+                                <a class="operate" href="#" title="لایو">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/livevideo3.png" onclick="openlive('adobe', null, null,'@roomTeacher.AdobeLiveAddress','@roomTeacher.AdobeLiveUsername','@roomTeacher.AdobeLivePass')" />
+                                    <input type="hidden" id="AdobeAddress" value="@roomTeacher.AdobeLiveAddress" />
+                                    <input type="hidden" id="AdobeUsername" value="@roomTeacher.AdobeLiveUsername" />
+                                    <input type="hidden" id="AdobePassword" value="@roomTeacher.AdobeLivePass" />
+                                </a>
+                            }
+                            if (!string.IsNullOrEmpty(roomTeacher.ExamAddress))
+                            {
+                                <a class="operate" href="#" title="آزمون">
+                                    <img class="icon displayBlock" src="/imagesuser/icons/exam2.png" onclick="openlive('exam',null,null,null,null,null,'@roomTeacher.ExamAddress')" />
+                                    <input type="hidden" id="ExamAddress" value="@roomTeacher.ExamAddress" />
+                                </a>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+</div>
+

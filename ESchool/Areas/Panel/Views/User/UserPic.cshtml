@@ -1,0 +1,69 @@
+﻿@model User
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    //Layout = null;
+    string Title = Convert.ToString(ViewData["Title"]);
+}
+
+<link href="/Sys/CSSCropper/1" rel="stylesheet" />
+<script type="text/javascript" src="/Sys/JSCropper/1"></script>
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday displayNone" value="ذخیره شود" onclick="userpic()" />
+        </div>
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+        <div class="row textAlignCenter">
+            <label class="lbl" id="result"></label>
+        </div>
+
+
+    </div>
+
+</form>
+
+<div class="divUserPic">
+    <img id="imageUserPic" class="imageUserPic" src="/Panel/User/Picture?id=@Model.UserId&o=1" alt="Picture">
+</div>
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', function () {
+
+
+        var image = document.querySelector('#imageUserPic');
+        var cropper = new Cropper(image, {
+            movable: false,
+            zoomable: false,
+            rotatable: false,
+            scalable: false,
+            crop: function (event) {
+                /*data.textContent = JSON.stringify(cropper.getData());*/
+                document.getElementById('result').innerHTML = JSON.stringify(cropper.getCropBoxData());
+            },
+        });
+
+        var data = { left: 10, top: 60, width: 100, height: 150 };        
+        cropper.setCanvasData(data);
+
+    });
+
+    function getCrop() {
+        return cropper.getCropBoxData();
+    }
+
+</script>
+

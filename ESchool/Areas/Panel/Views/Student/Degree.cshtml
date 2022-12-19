@@ -1,0 +1,103 @@
+﻿@model UserProperties
+
+@{ 
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";    
+}
+
+@{
+    var degreeDefault = Model.Degrees.First() != null ? Model.Degrees.First().DegreeId : 0;
+    var DegreeId = Model.Users.First().DegreeId != null ? Model.Users.First().DegreeId.Value : 0;
+    var GradeId = Model.Users.First().GradeId != null ? Model.Users.First().GradeId.Value : 0;
+    var StudyFieldId = Model.Users.First().StudyFieldId != null ? Model.Users.First().StudyFieldId.Value : 0;
+
+    var HappenDegreeId = DegreeId > 0 ? DegreeId : degreeDefault;
+
+    string displayNoneGrade = GradeId > 0 ? "" : "displayNone";
+    string displayNoneStudyField = StudyFieldId > 0 ? "" : "displayNone";
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">ویرایش مقطع تحصیلی @Model.Users.First().FirstName @Model.Users.First().LastName</p>
+
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+                <label class="lbl">مقطع تحصیلی</label>
+                <select id="Degree" class="chPreviousColor" onchange="selectCh(this, true)">
+                    @foreach (var degree in Model.Degrees)
+                    {
+
+                        bool selected = degree.DegreeId == DegreeId ? true : false;
+                        string title = !degree.HasGrade ? "" : degree.DegreeId.ToString() + ",r";
+                        if (selected)
+                        {
+                            <option title="@title" value="@degree.DegreeId" selected="selected">@degree.DegreeTitle</option>
+                        }
+                        else
+                        {
+
+                            <option title="@title" value="@degree.DegreeId">@degree.DegreeTitle</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row rowInline @displayNoneGrade">
+                <label class="lbl">پایه تحصیلی</label>
+                <select id="Grade" class="chPreviousColor" onchange="selectCh(this, true)">
+                    @foreach (var grade in Model.Grades)
+                    {
+                        string className = grade.DegreeId == HappenDegreeId ? "" : "displayNone";
+                        bool selected = grade.GradeId == GradeId ? true : false;
+                        string title = !grade.HasStudyField ? grade.DegreeId.ToString() : grade.DegreeId.ToString() + ",r";
+                        if (selected)
+                        {
+                            <option title="@title" value="@grade.GradeId" class="@className" selected="selected">@grade.GradeTitle</option>
+                        }
+                        else
+                        {
+                            <option title="@title" value="@grade.GradeId" class="@className">@grade.GradeTitle</option>
+
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row rowInline @displayNoneStudyField">
+                <label class="lbl">رشته تحصیلی</label>
+                <select id="StudyField" class="chPreviousColor">
+                    @foreach (var studyfield in Model.StudyFields)
+                    {
+                        bool selected = studyfield.StudyFieldId == StudyFieldId ? true : false;
+                        if (selected)
+                        {
+                            <option value="@studyfield.StudyFieldId" selected="selected">@studyfield.StudyFieldTitle</option>
+                        }
+                        else
+                        {
+                            <option value="@studyfield.StudyFieldId">@studyfield.StudyFieldTitle</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <input type="hidden" id="id" value="@Model.Users.First().UserId" />
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackSeconday" value="ثبت شود" onclick="setChDegree()" />
+                <input type="button" class="buttonSingle buttonSingle3 colorBackThirty" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+

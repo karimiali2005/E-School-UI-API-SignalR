@@ -1,0 +1,93 @@
+﻿@model RoomProperties
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    int RoomId = Model.Rooms.First().RoomId;
+
+    string[] colorUserActives = { "colorYellow", "colorRed", "colorGreen" };
+    string[] svgUserActives = { "/imagepanel/icons/inactiveFill.svg", "/imagepanel/icons/deactiveFill.svg", "/imagepanel/icons/activeFill.svg" };
+    string[] textUserActives = { "معلق", "غیرفعال", "فعال" };
+
+    var roomChatGroup = Model.RoomChatGroups.ToList();
+  
+
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+        <input type="text" id="focusable" />
+    </div>
+
+    <div class="step opacityOne" id="step1">
+        <div class="row rowInline">
+            <label class="lbl">عبارت جستجو</label>
+            <input id="q" class="chPreviousColor" type="text" />
+        </div>
+        <div class="row rowInline textAlignLeft">
+            <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="filterTable()" />
+        </div>
+    </div>
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+        <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="rchatgroupset()" />
+    </div>
+</form>
+
+<input type="hidden" id="id" value="@Model.Rooms.First().RoomId" />
+<input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+         
+            <th>نام گروه</th>
+           
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in roomChatGroup)
+        {
+           
+
+            <tr class="satr">
+                <td>
+                    @{
+                      
+                        if (item.RoomChatGroupVisible)
+                        {
+                            <input type="checkbox" class="chkGrid" value="@item.RoomChatGroupId" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="chkGrid" value="@item.RoomChatGroupId" />
+                        }
+                    }
+                </td>
+                <td>@(i + 1)</td>
+              
+                <td>@Html.Raw(item.RoomChatGroupTitle)</td>
+               
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+
+</div>

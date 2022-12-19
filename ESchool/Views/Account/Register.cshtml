@@ -1,0 +1,32 @@
+﻿@model UserProperties
+
+@{
+    ViewData["Title"] = "ثبت نام دانش آموزان";
+}
+
+<div class="form">
+    <p id="contentTitle" class="titr textAlignRight">مرحله 1  از 5 - انتخاب مقطع و رشته تحصیلی</p>
+    <div class="level">
+        <span id="contentProgress" class="colorBackSeconday" style="width: 20%">20%</span>
+    </div>
+</div>
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">انتخاب مقطع و رشته تحصیلی</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>        
+    </div>
+    
+
+    @await Html.PartialAsync("RegisterSteps/Step1", Model)
+    @await Html.PartialAsync("RegisterSteps/Step2", Model.ParentStatuses)
+    @await Html.PartialAsync("RegisterSteps/Step3", Model.ParentStatuses)
+    @await Html.PartialAsync("RegisterSteps/Step4", Model.ParentStatuses)
+    @await Html.PartialAsync("RegisterSteps/Step5")  
+
+    
+
+</form>
+

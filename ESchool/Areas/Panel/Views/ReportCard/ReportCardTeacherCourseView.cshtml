@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardTeacherCourseShowResult>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+
+    <img class="arrow rotate" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowInline">
+                <label class="lbl">گروه</label>
+                <select id="RoomChatGroupId" class="chPreviousColor">
+                    @foreach (var roomChatGroup in ViewBag.RoomChatGroups)
+                    {
+
+
+                        <option value="@roomChatGroup.RoomChatGroupID">@Html.Raw(roomChatGroup.RoomChatGroupTitle)</option>
+
+                    }
+                </select>
+
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">درس</label>
+                <select id="CourseId" class="chPreviousColor">
+                    @foreach (var roomChatGroup in ViewBag.Courses)
+                    {
+
+
+                        <option value="@roomChatGroup.CourseId">@Html.Raw(roomChatGroup.CourseTitle)</option>
+
+                    }
+                </select>
+
+            </div>
+
+            @*<div class="row rowInline">
+            <label class="lbl">مقطع تحصیلی</label>
+            <select id="Degree" class="chPreviousColor" >
+                <option value="0"></option>
+                @foreach (var degree in Model.Degrees)
+                {
+
+                    bool selected = degree.DegreeId == DegreeId ? true : false;
+                    string title = !degree.HasGrade ? "" : degree.DegreeId.ToString() + ",r";
+                    if (selected)
+                    {
+                        <option title="@title" value="@degree.DegreeId" selected="selected">@degree.DegreeTitle</option>
+                    }
+                    else
+                    {
+
+                        <option title="@title" value="@degree.DegreeId">@degree.DegreeTitle</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="row rowInline @displayNoneGrade">
+            <label class="lbl">پایه تحصیلی</label>
+            <select id="Grade" class="chPreviousColor" onchange="selectCh(this)">
+                <option value="0"></option>
+                @foreach (var grade in Model.Grades)
+                {
+                    string className = grade.DegreeId == degreeDefault ? "" : "displayNone";
+                    bool selected = grade.GradeId == GradeId ? true : false;
+                    string title = !grade.HasStudyField ? grade.DegreeId.ToString() : grade.DegreeId.ToString() + ",r";
+                    if (selected)
+                    {
+                        <option title="@title" value="@grade.GradeId" class="@className" selected="selected">@grade.GradeTitle</option>
+                    }
+                    else
+                    {
+                        <option title="@title" value="@grade.GradeId" class="@className">@grade.GradeTitle</option>
+
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="row rowInline @displayNoneStudyField">
+            <label class="lbl">رشته تحصیلی</label>
+            <select id="StudyField" class="chPreviousColor">
+                <option value="0"></option>
+                @foreach (var studyfield in Model.StudyFields)
+                {
+                    bool selected = studyfield.StudyFieldId == StudyFieldId ? true : false;
+                    if (selected)
+                    {
+                        <option value="@studyfield.StudyFieldId" selected="selected">@studyfield.StudyFieldTitle</option>
+                    }
+                    else
+                    {
+                        <option value="@studyfield.StudyFieldId">@studyfield.StudyFieldTitle</option>
+                    }
+                }
+            </select>
+        </div>*@
+
+          
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+        <input type="hidden" id="id" name="id" value="@ViewData["ReportCardID"]" />
+
+            <div class="row textAlignCenter">
+                <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+                <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="rTeacherCoursed()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :250px" value="حذف دروس انتخاب شده" onclick="reportCardDetaildelete('@ViewData["ReportCardID"]')" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th>گروه</th>
+            <th>معلم</th>
+            <th>درس</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+           
+
+            <tr>
+                <td><input type="checkbox" class="chkGrid" value="@item.ReportCardTeacherCourseID" /></td>
+                <td>@(i+1)</td>
+                <td>@Html.Raw(item.RoomChatGroupTitle)</td>
+                <td>@Html.Raw(item.FullName)</td>
+                <td>@Html.Raw(item.CourseTitle)</td>
+               
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+
+</div>

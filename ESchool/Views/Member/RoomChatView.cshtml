@@ -1,0 +1,285 @@
+﻿@using Microsoft.AspNetCore.Mvc.Formatters
+@model Es.DataLayerCore.DTOs.RoomChat.RoomChatLeftViewModel
+@{
+    Layout = null;
+
+    var size = 0;
+
+    if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 1)
+    {
+        size = Convert.ToInt32(SettingContext.UploadSize.Instance.StudentSize);
+    }
+    else
+    {
+        size = Convert.ToInt32(SettingContext.UploadSize.Instance.TeacherSize);
+    }
+
+}
+
+@await Html.PartialAsync("paternChat")
+
+
+@*.................Pin.............*@
+
+<script type="text/html" id="divChatPinTemplate">
+    <div id="divRoomChatPin" class=" pin d-flex justify-content-between">
+        <div onclick="GoToMessage('msg%%PinRoomChatID%%')" class=" text">
+            <!-- start change15 -->
+            <div class=" iconPin"><img src="/imagemember/pin-black-tool-shape.svg" alt=""></div>
+            <!-- end change15 -->
+            <div class=" system-text">پیام سنجاق شده</div>
+            <div class=" massage-text">%%PinTextChat%%</div>
+        </div>
+        %%RoomChatPinUndo
+        @*<button onclick="RoomChatPinUndo('%%PinRoomChatID%%')" class=" close-icon" type="button"><img src="/imagemember/close.svg" alt=""></button>*@
+    </div>
+</script>
+
+@*.................EndPin.............*@
+
+@*.................UNLock.............*@
+
+<script type="text/html" id="divUNLockTemplate">
+    <div id="replyWriteText" class=" displayNone reply-write-text">
+        <div class=" div-icon-delete">
+            <a onclick="RoomChatReplyFinishOrUndo()" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+        </div>
+        <div>
+            <!-- start replied change-->
+            <div class=" replied-box">
+                <div id="replyChatText" class=" replied-text">chatText</div>
+                <div id="replySenderName" class=" reply-name">SenderName</div>
+
+            </div>
+            <!-- end replied change-->
+        </div>
+        <!-- start change14 -->
+        <div class=" div-icon-delete">
+            <a href="#"><img src="/imagemember/reply-message.svg" alt=""></a>
+        </div>
+        <!-- <div class=" div-icon-delete"><a href="#"><img src="../img/edit2.svg" alt=""></a>
+        </div> -->
+        <!-- end change14 -->
+
+    </div>
+    <div id="writeText" class="write-text ">
+        <!-- end change6 -->
+        <!-- start  reply-write-text change-->
+        <!-- end  reply-write-text change-->
+        <form action="">
+            <input type="hidden" value="0" id="input_roomChatId" />
+            <!-- 0 defaul -1 reply -2 edit-->
+            <input type="hidden" value="0" id="input_roomChatIsAction" />
+
+            <div class=" sticker-icon">
+                <img id="imgVoiceStart" src="~/imagemember/microphone.svg" onclick="startRecording1(this)" alt="">
+                <img id="imgVoiceStop" class="displayNone" src="~/imagemember/microphone_red.svg" onclick="StopRecording2(this, $('#input_roomChatGroupId').val(), '', parseInt($('#input_roomChatId').val()),parseInt($('#input_roomChatIsAction').val()), $('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(),$('#replyChatText').text(),$('#replySenderName').text(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" alt="">
+                <img id="imgSendMessage" onclick="SendMessageText($('#input_roomChatGroupId').val(), $('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(), parseInt($('#input_roomChatId').val()),parseInt($('#input_roomChatIsAction').val()),$('#replyChatText').text(),$('#replySenderName').text(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" class="displayNone" src="~/imagemember/send.svg" alt="">
+            </div>
+            <div class=" inp-text">
+                <textarea name="txtChatMessage" id="txtChatMessage" onkeydown="KeyDownTextMessageChat(event)" cols="30" rows="10"
+                          placeholder="پیام خود را بنویسید"></textarea>
+            </div>
+            <!-- start  dropdown change-->
+            <div class="btn-group dropup list-icon">
+                <button type="button" class="btn shadow-none p-0" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <img id="imgSimple" src="~/imagemember/lessonb.png" alt="">
+                    <img id="imgEducation" class="displayNone" src="~/imagemember/lesson.png" alt="">
+                </button>
+                <div class="dropdown-menu">
+                    <button onclick="MessageEducation(1)" class="dropdown-item btn text-right " type="button">ساده</button>
+                    <button onclick="MessageEducation(2)" class="dropdown-item btn text-right " type="button">آموزشی</button>
+                </div>
+            </div>
+            <!-- end  dropdown change-->
+            <!-- <div class=" list-icon">
+                <img src="../img/poll.svg" alt="">
+            </div> -->
+            <div class=" sangagh-icon">
+                <label for="file">
+                    <img src="~/imagemember/file.svg" alt="">
+                </label>
+
+                <input type="file" id="file" class="displayNone" onchange="fileUpload('@size', $('#input_roomChatGroupId').val(), null, $('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" />
+            </div>
+        </form>
+    </div>
+</script>
+
+@*.................EndUNLock.............*@
+
+@*.................Lock.............*@
+
+<script type="text/html" id="divLockTemplate">
+    <div id="writeText" class="write-text-group d-sm-flex d-none">
+        <div>
+            چت کردن در این گروه امکان پذیر نمی باشد
+        </div>
+    </div>
+</script>
+
+@*.................EndLock.............*@
+
+
+@if (Model?.RoomChatLeftPropertyResult != null)
+{
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.RoomChatGroupID" id="input_roomChatGroupId" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.RoomID" id="input_roomId" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.TeacherID" id="input_teacherId" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.CourseID" id="input_courseId" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.PermissionStudentChatEdit.ToString()" id="input_permissionStudentChatEdit" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.PermissionStudentChatDelete.ToString()" id="input_permissionStudentChatDelete" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.RoomChatViewLast" id="input_roomChatViewLast" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.RoomChatGroupTitle" id="input_roomChatGroupTitle" />
+    <input type="hidden" value="@Model.RoomChatLeftPropertyResult.RoomChatGroupType" id="input_roomChatGroupType" />
+
+}
+
+
+@await Html.PartialAsync("HeaderChatLeft", Model.RoomChatLeftPropertyResult)
+@if (Model?.RoomChatLeftPropertyResult != null && Model.RoomChatLeftPropertyResult.PinRoomChatID != null)
+{
+    <div id="divRoomChatPin" class=" pin d-flex justify-content-between">
+        <div onclick="GoToMessage('msg@(Model?.RoomChatLeftPropertyResult.PinRoomChatID)')" class=" text">
+            <!-- start change15 -->
+            <div class=" iconPin"><img src="/imagemember/pin-black-tool-shape.svg" alt=""></div>
+            <!-- end change15 -->
+            <div class=" system-text">پیام سنجاق شده</div>
+            <div class=" massage-text">@Model?.RoomChatLeftPropertyResult.PinTextChat</div>
+        </div>
+        @if (UserContext.GetClaimValueInteger(ClaimName.UserTypeId) == 4)
+        {
+            <button onclick="RoomChatPinUndo('@Model?.RoomChatLeftPropertyResult.PinRoomChatID')" class=" close-icon" type="button"><img src="/imagemember/close.svg" alt=""></button>
+        }
+    </div>
+
+
+
+}
+<div id="divChatScreen" class=" div-chat-screen">
+
+
+    <div id="divChatScreenDetail" class=" chat-screen py-5">
+        @*<div class=" date">
+                <span>امروز</span>
+            </div>*@
+        @*@if (Model != null && Model.RoomChatLeftShowResult != null)
+            {*@
+        @await Html.PartialAsync("RoomChatViewDetail", Model)
+        @*}*@
+
+
+        <!-- start change27 -->
+        <!-- end change27 -->
+    </div>
+    @if (Model != null && Model.RoomChatLeftShowResult != null)
+    {
+        <div onclick="DivChatScreenScrollEnd(true)" id="BottomMassageEnd" class=" bottom-massage-end ">
+            <div><img src="/imagemember/down-massage.svg" alt=""></div>
+            <!-- bottom-massage-end-rep-->
+            @*<span  class="circle-count-massage">99+</span>*@
+        </div>
+    }
+
+
+</div>
+
+<!-- start change6 -->
+
+@if (Model?.RoomChatLeftPropertyResult != null)
+{
+    var userTypeId = UserContext.GetClaimValueInteger(ClaimName.UserTypeId);
+    var closeChat = false;
+    if (Convert.ToBoolean(SettingContext.RoomChatSatus.Instance.CloseChatAll))
+        closeChat = true;
+    if (userTypeId == 1 && (Model.RoomChatLeftPropertyResult.CloseChat || Convert.ToBoolean(SettingContext.RoomChatSatus.Instance.CloseChatStudent)))
+    {
+        closeChat = true;
+    }
+    if(Model?.RoomChatLeftPropertyResult.RoomChatGroupType==3 || Model?.RoomChatLeftPropertyResult.RoomChatGroupType == 4 || Model?.RoomChatLeftPropertyResult.RoomChatGroupType == 5 || Model?.RoomChatLeftPropertyResult.RoomChatGroupType == 6 || Model?.RoomChatLeftPropertyResult.RoomChatGroupType == 7)
+    {
+        closeChat = true;
+    }
+    @if (closeChat == false)
+    {
+        <div id="replyWriteText" class=" displayNone reply-write-text">
+            <div class=" div-icon-delete">
+                <a onclick="RoomChatReplyFinishOrUndo()" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+            </div>
+            <div>
+                <!-- start replied change-->
+                <div class=" replied-box">
+                    <div id="replyChatText" class=" replied-text">chatText</div>
+                    <div id="replySenderName" class=" reply-name">SenderName</div>
+
+                </div>
+                <!-- end replied change-->
+            </div>
+            <!-- start change14 -->
+            <div class=" div-icon-delete">
+                <a href="#"><img id="imgReplyWriteText" src="/imagemember/reply-message.svg" alt=""></a>
+            </div>
+            <!-- <div class=" div-icon-delete"><a href="#"><img src="../img/edit2.svg" alt=""></a>
+            </div> -->
+            <!-- end change14 -->
+
+        </div>
+        <div id="writeText" class="write-text  displayNone">
+            <!-- end change6 -->
+            <!-- start  reply-write-text change-->
+            <!-- end  reply-write-text change-->
+            <form action="">
+                <input type="hidden" value="0" id="input_roomChatId" />
+                <!-- 0 defaul -1 reply -2 edit-->
+                <input type="hidden" value="0" id="input_roomChatIsAction" />
+
+                <div class=" sticker-icon">
+
+                    <img id="imgVoiceStart" src="~/imagemember/microphone.svg" onclick="startRecording1(this)" alt="">
+                    <img id="imgVoiceStop" class="displayNone" src="~/imagemember/microphone_red.svg" onclick="StopRecording2(this, $('#input_roomChatGroupId').val(), '', parseInt($('#input_roomChatId').val()),parseInt($('#input_roomChatIsAction').val()), $('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(),$('#replyChatText').text(),$('#replySenderName').text(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" alt="">
+                    <img id="imgSendMessage" onclick="SendMessageText($('#input_roomChatGroupId').val(), $('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(), parseInt($('#input_roomChatId').val()),parseInt($('#input_roomChatIsAction').val()),$('#replyChatText').text(),$('#replySenderName').text(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" class="displayNone" src="~/imagemember/send.svg" alt="">
+                </div>
+                <div class=" inp-text">
+                    @*<textarea name="txtChatMessage" id="txtChatMessage" onkeydown="KeyDownTextMessageChat(event)" cols="30" rows="10"*@
+                    <textarea name="txtChatMessage" id="txtChatMessage" cols="30" rows="10"
+                              placeholder="پیام خود را بنویسید"></textarea>
+                </div>
+                <!-- start  dropdown change-->
+                <div class="btn-group dropup list-icon">
+                    <button type="button" class="btn shadow-none p-0" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <img id="imgSimple" src="~/imagemember/lessonb.png" alt="">
+                        <img id="imgEducation" class="displayNone" src="~/imagemember/lesson.png" alt="">
+                    </button>
+                    <div class="dropdown-menu">
+                        <button onclick="MessageEducation(1)" class="dropdown-item btn text-right " type="button">ساده</button>
+                        <button onclick="MessageEducation(2)" class="dropdown-item btn text-right " type="button">آموزشی</button>
+                    </div>
+                </div>
+                <!-- end  dropdown change-->
+                <!-- <div class=" list-icon">
+                    <img src="../img/poll.svg" alt="">
+                </div> -->
+                <div class=" sangagh-icon">
+                    <label for="file">
+                        <img src="~/imagemember/file.svg" alt="">
+                    </label>
+
+                    <input type="file" id="file" class="displayNone" onchange="fileUpload('@size', $('#input_roomChatGroupId').val(), parseInt($('#input_roomChatId').val()),parseInt($('#input_roomChatIsAction').val()),$('#input_roomId').val(), $('#input_teacherId').val(), $('#input_courseId').val(),$('#replyChatText').text(),$('#replySenderName').text(),$('#input_roomChatGroupTitle').val(),$('#input_roomChatGroupType').val())" />
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div id="writeText" class="write-text-group d-sm-flex d-none">
+            <div>
+                چت کردن در این گروه امکان پذیر نمی باشد
+            </div>
+        </div>
+    }
+}
+
+
+

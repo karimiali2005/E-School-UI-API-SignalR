@@ -1,0 +1,35 @@
+﻿@{
+    var action = string.IsNullOrEmpty(Convert.ToString(ViewData["action"])) ? "verify" : Convert.ToString(ViewData["action"]);
+}
+
+@await Html.PartialAsync("Message")
+
+<form class="form textAlignCenter" method="post" action="@action">
+
+    <p id="formTitle" class="titr textAlignRight">@ViewData["Title"]</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="colart displayInlineBlock">
+        <div class="row">
+            <label class="lbl">کد ارسال شده به شماره همراه را وارد نمایید</label>
+            <input id="verifyCode" name="verifyCode" class="chPreviousColor textAlignCenter directionLtr" type="text" />
+        </div>
+
+        <input type="hidden" name="id" value="@ViewData["id"]" />
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle buttonSingle2 colorBackSeconday" value="ثبت کد بازیابی" onclick="verify();" />
+        </div>
+
+    </div>
+
+    <div class="colart displayInlineBlock">
+        <img src="~/imagesite/login/forgotpassword.png" class="picart" />
+    </div>
+
+</form>
+

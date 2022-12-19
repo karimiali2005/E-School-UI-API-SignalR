@@ -1,0 +1,232 @@
+﻿@model List<Es.DataLayerCore.Model.Exam>
+
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons managementHomeWork AzmonTable2 AllAzmonTable single-homeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        <div class=" table-div mx-auto my-3">
+            <div class="alert  alert-dismissible d-none" id="myalertContainer">
+                <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                <p class="text-right" id="myalert"></p>
+            </div>
+            <div id="MessageAlertExamDelete" class=" div-password" style="display: none;">
+                <div class=" bg-white shadow delete-massage-pupup">
+                    <div class=" message font-weight-bold"><span>آیا از حذف آزمون انتخاب شده مطمئن هستید؟</span></div>
+                    <div class="d-flex ">
+                        <div class="ml-2"><button id="MessageAlertDeleteButton1" type="button" class=" btn-yes btn bg-success text-white">بله</button></div>
+                        <div class="ml-2"></div>
+                        <div><button type="button" class=" btn-no btn bg-success text-white">لغو</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <a href="@Url.Action("Create","Exam")" class=" btn btn-success"><img src="/imagemember/add.svg"><span class="ml-2 mr-2">افزودن</span></a>
+            </div>
+            <table class=" table table-bordered">
+                <thead>
+                    <tr class=" d-md-none">
+                        <th  colspan="3"  class="bottom-res-p"><span>عنوان</span></th>                        
+                        <th  colspan="3"  class="bottom-res-p"><span>کلاس</span></th>
+                    </tr>
+                    <tr class="d-none d-md-table-row">
+                        <th class="radif"><span>ردیف</span></th>
+                        <th class="width100"><span>عنوان</span></th>
+                        <th><span>توضیحات</span></th>
+                        <th><span>کلاس</span></th>
+                        <th><span>تاریخ آزمون</span></th>
+                        <th><span>ساعت آزمون</span></th>
+                        <th><span>وضعیت</span></th>
+                        <th class="width150"><span>عملیات</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var countor = 1;
+                    }
+                    @foreach (var exam in Model)
+                    {
+                        <tr class=" d-none d-md-table-row" id="row_@exam.ExamId">
+                            <td>
+                                <div>
+                                    @Html.Raw(@countor++.ToString())
+                                </div>
+                            </td>
+                            <td><span>@exam.ExamTitle</span></td>
+                            <td><span>@exam.ExamDescription</span></td>
+                            <td><span>@exam.RoomChatGroup.RoomChatGroupTitle</span></td>
+                            <td><span>@exam.ExamStartDateTime.ToShortDateString()</span></td>
+                            <td><span>@exam.ExamStartDateTime.ToShortTimeString()</span></td>
+
+                            <td>
+                                @if (exam.ExamCancel == true)
+                                {
+                                    <span class="text-danger" title="@exam.ExamCancelReason">
+                                        آزمون لغو شده است
+                                    </span>
+
+                                }
+                                else
+                                {
+                                    <span>
+                                        آزمون برقرار می باشد
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                <span class="abzarak">
+                                    <a href="#" onclick="ScoreAutoExam(@exam.ExamId)" class="my-1 mx-1" title="نمره دهی اتومات">
+                                        <img src="~/imagemember/icons8-scorecard-24.png" alt="" />
+                                    </a>
+                                    <a href="@Url.Action("Responders","Exam",new { Id = exam.ExamId })" class="my-1 mx-1" title="نمره دهی">
+                                        <img src="/imagemember/icons8-stack-exchange-24.png" alt="" />
+                                    </a>
+
+                                    <a href="@Url.Action("CancelExam","Exam",new { Id = exam.ExamId })" class="my-1 mx-1" title="لغو کردن">
+                                        <img src="/imagemember/Iconly-Light-Paper@2x.png" alt="" />
+                                    </a>
+                                    
+                                        <a href="@Url.Action("Create", "Exam", new { Id = exam.ExamId })" class="y-1 mx-1" title="ویرایش">
+                                            <img src="/imagemember/Iconly-Light-Edit.png" alt="" />
+                                        </a>
+                                   
+
+                                    @if (exam.ExamOn == true)
+                                    {
+                                        <label class="switch">
+                                            <input type="checkbox" checked onclick="TurnOnOffExam(@exam.ExamId)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="TurnOnOffExam(@exam.ExamId)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    }
+                                    @if (exam.Response.Count == 0)
+                                    {
+                                        <a href="#" onclick="DelectExam(@exam.ExamId)" class="my-1 mx-1" title="حذف کردن">
+                                            <img src="/imagemember/Iconly-Light-Delete@2x.png" alt="" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" disabled class="my-1 mx-1 not-allowed " title="حذف کردن">
+                                            <img src="/imagemember/Iconly-Light-Delete@2x.png" alt="" />
+                                        </a>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+                        ////
+
+                        <tr class=" d-md-none">
+                            <td  colspan="3" ><span>@exam.ExamTitle</span></td>
+                            <td  colspan="3"><span>@exam.RoomChatGroup.RoomChatGroupTitle</span></td>
+                            
+                        </tr>
+                        <tr class=" d-md-none">
+                            <th class=" padding-res"><span>تاریخ آزمون</span></th>
+                            <td class="responsive-pad-score"><span>@exam.ExamStartDateTime.ToShortDateString()</span></td>
+                            <th class=" padding-res"><span>ساعت آزمون</span></th>
+                            <td class="responsive-pad-score"><span>@exam.ExamStartDateTime.ToShortTimeString()</span></td>
+                            <th class=" padding-res"><span>وضعیت</span></th>
+                            <td class="responsive-pad-score">
+                                @if (exam.ExamCancel == true)
+                                {
+                                    <span class="text-danger" title="@exam.ExamCancelReason">
+                                        لغو شده
+                                    </span>
+
+                                }
+                                else
+                                {
+                                    <span>
+                                        برقرار است
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                        <tr class=" d-md-none">
+                            <th><span>ابزارک ها</span></th>
+                            <td colspan="5">
+                                <span class="abzarak">
+                                    <a href="#" onclick="ScoreAutoExam(@exam.ExamId)" class="my-1 mx-1" title="نمره دهی اتومات">
+                                        <img src="~/imagemember/icons8-scorecard-24.png" alt="" />
+                                    </a>
+                                    <a href="@Url.Action("Responders","Exam",new { Id = exam.ExamId })" class="my-1 mx-1" title="نمره دهی">
+                                        <img src="/imagemember/icons8-stack-exchange-24.png" alt="" />
+                                    </a>
+
+                                    <a href="@Url.Action("CancelExam","Exam",new { Id = exam.ExamId })" class="my-1 mx-1" title="لغو کردن">
+                                        <img src="/imagemember/Iconly-Light-Paper@2x.png" alt="" />
+                                    </a>
+                                    
+                                        <a href="@Url.Action("Create", "Exam", new { Id = exam.ExamId })" class="y-1 mx-1" title="ویرایش">
+                                            <img src="/imagemember/Iconly-Light-Edit.png" alt="" />
+                                        </a>
+                                    
+
+                                    @if (exam.ExamOn == true)
+                                    {
+                                        <label class="switch">
+                                            <input type="checkbox" checked onclick="TurnOnOffExam(@exam.ExamId)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="TurnOnOffExam(@exam.ExamId)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    }
+                                    @if (exam.Response.Count == 0)
+                                    {
+                                        <a href="#" onclick="DelectExam(@exam.ExamId)" class="my-1 mx-1" title="حذف کردن">
+                                            <img src="/imagemember/Iconly-Light-Delete@2x.png" alt="" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" disabled class="my-1 mx-1 not-allowed " title="حذف کردن">
+                                            <img src="/imagemember/Iconly-Light-Delete@2x.png" alt="" />
+                                        </a>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+
+
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script src="/jsexam/exam.js"></script>
+}

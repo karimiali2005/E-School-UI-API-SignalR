@@ -1,0 +1,174 @@
+﻿@model RoomProperties
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int PageNumber = 1;
+    int RoomTypeId = 0;
+    int RoomId = Model.Rooms.Count() > 0 ? Model.Rooms.First().RoomId : 0;
+    string RoomTitle = Model.Rooms.Count() > 0 ? Model.Rooms.First().RoomTitle : "";
+    string q = "";
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { RoomTypeId = Convert.ToInt32(Model.Rooms.First().RoomTypeId); } catch { RoomTypeId = 0; }
+    try { q = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["q"]); } catch { q = ""; }
+
+    int MaxRows = 0;
+    try { MaxRows = Convert.ToInt32(ViewData["MaxRows"]); } catch { MaxRows = 0; }
+
+
+    int CountRow = 10;
+    try
+    {
+        CountRow = Convert.ToInt32(ViewData["CountRow"]);
+        CountRow = CountRow <= 0 ? 10 : CountRow;
+    }
+    catch
+    {
+        CountRow = 10;
+    }
+
+    List<Calendar> calendars = (List<Calendar>)ViewBag.Holidays;
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray hideOverflow positionRelative">
+
+    <img class="arrow" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowbox">
+                <div class="row rowInline2">
+                    <label class="lbl">روز شروع</label>
+                    <select id="StartDay" class="chPreviousColor" asp-items="ViewBag.DaysStart"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">ماه شروع</label>
+                    <select id="StartMonth" class="chPreviousColor" asp-items="ViewBag.MonthsStart"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">سال شروع</label>
+                    <input id="StartYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1380" value="@ViewData["StartYear"]" />
+                </div>
+            </div>
+
+            <div class="row rowbox">
+                <div class="row rowInline2">
+                    <label class="lbl">روز پایان</label>
+                    <select id="FinishDay" class="chPreviousColor" asp-items="ViewBag.DaysFinish"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">ماه پایان</label>
+                    <select id="FinishMonth" class="chPreviousColor" asp-items="ViewBag.MonthsFinish"></select>
+                </div>
+
+                <div class="row rowInline2">
+                    <label class="lbl">سال پایان</label>
+                    <input id="FinishYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1380" value="@ViewData["FinishYear"]" />
+                </div>
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">روز هفته</label>
+                <select id="Week" class="chPreviousColor" asp-items="ViewBag.Weeks"></select>
+            </div>
+
+            <div class="row rowInline">
+                <label class="lbl">عبارت جستجو</label>
+                <input id="q" class="chPreviousColor" type="text" value="@q" />
+            </div>
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="getRoomDetails()" />
+            </div>
+
+            <input type="hidden" id="id" value="@RoomId" />
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :200px" value="حذف برنامه ها" onclick="rddelete()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43; برنامه جدید" onclick="newsRoomDetail(0, '')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43;  برنامه هفتگی جدید" onclick="newsRoomDetail(1, '')" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th>تاریخ</th>
+            <th>روز</th>
+            <th>ساعت شروع</th>
+            <th>ساعت پایان</th>
+            @if (RoomTypeId == 1)
+            {
+                <th>درس</th>
+                <th>معلم</th>
+            }
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model.RoomDetails)
+        {
+            string classHoliday = calendars.Any(p => p.CalendarDate.Date == item.RoomDetailDate.Date) || item.RoomDetailDate.DayOfWeek == DayOfWeek.Friday ? "colorBackRed2" : "";
+
+            string PersianDate = item.RoomDetailDate != null ? Codes.getPersianDate(item.RoomDetailDate) : "";
+            string PersianDay = item.RoomDetailDate != null ? Codes.getPersianDay(item.RoomDetailDate) : "";
+            string CourseTitle = item.Course != null ? item.Course.CourseTitle : "";
+            string TeacherName = item.User != null ? item.User.FirstName + " " + item.User.LastName : "";
+
+            <tr class="@classHoliday">
+                <td><input type="checkbox" class="chkGrid" value="@item.RoomDetailId" /></td>
+                <td>@((PageNumber - 1) * CountRow + i + 1)</td>                
+                <td>@PersianDate</td>
+                <td>@PersianDay</td>
+                <td>@Html.Raw(item.RoomDetailTimeStart)</td>
+                <td>@Html.Raw(item.RoomDetailTimeFinish)</td>
+                @if(RoomTypeId == 1)
+                {
+                    <td>@Html.Raw(CourseTitle)</td>
+                    <td>@Html.Raw(TeacherName)</td>  
+                }                              
+                <td>
+                    <a class="operate" href="#" title="حذف">
+                        <img class="icon" src="/imagepanel/icons/delete.png" onclick="rddelete(@item.RoomDetailId)"  />
+                    </a>
+                    <a class="operate" href="#" title="ویرایش">
+                        <img class="icon" src="/imagepanel/icons/edit.png" onclick="newsRoomDetail(0, @item.RoomDetailId)"  />
+                    </a>                   
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    @if (MaxRows > 0)
+    {
+        @await Html.PartialAsync("Paging", MaxRows)
+    }
+
+</div>
+

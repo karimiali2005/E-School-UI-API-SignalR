@@ -1,0 +1,362 @@
+﻿.bigbox {
+    width: 95%;
+    margin: 25px auto auto auto;   
+    direction: rtl;
+}
+
+.hideOverflow {    
+    height: 29px;
+    overflow: hidden;
+}
+
+.hideOverflow .form {
+    opacity: 0;    
+}
+
+.bigbox .arrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.bigbox .arrow.rotate {
+    transform: rotate(180deg);
+}
+
+.bigbutton {
+    width: 200px;
+    margin: 15px;    
+    padding: 5px 25px 5px 25px;
+    font-size: 15pt;
+    text-decoration: none;
+    color: #000;    
+    transition: all .3s ease-in-out;
+}
+
+.bigbutton:hover {
+    background-color: #8010D2;
+    color: #fff;
+}
+
+.bigbutton.select {
+    background-color: #6B0DAF;
+    color: #fff;
+}
+
+.bigbutton:first-child {
+    margin-right: 0px !important;
+}
+
+.bigbutton:last-child {
+    margin-left: 0px !important;
+}
+
+.form {
+    display: block;
+    margin: 5px auto;
+    direction: rtl;
+    width: 80%;
+    padding: 5px 40px 15px 40px;
+    opacity: 1;
+    transition: all .5s ease-in-out;
+}
+
+.form .titr {
+    display: block;
+    font-weight: bold;      
+}
+
+.form .level {
+    position: relative;
+    display: block;
+    margin: 5px auto;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #cfcfcf;    
+    border-radius: 25px;
+    text-align: right;
+}
+
+.form .level span {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;    
+    height: 39px;
+    border: 0;    
+    border-radius: 25px;    
+    color: #fff;
+    text-align: center;
+    font-size: 16pt;
+    padding-top: 6px;
+    transition: all .3s ease-in-out;
+}
+
+.form .colart {
+    vertical-align: top;
+    width: 49%;
+    min-width: 300px;    
+}
+
+.form .picart {
+    display: block;
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+}
+
+@media only screen and (max-width: 500px) {
+    .form .picart {
+        display: none !important;
+    }
+}
+
+.form .step {
+    transition: all .3s ease-in-out;
+}
+
+.form .row {
+    display: block;
+    margin: 20px auto 5px auto;
+    width: 100%;  
+    text-align: right;      
+}
+
+@media only screen and (max-width: 1000px) {
+    .form .row90 {
+        width: 84%;
+    }
+}
+
+@media only screen and (min-width: 1001px) {
+    .form .row90 {
+        width: 92%;
+    }
+}
+
+.form .row .lbl {
+    color: #a7a7a7;
+    width: 90%;
+}
+
+.form .row input[type=text], .form .row input[type=password], .form .row textarea, .form .row select {
+    display: block; 
+    height: 28px;
+    margin-top: 5px;    
+    border: 1px solid #cfcfcf;    
+    border-radius: 2px;
+    padding: 5px;    
+    text-align: right;
+}
+
+.form .row input[type=text], .form .row input[type=password] {    
+    width: 94%;
+}
+
+.form .row textarea {    
+    width: 97%;
+    height: 100px;    
+}
+
+.form .row select {
+    width: 97%;
+    height: 40px;
+    -moz-appearance: none; /* Firefox */
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
+    background: url('/imagepanel/icons/arrow_down.png') 5px 15px no-repeat;
+}
+
+.form .row input[type=text]:focus, .form .row input[type=password]:focus, .form .row textarea:focus, .form .row select:focus {    
+    outline: none !important;           
+}
+
+.form .row .searchIRNational {
+    position: absolute;
+    display: block;
+    width: 24px;
+    height: 24px;
+    right: 5px;
+    bottom: 5px;
+    cursor: pointer;
+}
+
+.form .rowInline {
+    display: inline-block;
+    vertical-align: top;
+    width: 45% !important;
+    min-width: 310px;
+}
+
+.form .rowInline2 {
+    display: inline-block !important;    
+    width: 32% !important;
+    min-width: 100px;
+}
+
+.form .rowInline3 {
+    display: inline-block !important;
+    width: 15% !important;
+    min-width: 100px;
+}
+
+.form .rowbox {
+    display: inline-block !important;  
+    width: 45% !important;
+    margin: 0px !important;
+    min-width: 320px !important;             
+}
+
+@media only screen and (max-width: 1000px) {
+    .form .rowbox .lbl {
+        font-size: 10pt !important;
+    }
+}
+
+.form .rowbox input[type=text] {
+    width: 92% !important;
+    margin-right: 0px !important;
+}
+
+.form .rowbox select {
+    width: 90% !important;
+    margin-right: 0px !important;
+}
+
+.form .picstudent {
+    cursor: pointer;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 10px auto;
+}
+
+.form .lblBelowText {
+    margin: 10px auto;
+}
+
+.form .row .link {
+    vertical-align: top;
+    margin: 15px;    
+    color: #000;    
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+
+.form .row .link:hover {
+    color: #8010D2;
+     border-style: solid;
+     border-width: 0px 0px 1px 0px;
+}
+
+.form .seperate {
+    margin: 10px auto;
+    width: 200px;
+    height: 8px;
+    background-color: #464646;
+}
+
+.form input[type=file] {
+    -webkit-appearance:none;     
+    position:absolute;
+    top:0; 
+    left:0;
+    opacity:0; 
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.buttonSingle {
+    display: inline-block;
+    margin: 10px 10px 10px 10px;
+    width: 240px;
+    height: 60px;
+    border: 0;
+    border-radius: 30px;    
+    text-align: center;
+    font-size: 18pt;
+    color: #fff;    
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.buttonSingle:hover {
+    box-shadow: rgba(0,0,0,0.3) 5px 5px;
+}
+
+.buttonSingle:focus {
+    outline: none !important;
+}
+
+.buttonSingle2 {
+    width: 85% !important;
+    border-radius: 5px;
+}
+
+.buttonSingle3 {
+    border-radius: 2px;
+    font-size: 15pt;
+}
+
+.buttonSingle4 {
+    margin: 3px;
+    border-radius: 30px;
+    font-size: 12pt;    
+    height: auto;
+    padding: 5px;
+}
+
+.divSingle {    
+    width: 80%;
+    padding: 20px;
+    margin: 20px auto;
+    text-align: center;       
+    border-radius: 10px;
+    font-size: 16pt;
+}
+
+.divUserPic {
+    display: block;
+    margin: 10px auto;
+    max-width: 300px;
+    height: auto;
+    padding: 0;
+}
+
+.imageUserPic {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+}
+
+.errors {
+    display: none;
+    margin: 15px auto 5px auto;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #EF3E46;
+}
+
+.errors img {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px;
+    width: 32px;
+    height: 32px;
+}
+
+.errors p {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px;
+    width: calc(100% - 60px);   
+    color: #fff;
+}
+
+.errors #focusable {
+    display: none;
+}

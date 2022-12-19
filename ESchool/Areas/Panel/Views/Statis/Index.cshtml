@@ -1,0 +1,45 @@
+﻿@model Es.DataLayerCore.DTOs.Statist.StatisticsShowResult
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+   
+}
+    <div class="row rowInline">
+        <label class="lbl">افراد آنلاین:</label>
+        <label class="lbl"> @ESchool.Need.MiddleWare.OnlineUsersMiddleware.GetOnlineUsersCount()</label>
+    </div>
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>...</th>
+            <th>امروز</th>
+            <th>دیروز</th>
+            <th>ماه</th>
+            <th>کل</th>
+
+
+        </tr>
+
+
+        <tr>
+            <td>سایت</td>
+            <td>@Html.Raw(Model.SiteToday)</td>
+            <td>@Html.Raw(Model.SiteYesterday)</td>
+            <td>@Html.Raw(Model.SiteMonth)</td>
+            <td>@Html.Raw(Model.SiteAll)</td>
+
+        </tr>
+        <tr>
+            <td>فایل</td>
+            <td>@Html.Raw(Model.ChatFileToday)</td>
+            <td>@Html.Raw(Model.ChatFileYesterday)</td>
+            <td>@Html.Raw(Model.ChatFileMonth)</td>
+            <td>@Html.Raw(Model.ChatFileAll)</td>
+
+        </tr>
+
+
+    </table>
+
+
+</div>

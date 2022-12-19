@@ -1,0 +1,141 @@
+﻿@model List<Es.DataLayerCore.DTOs.Exam.ExamStudentShowResult>
+
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+    var list = Model.OrderByDescending(e => e.ExamStartDateTime).ThenByDescending(e => e.ExamOn);
+}
+
+<section class=" Chat-page single-homeWork">
+    <div class=" p-0 chat ">
+        @await Html.PartialAsync("Header")
+        <div class=" div-chat-screen">
+            <div class="alert  alert-dismissible d-none" id="myalertContainer">
+                <a href="#" class="close" onclick="hideAlert()">&times;</a>
+                <p class="text-right" id="myalert"></p>
+            </div>
+            <div class=" chat-screen py-5 px-3">
+
+                <div class=" az-title d-flex justify-content-between">
+                    <span>آزمون ها</span>
+                    <select class="form-control select-mode-azmon">
+                        <option selected>فیلتر آزمون</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                @foreach (var item in list)
+                {
+                    TimeSpan delayTime = DateTime.Parse(DateTime.Now.ToString("HH:mm:ss")).Subtract(DateTime.Parse(item.ExamStartDateTime.ToString("HH:mm:ss")));
+
+                    var timeexam = item.ExamFinishDateTime.Subtract(item.ExamStartDateTime).TotalMinutes;
+                    <div class=" az-item my-4  p-1 px-3 bg-white ">
+                        <div class=" az-content d-flex justify-content-between">
+                            <div class=" az-right ">
+                                <h3>@item.ExamTitle</h3>
+                                <p>
+                                    @item.ExamDescription
+                                </p>
+                            </div>
+                            <div class=" az-left ">
+                                <div>
+                                    <span>@item.ExamStartDateTime.ToString("HH:mm")</span>
+                                    <span>-</span>
+                                    <span>@item.ExamStartDateTime.ToString("yyyy/MM/dd")</span>
+                                    <span><img src="../img/Iconly-Light-Calendar@2x.png" alt=""></span>
+                                </div>
+                                <div>
+                                    <span>@item.FullNameTeacher</span>
+                                    <span><img src="../img/Iconly-Light-Profile@2x.png" alt=""></span>
+                                </div>
+                                <div>
+                                    <span>@item.CourseTitle</span>
+                                    <span><img src="../img/Iconly-Light-Paper@2x.png" alt=""></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="az-time-details ">
+                            <div>
+                                <span><img src="../img/Iconly-Light-Time Circle@2x.png" alt=""></span>
+                                <span>تاخیر در آزمون:</span>
+                                <span>@item.DelayDeadline دقیقه</span>
+                            </div>
+                            <div>
+                                <span><img src="../img/Iconly-Light-Time Circle@2x.png" alt=""></span>
+                                <span>دفعات مجاز شرکت در آزمون:</span>
+                                <span>@item.OpeningNumber</span>
+                            </div>
+                            <div>
+                                <span><img src="../img/Iconly-Light-Time Circle@2x.png" alt=""></span>
+                                <span>مدت زمان:</span>
+                                <span>@timeexam دقیقه</span>
+                            </div>
+                            <div>
+                                <span><img src="../img/Iconly-Light-Time Circle@2x.png" alt=""></span>
+                                <span>ساعت پایان آزمون:</span>
+                                <span>@item.ExamFinishDateTime.ToString("HH:mm")</span>
+                            </div>
+                        </div>
+
+                        <div class=" az-participate">
+
+                            @if (item.ExamOn != true)
+                            {
+                                <button type="button" class="btn btn-info" disabled>آزمون متوقف  شده</button>
+                            }
+
+                             else if (item.ExamCancel == true)
+                            {
+                                <button type="button" class="btn btn-info" disabled>آزمون لغو شده</button>
+                            }
+                            else if (item.ExamFinishDateTime < DateTime.Now && item.ExamFinishDateTime.ToShortDateString().Equals(DateTime.Now.ToShortDateString()))
+                            {
+
+                                <button type="button" class="btn btn-danger" disabled>زمان آزمون به پایان رسیده</button>
+
+                            }
+                            else if (item.ExamFinishDateTime < DateTime.Now && !item.ExamFinishDateTime.ToShortDateString().Equals(DateTime.Now.ToShortDateString()))
+                            {
+
+                                <a class="btn btn-secondary" href="@Url.Action("Result")">
+                                    <span class=" mx-1">مشاهده پاسخ نامه</span>
+                                    <span class=" mx-1">|</span>
+                                    <span class=" mx-1">نمره:</span>
+                                    <span class=" mx-1">@item.ResponseScore</span>
+                                </a>
+
+                            }
+                            else if (item.ExamOn == true && Convert.ToInt16(item.OpeningNumber) < Convert.ToInt16(item.OpeningCount))
+                            {
+                                <button type="button" class="btn btn-danger" disabled>شما قادر به شرکت در آزمون نیستید</button>
+
+                            }
+                            else if (item.ExamOn == true && delayTime.TotalMinutes > item.DelayDeadline)
+                            {
+                                <button type="button" class="btn btn-danger" disabled>به علت تاخیر شما قادر به شرکت در آزمون نیستید</button>
+
+                            }
+                            else if (item.ExamStartDateTime.ToString("yyyy/MM/dd") != DateTime.Now.ToString("yyyy/MM/dd") || (item.ExamStartDateTime.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") && item.ExamStartDateTime.TimeOfDay > DateTime.Now.TimeOfDay))
+                            {
+                                <button type="button" class="btn btn-info" disabled>زمان آزمون شما نرسیده است</button>
+
+                            }
+                            else if (item.ExamOn == true && Convert.ToInt16(item.OpeningNumber) >= Convert.ToInt16(item.OpeningCount))
+                            {
+                                <a type="button" class="btn btn-success" href="@Url.Action("Response","Exam",new {Id=item.ExamID})">شرکت در آزمون</a>
+
+                            }
+
+                            @*<a type="button" class="btn btn-success" href="@Url.Action("Response","Exam",new {Id=item.ExamID})">شرکت در آزمون</a>*@
+
+                        </div>
+                    </div>
+                }
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</section>

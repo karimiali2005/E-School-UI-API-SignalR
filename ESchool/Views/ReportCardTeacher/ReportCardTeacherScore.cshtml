@@ -1,0 +1,185 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardTeacherScoreShowResult>
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+    bool reportCardScoreEnable = Model.FirstOrDefault().ReportCardScoreEnable;
+
+}
+
+
+
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons TeacherCardReport2 managementHomeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        <div class=" title-top">
+            @Model.FirstOrDefault().ReportCardTitle
+        </div>
+        @*<form class=" table-div m-3">*@
+        @if (reportCardScoreEnable)
+        {
+            <div class="d-flex align-items-center justify-content-end mt-2 mb-4">
+                <button id="btn1" onclick="ReportCardTeacherScoreSave('@ViewBag.ReportCardId','@ViewBag.RoomchatGroupId','@ViewBag.CourseId','@ViewBag.IsDescriptives')" class="btn btn-info btn-lg">ثبت تغییرات</button>
+            </div>
+        }
+
+        <table id="tblRepordCardTeacherScore" class=" table table-bordered">
+            <thead>
+                <tr class=" d-md-none">
+                    <th class="bottom-res-p"><span>عکس</span></th>
+                    <th><span>نام و نام خانوادگی</span></th>
+                </tr>
+                <tr class=" d-none d-md-table-row">
+                    <th><span>عکس</span></th>
+                    <th><span>نام و نام خانوادگی</span></th>
+                    <th><span>نمره</span></th>
+                    <th><span>توضیحات</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="TR@(item.ReportCardDetailID??0)_@(item.UserID)" class=" rowBig d-none d-md-table-row">
+                        <td class="imageTd">
+                            <div class=" d-flex justify-content-center align-items-center">
+                                <div class=" img-pro-other Live-border-img mx-2">
+                                    <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                         alt="user-img-pro">
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class=" day">@Html.Raw(item.FullName)</span></td>
+                        @if (item.ScoreTypeID == 1)
+                        {
+                            <td><span><input readonly="@(!reportCardScoreEnable)" id="input@(item.UserID)" class=" inputReportCardScore form-control" type="text" value="@item.ReportCardScore" placeholder="20-0"></span></td>
+                        }
+                        else
+                        {
+                            <td>
+                                <span>
+                                    <select disabled="@(!reportCardScoreEnable)" id="select@(item.UserID)" class=" selectDescriptives custom-select" required>
+                                        <option selected disabled value="">انتخاب کنید...</option>
+                                        @foreach (var descriptive in ViewBag.Descriptives)
+                                        {
+                                            bool selected = descriptive.ScoreTypeDetailId == item.ReportCardDescriptiveID ? true : false;
+                                            if (selected)
+                                            {
+                                                <option value="@descriptive.ScoreTypeDetailId" selected="selected">@Html.Raw(descriptive.ScoreTypeDetailTitle)</option>
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@descriptive.ScoreTypeDetailId">@Html.Raw(descriptive.ScoreTypeDetailTitle)</option>
+                                            }
+
+
+
+                                        }
+                                        @*<option selected disabled value="">انتخاب کنید...</option>
+                                        <option>خیلی بد</option>
+                                        <option>بد</option>
+                                        <option>متوسط</option>
+                                        <option>خوب</option>
+                                        <option>خیلی خوب</option>
+                                        <option>عالی</option>*@
+                                    </select>
+                                </span>
+                            </td>
+                        }
+                        <td>
+                            <span>
+                                <textarea readonly="@(!reportCardScoreEnable)" placeholder="توضیحات" name="" id=""
+                                          class=" txtAreaReportCardScore form-control">@item.ReportCardTeacherComment</textarea>
+                            </span>
+                        </td>
+                    </tr>
+                }
+
+
+
+
+                <!-- ------------------------------------ responsive mode ----------------------------- -->
+                @foreach (var item in Model)
+                {
+                    <tr id="TR@(item.ReportCardDetailID??0)_@(item.UserID)" class=" rowSmall d-md-none">
+                        <td class="imageTd">
+                            <div class=" d-flex justify-content-center align-items-center">
+                                <div class=" img-pro-other Live-border-img mx-2">
+                                    <img src="data:image;base64,@Convert.ToBase64String(Codes.ConvertImageToArray(item.PicName))"
+                                         alt="user-img-pro">
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class=" day">@Html.Raw(item.FullName)</span></td>
+                    </tr>
+                    @if (item.ScoreTypeID == 1)
+                    {
+                        <tr class=" rowSmall d-md-none">
+                            <th class=" padding-res"><span>نمره</span></th>
+                            <td><span><input readonly="@(!reportCardScoreEnable)" id="input@(item.UserID)" class=" inputReportCardScore form-control" type="text" placeholder="20-0" value="@item.ReportCardScore"></span></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class=" rowSmall d-md-none">
+                            <th class=" padding-res"><span>نمره</span></th>
+                            <td>
+                                <span>
+                                    <select disabled="@(!reportCardScoreEnable)" id="select@(item.UserID)" class=" selectDescriptives custom-select" required>
+                                        <option selected disabled value="">انتخاب کنید...</option>
+                                        @foreach (var descriptive in ViewBag.Descriptives)
+                                        {
+                                            bool selected = descriptive.ScoreTypeDetailId == item.ReportCardDescriptiveID ? true : false;
+                                            if (selected)
+                                            {
+                                                <option value="@descriptive.ScoreTypeDetailId" selected="selected">@Html.Raw(descriptive.ScoreTypeDetailTitle)</option>
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@descriptive.ScoreTypeDetailId">@Html.Raw(descriptive.ScoreTypeDetailTitle)</option>
+                                            }
+
+
+
+                                        }
+                                    </select>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class=" rowSmall d-md-none">
+                        <th class="verticalMiddle"><span>توضیحات</span></th>
+                        <td>
+                            <span>
+                                <textarea readonly="@(!reportCardScoreEnable)" placeholder="توضیحات" name="" id=""
+                                          class=" txtAreaReportCardScore form-control">@item.ReportCardTeacherComment</textarea>
+                            </span>
+                        </td>
+                    </tr>
+
+                }
+
+
+
+
+
+            </tbody>
+        </table>
+        @if (reportCardScoreEnable)
+        {
+            <div class="d-flex align-items-center justify-content-end mt-2 mb-4">
+                <button id="btn2" disabled="@(!reportCardScoreEnable)" onclick="ReportCardTeacherScoreSave('@ViewBag.ReportCardId','@ViewBag.RoomchatGroupId','@ViewBag.CourseId','@ViewBag.IsDescriptives')" class="btn btn-info btn-lg">ثبت تغییرات</button>
+            </div>
+        }
+            
+            @*</form>*@
+    </div>
+</section>
+@section Scripts
+{
+
+    <script src="/jsmember/ReportCard-1.0.3.js"></script>
+
+}

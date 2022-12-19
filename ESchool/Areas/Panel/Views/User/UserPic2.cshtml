@@ -1,0 +1,85 @@
+﻿@model User
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    //Layout = null;
+    string Title = Convert.ToString(ViewData["Title"]);
+
+    string Nickname = Model.FirstName + " " + Model.LastName;
+}
+
+<link href="/Sys/CSSCropper/2" rel="stylesheet" />
+<script type="text/javascript" src="/Sys/JSCropper/2"></script>
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>
+    </div>
+
+    <div class="step opacityOne" id="step2">
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ذخیره شود" onclick="upiced()" />
+        </div>
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+        <input type="hidden" id="id" name="id" value="@Model.UserId" />
+
+        <div class="row textAlignCenter">
+            <label class="lbl" id="result">@Html.Raw(Nickname)</label>
+        </div>        
+
+
+    </div>
+
+</form>
+
+<div class="modal directionLtr">
+    <img src="/Panel/User/Picture?id=@Model.UserId&o=1&large=1" alt="" id="imageUserPic" class="directionLtr">
+</div>
+
+<style>
+    .modal {
+        padding: 18px;
+        position: absolute;
+        border: 1px solid lightgrey;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: auto;
+    }
+
+        .modal img {
+            max-width: 100%;
+        }
+</style>
+
+<script>
+
+    var croppr = new Croppr('#imageUserPic', {
+        onInitialize: (instance) => {
+
+        }/*,
+        onCropMove: (data) => {
+            var json = JSON.stringify(croppr.getValue());
+            document.getElementById('result').innerHTML = json;
+        }*/
+    });
+
+    window.addEventListener("DOMContentLoaded", function () {        
+
+        /*croppr.moveTo(50, 50);
+        croppr.resizeTo(50, 50);*/
+
+    });
+
+    function getCrop() {
+        return croppr.getValue();
+    }
+    
+</script>
+

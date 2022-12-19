@@ -1,0 +1,156 @@
+﻿@model IEnumerable<User>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string[] colorUserActives = { "colorYellow", "colorRed", "colorGreen" };
+    string[] svgUserActives = { "/imagepanel/icons/inactiveFill.svg", "/imagepanel/icons/deactiveFill.svg", "/imagepanel/icons/activeFill.svg" };
+    string[] textUserActives = { "معلق", "غیرفعال", "فعال" };
+    int PageNumber = 1;
+    string q = "";
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { q = Convert.ToString(System.Web.MyHttpContext.Current.Request.Query["q"]); } catch { q = ""; }
+
+    int MaxRows = 0;
+    try { MaxRows = Convert.ToInt32(ViewData["MaxRows"]); } catch { MaxRows = 0; }
+
+    int CountRow = 10;
+    try
+    {
+        CountRow = Convert.ToInt32(ViewData["CountRow"]);
+        CountRow = CountRow <= 0 ? 10 : CountRow;
+    }
+    catch
+    {
+        CountRow = 10;
+    }
+}
+
+@await Html.PartialAsync("BigButtons")
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<div class="bigbox colorBackWhite colorBorderGray hideOverflow positionRelative">
+
+    <img class="arrow" src="/imagepanel/icons/arrow_down.png" onclick="openBigBox(this)" />
+
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="step opacityOne" id="step1">
+
+            <div class="row rowInline">
+                <label class="lbl">عبارت جستجو</label>
+                <input id="q" class="chPreviousColor" type="text" value="@q" />
+            </div>
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue" value="جستجو کنید" onclick="getTeachers()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :100px" value="فعال" onclick="uactive('Active')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackRed" style="width :100px" value="غیرفعال" onclick="uactive('Deactive')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackYellow" style="width :100px" value="معلق" onclick="uactive('Inactive')" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :100px" value="پرسنل" onclick="tpersonnel()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackBlue2" style="width :150px" value="تغییر نوع کاربری" onclick="utype()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackPrimary" style="width :150px" value="درس ها" onclick="tcourse()" />
+    <input class="buttonSingle buttonSingle4 displayNone colorBackPrimary" style="width :150px" value="کلاس ها" onclick="rteacher()" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :110px" value="خروجی اکسل" onclick="getExcel(4)" />
+    <input class="buttonSingle buttonSingle4 displayInlineBlock colorBackGreen" style="width :200px; float: left" value=" &#43; معلم جدید" onclick="newsTeacher()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th><input type="checkbox" id="chkAll" onclick="chkAllGrid();" /></th>
+            <th>ردیف</th>
+            <th style="width: 80px;">عکس کاربر</th>
+            <th>وضعیت</th>
+            <th style="width: 50px;">ورود</th>
+            <th>کد ملی</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>تلفن</th>
+            <th>همراه</th>
+            <th>آدرس</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            var index = item.UserActive == null ? 0 : item.UserActive.Value;
+
+            string UserTypeTitle = item.UserType != null ? item.UserType.UserTypeTitle : "";
+            string TeacherStatusTitle = item.ParentStatus != null ? item.ParentStatus.ParentStatusTitle : "";
+
+            <tr>
+                <td><input type="checkbox" class="chkGrid" value="@item.UserId" /></td>
+                <td>@((PageNumber - 1) * CountRow + i + 1)</td>
+                <td><a target="_blank" href="/Panel/User/Picture?id=@item.UserId&large=1"><img src="/Panel/User/Picture?id=@item.UserId&s=30" /></a></td>
+                <td class="@colorUserActives[index]">@Html.Raw(textUserActives[index])</td>
+                <td>
+                    @Html.Raw(SvgIcon.GetSvg(svgUserActives[index]))
+                </td>
+                <td>@Html.Raw(item.Irnational)</td>
+                <td>@Html.Raw(item.FirstName)</td>
+                <td>@Html.Raw(item.LastName)</td>
+                <td>@Html.Raw(item.Telephone)</td>
+                <td>@Html.Raw(item.MobileNumber)</td>
+                <td>@Html.Raw(item.Address)</td>
+                <td>
+                    <a class="operate" href="#" title="فعال">
+                        <img class="icon" src="/imagepanel/icons/active.png" onclick="uactive('Active', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="غیرفعال">
+                        <img class="icon" src="/imagepanel/icons/deactive.png" onclick="uactive('Deactive', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="معلق">
+                        <img class="icon" src="/imagepanel/icons/inactive.png" onclick="uactive('Inactive', @item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="منسبین">
+                        <img class="icon" src="/imagepanel/icons/laugh.png" onclick="urelation(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="ویرایش اطلاعات">
+                        <img class="icon" src="/imagepanel/icons/edit.png" onclick="newsTeacher(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="حذف">
+                        <img class="icon" src="/imagepanel/icons/delete.png" onclick="udelete(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="تغییر کلمه عبور">
+                        <img class="icon" src="/imagepanel/icons/password2.png" onclick="upwd(@item.UserId)" />
+                    </a>
+                    <a class="operate" href="#" title="برش تصویر">
+                        <img class="icon" src="/imagepanel/icons/crop.png" onclick="upic(@item.UserId)" />
+                    </a>
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    @if (MaxRows > 0)
+    {
+        @await Html.PartialAsync("Paging", MaxRows)
+    }
+
+</div>
+
+

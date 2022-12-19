@@ -1,0 +1,40 @@
+﻿@model List<Es.DataLayerCore.DTOs.Exam.RoomTeacherExamShowResult>
+
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons managementHomeWork AzmonTable2 AllAzmonTable single-homeWork">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        <div class=" table-div mx-auto my-3">
+            <table class=" table table-bordered">
+                <thead>
+                    <tr class=" ">
+                        <th class="radif"><span>ردیف</span></th>
+                        <th><span>تیتر آزمون</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ 
+                        var countor = 1;
+                    }
+                    @foreach (var exam in Model)
+                    {
+                        <tr class="">
+                            <td>
+                                <div>
+                                   @Html.Raw(@countor++.ToString())
+                                </div>
+                            </td>
+                            <td><span><a href="@exam.ExamAddress" target="_blank">@exam.ExamTitle</a></span></td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

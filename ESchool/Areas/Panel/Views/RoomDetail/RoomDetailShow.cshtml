@@ -1,0 +1,99 @@
+﻿@model IEnumerable<RoomDetail>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    RoomDetailOp roomDetailOp = new RoomDetailOp();
+
+    int RoomTypeId = 1;
+    int RoomId = 0;
+    if (Model.Count() > 0)
+    {
+        RoomTypeId = Model.First().Room.RoomTypeId;
+        RoomId = Model.First().RoomId;
+    }
+
+    List<Calendar> calendars = (List<Calendar>)ViewBag.Holidays;
+
+
+}
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+    <form class="form textAlignCenter">
+
+        <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+        <input type="hidden" id="id" value="@RoomId" />
+    </form>
+</div>
+
+<div class="bigbox displayBlock textAlignRight">
+    <input type="button" class="buttonSingle buttonSingle4 displayInlineBlock colorBackBlue2" style="width :150px; float: left" value="برگشت" onclick="cancelCh()" />
+</div>
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>ردیف</th>
+            <th>تاریخ</th>
+            <th>روز</th>
+            <th>ساعت شروع</th>
+            <th>ساعت پایان</th>
+            @if (RoomTypeId == 1)
+            {
+                <th>درس</th>
+                <th>معلم</th>
+            }
+            <th>توضیحات</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (RoomDetail roomDetail in Model)
+        {
+            string classHoliday = calendars.Any(p => p.CalendarDate.Date == roomDetail.RoomDetailDate.Date) || roomDetail.RoomDetailDate.DayOfWeek == DayOfWeek.Friday ? "colorBackRed2" : "";
+
+            string PersianDate = roomDetail.RoomDetailDate != null ? Codes.getPersianDate(roomDetail.RoomDetailDate) : "";
+            string PersianDay = roomDetail.RoomDetailDate != null ? Codes.getPersianDay(roomDetail.RoomDetailDate) : "";
+            string CourseTitle = roomDetail.Course != null ? roomDetail.Course.CourseTitle : "";
+            string TeacherName = roomDetail.User != null ? roomDetail.User.FirstName + " " + roomDetail.User.LastName : "";
+
+            <tr class="@classHoliday">
+                <td>@(i + 1)</td>
+                <td>@PersianDate</td>
+                <td>@PersianDay</td>
+                <td>@Html.Raw(roomDetail.RoomDetailTimeStart)</td>
+                <td>@Html.Raw(roomDetail.RoomDetailTimeFinish)</td>
+                @if (RoomTypeId == 1)
+                {
+                    <td>@Html.Raw(CourseTitle)</td>
+                    <td>@Html.Raw(TeacherName)</td>
+                }
+                <td>@Html.Raw(roomDetail.Comment)</td>
+                <td>
+                    <a class="operate" href="#">
+                        <img class="icon" src="/imagepanel/icons/delete.png" onclick="rddelete(@roomDetail.RoomDetailId)" />
+                    </a>
+                    <a class="operate" href="#">
+                        <img class="icon" src="/imagepanel/icons/edit.png" onclick="newsRoomDetail(0, @roomDetail.RoomDetailId)" />
+                    </a>
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+</div>
+
+
+

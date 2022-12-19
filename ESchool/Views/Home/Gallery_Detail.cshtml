@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.Gallery.GalleryDetailShowResult>
+@{
+    ViewBag.Title = "گالری";
+    Layout = "LayoutMain";
+    var addressDownload = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.Gallery;
+}
+@section StylesSlick
+{
+    <link rel="stylesheet" href="/slick/slick-theme.css">
+    <link rel="stylesheet" href="/slick/slick.css">
+}
+<header class="log-reg-header">
+    <div class=" container-fluid d-flex justify-content-between align-items-center">
+        <div class="menu-logo">
+            <div class=" logo">
+                <!-- start cahnge11 -->
+                <img src="../imagemember/logo1.png" alt="">
+                <!-- end cahnge11 -->
+            </div>
+            <div class="barsmenu-h">
+                <div id="bars" class="d-block d-lg-none text-right">
+                    <img src="../imagemember/Component 1 – 10@2x.png" alt="">
+                </div>
+                <div class=" menu" id="menu">
+                    <ul>
+                        <li class="active">
+                            <a href="/Home/Index">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="/Account/Register">ثبت دانش آموزان</a>
+                        </li>
+                        <li>
+                            <a href="#">معرفی اساتید</a>
+                        </li>
+                        <li>
+                            <a href="#">اخبار</a>
+                        </li>
+
+
+                        <li>
+                            <a href="/Home/Gallery">گالری تصاویر</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About">درباره ما</a>
+                        </li>
+                        <li>
+                            <a href="#mainfooter">تماس با ما</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="section-top-slider">
+    <div class="container con-br">
+        <div class="title">
+            <div class="div-txt">
+                <h1>@Model.FirstOrDefault().GalleryTitle</h1>
+            </div>
+        </div>
+        <div class="div-sl">
+            <div class="slider slider-x">
+                @foreach(var item in Model.Where(g=>g.GalleryDetailType==1).ToList())
+                {
+                    <div>
+                        <img class="img-fluid" src="@(addressDownload)@item.GalleryDetailName" alt="">
+                    </div>
+                }
+                
+                @*<div>
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>
+                <div>
+                    <img class="img-fluid" src="../imagemember/04hesabi.jpg" alt="">
+                </div>
+                <div>
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>*@
+            </div>
+            <div class="slider slider-nav">
+                @foreach (var item in Model.Where(g => g.GalleryDetailType == 1).ToList())
+                {
+                    <div class="div-img">
+                        <img class="img-fluid" src="@(addressDownload)@item.GalleryDetailName" alt="">
+                    </div>
+                }
+
+                @*<div class="div-img">
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/04hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/04hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/04hesabi.jpg" alt="">
+                </div>
+                <div class="div-img">
+                    <img class="img-fluid" src="../imagemember/05hesabi.jpg" alt="">
+                </div>*@
+            </div>
+        </div>
+        <article>
+            <h2>توضیحات</h2>
+            <p>
+               @Model.FirstOrDefault().GalleryDescription
+            </p>
+        </article>
+        <div class="video-gallery my-5">
+            <div class="vd-tl py-3">
+                <h2>
+                    ویدئو های مرتبط
+                </h2>
+            </div>
+            <div class="vd-mn row">
+                @foreach (var item in Model.Where(g => g.GalleryDetailType == 2).ToList())
+                {
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="p-2 my-3">
+                            <video width="240" height="200" controls>
+                                <source src="@(addressDownload)@item.GalleryDetailName" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                }
+            @*<div class="col-lg-3 col-md-6 col-12">
+                <div class="p-2 my-3">
+                    <video width="240" height="200" controls>
+                        <source src="../Video/gallery-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="p-2 my-3">
+                    <video width="240" height="200" controls>
+                        <source src="../Video/gallery-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="p-2 my-3">
+                    <video width="240" height="200" controls>
+                        <source src="../Video/gallery-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>*@
+                </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+@section Scripts
+{
+    <script src="/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.slider-for').slick({
+                rtl: true,
+                arrows: false,
+                asNavFor: '.slider-nav,.slider-x',
+            });
+            $('.slider-x').slick({
+                rtl: true,
+                arrows: true,
+                asNavFor: '.slider-for,.slider-nav',
+            });
+            $('.slider-nav').slick({
+                rtl: true,
+                arrows: true,
+                asNavFor: '.slider-for,.slider-x',
+                centerMode: true,
+                centerPadding: '60px',
+                dots: true,
+                focusOnSelect: true,
+                slidesToShow: 5,
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,12 @@
+﻿@{ 
+    var controllerName = this.ViewContext.RouteData.Values["Controller"].ToString();
+    var selectStudent = controllerName == "Student" ? "select" : "";
+    var selectParent = controllerName == "Parent" ? "select" : "";
+    var selectTeacher = controllerName == "Teacher" ? "select" : "";
+}
+
+<div class="bigbox displayBlock">
+    <a href="/Panel/Student" class="bigbutton displayInlineBlock colorBackWhite colorBorderGray @selectStudent">دانش آموزان</a>
+    <a href="/Panel/Parent" class="bigbutton displayInlineBlock colorBackWhite colorBorderGray @selectParent">والدین</a>    
+    <a href="/Panel/Teacher" class="bigbutton displayInlineBlock colorBackWhite colorBorderGray @selectTeacher">معلمان</a>
+</div>

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<RoomDetail>
+
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    int count = 0;
+    RoomDetailOp roomDetailOp = new RoomDetailOp();
+
+    int RoomTypeId = 1;
+    int UserId_Model = 0;
+    if (Model.Count() > 0)
+    {
+        RoomTypeId = Model.First().Room.RoomTypeId;
+        UserId_Model = Model.First().UserId == null ? 0 : Model.First().UserId.Value;
+    }
+
+    var UserId = Convert.ToInt32(this.User.FindFirst("UserId").Value);
+    var UserTypeId = Convert.ToInt32(this.User.FindFirst("UserTypeId").Value);
+
+    List<Calendar> calendars = (List<Calendar>)ViewBag.Holidays;
+}
+
+<div class="bigbox colorBackWhite colorBorderGray positionRelative">
+    <form class="form textAlignCenter">
+
+        <p id="formTitle" class="titr textAlignRight">@Html.Raw(ViewData["Title"])</p>
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <div class="row textAlignLeft">
+            <input type="button" class="buttonSingle colorBackThirty displayInlineBlock colorBackBlue2" value="بازگشت" onclick="cancelCh()" />
+            
+        </div>
+
+    </form>
+</div>
+
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>ردیف</th>
+            <th>تاریخ</th>
+            <th>روز</th>
+            <th>ساعت شروع</th>
+            <th>ساعت پایان</th>
+            @if (RoomTypeId == 1)
+            {
+                <th>درس</th>
+                <th>معلم</th>
+            }
+            <th>توضیحات</th>
+            @if (UserTypeId == 4 && UserId_Model == UserId)
+            {
+               <th>عملیات</th>
+
+            }
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (RoomDetail roomDetail in Model)
+        {
+            string classHoliday = calendars.Any(p => p.CalendarDate.Date == roomDetail.RoomDetailDate.Date) || roomDetail.RoomDetailDate.DayOfWeek == DayOfWeek.Friday ? "colorBackRed2" : "";
+
+            string PersianDate = roomDetail.RoomDetailDate != null ? Codes.getPersianDate(roomDetail.RoomDetailDate) : "";
+            string PersianDay = roomDetail.RoomDetailDate != null ? Codes.getPersianDay(roomDetail.RoomDetailDate) : "";
+            string CourseTitle = roomDetail.Course != null ? roomDetail.Course.CourseTitle : "";
+            string TeacherName = roomDetail.User != null ? roomDetail.User.FirstName + " " + roomDetail.User.LastName : "";
+
+            <tr class="@classHoliday">
+                <td>@(i + 1)</td>
+                <td>@PersianDate</td>
+                <td>@PersianDay</td>
+                <td>@Html.Raw(roomDetail.RoomDetailTimeStart)</td>
+                <td>@Html.Raw(roomDetail.RoomDetailTimeFinish)</td>
+                @if (RoomTypeId == 1)
+                {
+                    <td>@CourseTitle</td>
+                    <td>@TeacherName</td>
+                }
+                <td>@Html.Raw(roomDetail.Comment)</td>
+                @if (UserTypeId == 4 && UserId_Model == UserId)
+                {
+                    <td class="">
+                        <a class="operate displayInlineBlock" href="#">
+                            <img class="icon" src="/imagepanel/icons/edit.png" onclick="classedit(@roomDetail.RoomDetailId, @roomDetail.Room.RoomId)" />
+                        </a>
+                        <a class="operate displayNone" href="#" title="اتاق چت">
+                            <img class="icon displayBlock" src="/imagesuser/icons/chat.png" onclick="chatroom(@roomDetail.Room.RoomId, @roomDetail.UserId, @roomDetail.RoomDetailId)" />
+                        </a>
+                    </td>                
+                }
+                          
+            </tr>
+
+            i++;
+        }
+
+    </table>
+
+    <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+    <input type="hidden" id="id" value="@ViewData["RoomId"]" />
+
+</div>

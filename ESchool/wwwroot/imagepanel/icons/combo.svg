@@ -1,0 +1,10 @@
+<svg class="combo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55.835" height="32.833" viewBox="0 0 55.835 32.833">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_2" data-name="Path 2" d="M170.222,13.773l2.547-2.509,24.323-24.228A3.561,3.561,0,0,0,197.1-18l-.017-.017h0a3.608,3.608,0,0,0-5.086.007L170.222,3.683,148.445-18.009a3.608,3.608,0,0,0-5.086-.007h0a3.56,3.56,0,0,0-.024,5.035l.017.017,24.323,24.228Z" transform="translate(-142.304 19.061)" fill="none" clip-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <g id="Group_1" data-name="Group 1" clip-path="url(#clip-path)">
+    <path id="Path_1" data-name="Path 1" d="M137.3-24.061H242.155V57.788H137.3Z" transform="translate(-161.812 -0.447)" fill="#1e2451"/>
+  </g>
+</svg>

@@ -1,0 +1,284 @@
+﻿@model vm_ExamByQuestionsAndChoices
+@using EsServiceCore.DTOs
+@using Es.DataLayerCore.Model
+@using System.Globalization;
+
+@{
+    Layout = "_LayoutMember";
+    var indexQuestion = 0;
+    var nficurrent = CultureInfo.CurrentCulture.NumberFormat;
+
+    var disable = Model.HasResponse == true ? "disabled" : "";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="/datePicker2/css/persian-datepicker.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+
+}
+<link href="/cssexam/exam.css" rel="stylesheet" />
+
+<section class="panel Chat-page ">
+    <div>
+        <header class="header-panel chat">
+            <nav>
+                @await Html.PartialAsync("Header")
+            </nav>
+        </header>
+    </div>
+    <div class=" content-all">
+        <div class="content">
+            <div class="row my-3">
+                <a href="@Url.Action("Exams","Exam")" class=" btn btn-info"><span class="ml-2 mr-2">برگشت</span></a>
+            </div>
+            <form asp-action="Create" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <input type="hidden" id="seperator" value="@nficurrent.NumberDecimalSeparator" />
+
+                @Html.HiddenFor(m => m.ExamId)
+                @Html.HiddenFor(m => m.CompanyId)
+                @Html.HiddenFor(m => m.UserId)
+                @Html.HiddenFor(m => m.ExamLoginTypeId)
+                @Html.AntiForgeryToken()
+                @*<div asp-validation-summary="All"></div>*@
+
+                <div class="detail-azmon-exam box-content my-4">
+                    <div class="color-bar-top"></div>
+                    <div class="row title-exam ">
+                        <input type="text" placeholder="تیتر آزمون را وارد کنید" asp-for="@Model.ExamTitle">
+                        <span asp-validation-for="ExamTitle" class="text-danger"></span>
+                    </div>
+                    <div class="row desc-exam ">
+                        <input type="text" placeholder="توضیحات آزمون خود را وارد کنید" asp-for="@Model.ExamDescription">
+                        <span asp-validation-for="ExamDescription" class="text-danger"></span>
+
+                    </div>
+                    <div class=" row my-4">
+                        <div class="col-xl-4 col-lg-4 text-right @disable">
+                            <label for="RoomChatGroupId" class="form-label">کلاس:</label>
+                            <select class="form-control select-mode-azmon selectpicker show-menu-arrow show-tick" data-live-search="true" asp-for="@Model.RoomChatGroupId">
+                                <option value="">کلاس هایی که میخواهید از آنها آزمون بگیرید</option>
+                                @foreach (var item in Model.RoomChats)
+                                {
+                                    if (item.value == Model.RoomChatGroupId)
+                                    {
+                                        <option value="@item.value" selected>@item.text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.value">@item.text</option>
+                                    }
+                                }
+                            </select>
+                            @*@Html.DropDownListFor(n => n.RoomChatGroupId, Enumerable.Empty<SelectListItem>(), new { @id = "RoomChatGroupId", @style = "width:300px;" })*@
+                            <span asp-validation-for="RoomChatGroupId" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-xl-4 col-lg-4 text-right select-date-class" @disable>
+
+                            <label for="datePickerStart" class="form-label">تاریخ شروع آزمون:</label>
+                            <input type="text" id="datePickerStart" class="form-control select-date-exam mx-1" asp-for="@Model.ExamStartDateTime" placeholder="تاریخ شروع را وارد کنید">
+                            <span asp-validation-for="ExamStartDateTime" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-4 col-lg-4 text-right time-exam">
+                            <div>
+                                <span>ساعت شروع:</span>
+                                <input type="time" placeholder="ساعت شروع" asp-for="@Model.ExamStartTime">
+                                <span asp-validation-for="ExamStartTime" class="text-danger"></span>
+
+                            </div>
+                            <div>
+                                <span>ساعت پایان:</span>
+                                <input type="time" placeholder="ساعت پایان" asp-for="@Model.ExamFinishTime">
+                                <span asp-validation-for="ExamFinishTime" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" row my-2">
+                        <div class="col-xl-4 col-lg-4 text-right">
+
+                            <div class=" score" @disable>
+                                <label for="ScoreTypeID" class="form-label">نمره دهی:</label>
+                                <select class="form-control select-type-exam mx-1" asp-for="@Model.ScoreTypeId">
+                                    @foreach (var item in Model.ScoreTypes)
+                                    {
+                                        <option value="@item.ScoreTypeID" data-typescore="@item.IsNumber" data-maxscore="@item.ScoreFinish" data-minscore="@item.ScoreStart">@item.ScoreTypeTitle (@item.SumScoreTypeDetailTitle)</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-2 col-lg-2 text-right">
+
+                            <label for="OpeningNumber" class="form-label">تعداد ورود آزمون:</label>
+                            <input type="number" class="form-control mx-1 my-1" placeholder="تعداد شرکت در آزمون" asp-for="@Model.OpeningNumber">
+                            <span asp-validation-for="OpeningNumber" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-xl-2 col-lg-2 text-right">
+
+                            <label for="DelayDeadline" class="form-label">تاخیر در آزمون(دقیقه):</label>
+                            <input type="number" class="form-control mx-1 my-1" placeholder="مهلت تاخیر در آزمون" asp-for="@Model.DelayDeadline">
+                            <span asp-validation-for="DelayDeadline" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-xl-2 col-lg-2 text-right">
+
+                            <label for="RandomNumber" class="form-label">تعداد سوالات تصادفی:</label>
+                            <input type="number" class="form-control mx-1 my-1" placeholder="تعداد سوالات تصادفی" asp-for="@Model.RandomNumber">
+                            <span asp-validation-for="RandomNumber" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-xl-2 col-lg-2 text-right px-1">
+                            <div class="form-group form-check text-right mt-4 px-0">
+                                <input type="checkbox" class="form-check-input" id="selectall" data-val="true" name="selectall">
+                                <label class="form-check-label" for="selectall">تمام سوالات تصادفی</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                @if (Model.ExamId != 0 && Model.ExamId != null && Model.Questions != null)
+                {
+                    foreach (var item in Model.Questions)
+                    {
+                        await Html.RenderPartialAsync("QT" + item.QuestionTypeId, new vm_ExamByQuestionsAndChoices()
+                        {
+                            Indexq = indexQuestion,
+                            ScoreIsNumber = Model.ScoreIsNumber,
+                            Questions = new List<Question> { item },
+                            HasResponse = Model.HasResponse
+
+                        });
+                        indexQuestion++;
+                    }
+
+                }
+
+
+                <div id="div_defaultQuestion_hidden">
+
+                </div>
+                @if (Model.ExamId == 0 || Model.ExamId == null || Model.Questions == null || Model.Questions.Count == 0 || Model.HasResponse != true)
+                {
+                    <div class="row my-3">
+
+                        <div class="dropdown drop-addquestion" id="first-btn-add">
+                            <button id="btnGroupDrop1" type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                سوال جدید
+                                <img src="~/imagemember/Iconly-Bold-Paper Plus@2x.png" alt="">
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" onclick="addQuestionFirst(1)">متنی</a>
+                                <a class="dropdown-item" onclick="addQuestionFirst(2)">چند گزینه ای</a>
+                                <a class="dropdown-item" onclick="addQuestionFirst(3)">فایلی</a>
+                                <a class="dropdown-item" onclick="addQuestionFirst(4)">صوتی</a>
+                            </div>
+                        </div>
+                        @*<a onclick="addQuestionFirst()" id="first-btn-add" class="btn btn-img p-0 shadow-none m-0">
+                                <img src="~/imagemember/Iconly-Light-outline-Plus@2x.png" alt="">
+                            </a>*@
+                    </div>
+                }
+                <div class=" all-submit">
+                    @if (!string.IsNullOrEmpty(Model.ErrorMsg))
+                    {
+                        <p class="alert alert-danger  text-right " id="myalert">
+                            @Model.ErrorMsg
+                        </p>
+
+                    }
+                    else
+                    {
+                        <p class="alert alert-danger  text-right d-none" id="myalert"></p>
+
+                    }
+
+                    <button type="submit" class=" btn btn-success text-white w-100 btn-lg">
+                        ذخیره و ثبت
+                        آزمون
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts
+{
+
+
+    <script src="/datePicker2/js/persian-date.min.js"></script>
+    <script src="/datePicker2/js/persian-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/jsexam/exam.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#datePickerStart").persianDatepicker({
+                altField: '#datePickerStart',
+                altFormat: "YYYY/MM/DD",
+                observer: true,
+                format: 'YYYY/MM/DD',
+                initialValue: true,
+                initialValueType: 'persian',
+                autoClose: true,
+                position: [-341, 0],
+                minDate: 'today',
+                initialValue: '@Model.ExamStartDateTime'
+                //timePicker: {
+                //    enabled: true,
+                //    meridiem: {
+                //        enabled: true
+                //    }
+                //}
+
+            });
+
+
+
+
+
+
+        })
+        if ("@Model.HasResponse" == "True") {
+
+                  $("#datePickerStart").attr('disabled', 'disabled');
+                  $("#RoomChatGroupId").attr('disabled', 'disabled');
+                  $("#ScoreTypeId").attr('disabled', 'disabled');
+
+
+                $(".question-type").find('input[type=text]').each(function () {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $(".question-type").find('input[type=file]').each(function () {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $(".question-type").find('img').each(function () {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $(".question-type").find('button').each(function () {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $(".question-type").find('a').each(function () {
+                    $(this).attr('disabled', 'disabled');
+                    $(this).addClass('not-allowed');
+                       $(this).hide();
+                });
+
+
+        }
+
+        $('.selectpicker').selectpicker();
+    </script>
+}

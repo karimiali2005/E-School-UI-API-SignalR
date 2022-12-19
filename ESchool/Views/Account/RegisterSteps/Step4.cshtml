@@ -1,0 +1,179 @@
+﻿@model IEnumerable<ParentStatus>
+
+<div class="step opacityZero" id="step4">
+   
+    <div class="row rowInline">
+        <label class="lbl">نام</label>
+        <input id="motherName" class="chPreviousColor" type="text" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">نام خانوادگی</label>
+        <input id="motherFamily" class="chPreviousColor" type="text" />
+    </div>
+
+    <div class="row rowInline positionRelative">
+        <label class="lbl">کد ملی</label>
+        <input id="motherIRNational" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric"  />
+        <img class="searchIRNational positionAbsolute" src="~/imagesite/icons/searchIRNational.png" onclick="checkIrNational('mother')" />
+    </div>
+
+    <div class="row rowbox">
+        <div class="row rowInline2">
+            <label class="lbl">سریال شناسنامه</label>
+            <input id="motherCertificateSerial" class="chPreviousColor" type="text" placeholder="مثال: 868745" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">عدد سری ش.م</label>
+            <input id="motherCertificateNum" class="chPreviousColor" type="text" placeholder="مثال: 86" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">حرف سری ش.م</label>
+            <select id="motherCertificateChar" class="chPreviousColor">
+                <option value="الف">الف</option>
+                <option value="ب">ب</option>
+                <option value="ل">ل</option>
+                <option value="د">د</option>
+                <option value="ر">ر</option>
+                <option value="ج">ج</option>
+                <option value="چ">چ</option>
+                <option value="ح">ح</option>
+                <option value="خ">خ</option>
+                <option value="و">و</option>
+                <option value="یک">یک</option>
+                <option value="دو">دو</option>
+                <option value="سه">سه</option>
+                <option value="چهار">چهار</option>
+                <option value="نه">نه</option>
+                <option value="ده">ده</option>
+                <option value="یازده">یازده</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">محل تولد</label>
+        <input id="motherLocationBirth" class="chPreviousColor" type="text" placeholder="مثال: کاشان" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">محل صدور شناسنامه</label>
+        <input id="motherLocationCertificate" class="chPreviousColor" type="text" placeholder="مثال: کاشان" />
+    </div>
+
+    <div class="row rowbox">
+        <div class="row rowInline2">
+            <label class="lbl">روز تولد</label>
+            <select id="motherBirthDay" class="chPreviousColor">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>                
+            </select>
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">ماه تولد</label>
+            <select id="motherBirthMonth" class="chPreviousColor">
+                <option value="01">فروردین</option>
+                <option value="02">اردیبهشت</option>
+                <option value="03">خرداد</option>
+                <option value="04">تیر</option>
+                <option value="05">مرداد</option>
+                <option value="06">شهریور</option>
+                <option value="07">مهر</option>
+                <option value="08">آبان</option>
+                <option value="09">آذر</option>
+                <option value="10">دی</option>
+                <option value="11">بهمن</option>
+                <option value="12">اسفند</option>
+            </select>
+        </div>
+
+        <div class="row rowInline2">
+            <label class="lbl">سال تولد</label>
+            <input id="motherBirthYear" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 1350" />
+        </div>
+
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">تحصیلات</label>
+        <select id="motherDegree" class="chPreviousColor">
+            <option value="بی سواد">بی سواد</option>
+            <option value="ابتدایی">ابتدایی</option>
+            <option value="سیکل">سیکل</option>
+            <option value="دیپلم">دیپلم</option>
+            <option value="فوق دیپلم">فوق دیپلم</option>
+            <option value="لیسانس">لیسانس</option>
+            <option value="فوق لیسانس">فوق لیسانس</option>
+            <option value="دکتری و بالاتر">دکتری و بالاتر</option>
+        </select>
+    </div>
+
+
+    <div class="row rowInline">
+        <label class="lbl">شغل</label>
+        <input id="motherjob" class="chPreviousColor" type="text" placeholder="مثال: خانه دار" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">شماره محل کار</label>
+        <input id="motherNumber" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 55442020" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">شماره همراه</label>
+        <input id="motherMobileNumber" class="chPreviousColor textAlignLeft directionLtr" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="مثال: 09131245678" />
+    </div>
+
+    <div class="row rowInline">
+        <label class="lbl">وضعیت</label>
+        <select id="motherStatus" class="chPreviousColor">
+            @foreach (var parentStatus in Model)
+            {
+                <option value="@parentStatus.ParentStatusId">@parentStatus.ParentStatusTitle</option>
+            }
+        </select>
+    </div>
+
+    <div class="row row90">
+        <label class="lbl">آدرس محل کار</label>
+        <textarea id="motherJobAddress" class="chPreviousColor"></textarea>
+    </div>
+
+
+    <div class="row textAlignCenter">
+        <input type="button" class="buttonSingle colorBackThirty" value="بازگشت/مرحله قبل" onclick="step3('a');" />
+        <input type="button" class="buttonSingle colorBackSeconday" value="تاييد/مرحله بعد" onclick="step5();" />
+    </div>
+</div>

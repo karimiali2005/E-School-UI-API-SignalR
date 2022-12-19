@@ -1,0 +1,41 @@
+﻿@model Course
+
+@{
+    string Title = "درس جدید";
+    Title = Model == null || Model.CourseId == 0 ? "درس جدید" : "ویرایش : " + Model.CourseTitle;
+    ViewData["Title"] = Title;
+
+    
+}
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw(Title)</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>        
+    </div>
+    
+    <div class="step opacityOne" id="step2">
+
+        <div class="row rowInline">
+            <label class="lbl">نام درس</label>
+            <input asp-for="@Model.CourseTitle" value="@Model.CourseTitle" class="chPreviousColor" type="text" />
+        </div>
+        <div class="row rowInline">
+            <label class="lbl">درس در کارنامه</label>
+            <input asp-for="@Model.ReportCardCourseTitle" value="@Model.ReportCardCourseTitle" class="chPreviousColor" type="text" />
+        </div>
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+        <input type="hidden" asp-for="CourseId" value="@Model.CourseId" />
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="newdedCourse()" />
+        </div>
+    </div>
+
+   
+
+</form>

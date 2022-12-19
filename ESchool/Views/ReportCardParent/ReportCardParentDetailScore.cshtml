@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Es.DataLayerCore.DTOs.ReportCard.ReportCardStudentDetailShowResult>
+@{
+    ViewBag.Title = "مدرسه حسابی";
+    Layout = "_LayoutMember";
+
+}
+
+
+<section class=" Chat-page table-plan table-plan-lesson planAlllessons CardReporter">
+    <div class="  p-0 chat">
+        @await Html.PartialAsync("Header")
+        @*<div class=" title-top">
+                کارنامه سه ماهه اول ریاضی
+            </div>*@
+        <div class="cardReporterBox">
+
+            <div class=" table-div ">
+                <table class=" table table-bordered">
+                    <thead>
+                        <tr class=" d-sm-none">
+                            <th colspan="2" class="title-res"><span>نام درس</span></th>
+                            <th colspan="2"><span>نمره</span></th>
+                        </tr>
+                        <tr class=" d-none d-sm-table-row">
+                            <th class="title-res"><span>نام درس</span></th>
+                            <th><span>نمره</span></th>
+                            <th><span>توضیحات</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class=" d-none d-sm-table-row">
+                                <td><span class=" day">@Html.Raw(item.ReportCardCourseTitle)</span></td>
+                                <td><span>@Html.Raw(item.Score)</span></td>
+                                <td>
+                                    <span>
+                                        @Html.Raw(item.ReportCardTeacherComment)
+                                    </span>
+                                </td>
+
+                            </tr>
+                        }
+
+
+                        <!-- ------------------------------------ responsive mode ----------------------------- -->
+                        @foreach (var item in Model)
+                        {
+                            <tr class=" d-sm-none">
+                                <td colspan="2"><span class=" day">@Html.Raw(item.ReportCardCourseTitle)</span></td>
+                                <td colspan="2"><span>@Html.Raw(item.Score)</span></td>
+                            </tr>
+                            <tr class=" d-sm-none">
+                                <th class=" padding-res"><span>توضیحات</span></th>
+                                <td colspan="2">
+                                    <span class="span-res-p">
+                                        @Html.Raw(item.ReportCardTeacherComment)
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Es.DataLayerCore.Model.PreRegistration>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    var addressDownload = "https://hesabidownload.ir/hesabischoolfiles/" + SettingContext.PathStoreFiles.Instance.PreRegistrationPic;
+}
+
+<div class="bigbox displayBlock textAlignCenter colorBackWhite" style="overflow-x: auto; padding: 10px;">
+    <table cellspacing="0" class="grid">
+        <tr>
+            <th>کلاس</th>
+            <th>کدملی</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>نام پدر</th>
+            <th>همراه پدر</th>
+            <th>نام ونام خانوادگی مادر</th>
+            <th>همراه مادر</th>
+            <th>فیش</th>
+            <th>عملیات</th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>@Html.Raw(item.ClassRoom)</td>
+        <td>@Html.Raw(item.Irnational)</td>
+        <td>@Html.Raw(item.FirstName)</td>
+        <td>@Html.Raw(item.LastName)</td>
+        <td>@Html.Raw(item.FatherName)</td>
+        <td>@Html.Raw(item.FatherNumber)</td>
+        <td>@Html.Raw(item.MotherFullName)</td>
+        <td>@Html.Raw(item.MotherNumber)</td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.Pic))
+            {
+                <a class="operate" title="فیش" target="_blank" href="@addressDownload@item.Pic" download>
+                    @*<img class="icon" src="/imagepanel/icons/schedule.png" />*@
+                    دانلود
+                </a>
+            }
+        </td>
+        <td>
+            <a class="operate" href="#" title="آرشیو">
+                <img class="icon" src="/imagepanel/icons/archive.png" onclick="preRegistrationArchive(@item.PreRegistrationId)" />
+            </a>
+           
+        </td>
+
+    </tr>
+
+            i++;
+        }
+    </table>
+
+
+</div>

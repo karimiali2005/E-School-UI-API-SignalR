@@ -1,0 +1,64 @@
+﻿@model IEnumerable<User>
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    UserOp userOp = new UserOp();
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">نسبت های کاربران انتخاب شده به شرح ذیل است</p>
+
+        <div class="step opacityOne">
+
+            @foreach (User user in Model)
+            {
+                <div class="row row90">
+
+                    @if (user.UserIdfather != null)
+                    {
+                        var userFather = userOp.GetUser(user.UserIdfather.Value);
+                        <label title="@user.UserId" class="lbl colorPrimary"> پدر @Html.Raw(user.FirstName) @Html.Raw(user.LastName)  با کد ملی @user.Irnational آقای @Html.Raw(userFather.FirstName) @Html.Raw(userFather.LastName)  با کد ملی @userFather.Irnational می باشد</label>
+                        <br />
+                    }
+                    @if (user.UserIdmother != null)
+                    {
+                        var userMother = userOp.GetUser(user.UserIdmother.Value);
+                        <label title="@user.UserId" class="lbl colorPrimary"> مادر @Html.Raw(user.FirstName) @Html.Raw(user.LastName)  با کد ملی @user.Irnational خانم @Html.Raw(userMother.FirstName) @Html.Raw(userMother.LastName)  با کد ملی @userMother.Irnational می باشد</label>
+                        <br />
+                    }
+                    
+                    @{ 
+                        var childs = userOp.GetChilds(user.UserId);
+                        foreach(var child in childs)
+                        {
+                            <label title="@user.UserId" class="lbl colorPrimary"> کاربر @Html.Raw(user.FirstName) @Html.Raw(user.LastName)  با کد ملی @user.Irnational دارای فرزند @Html.Raw(child.FirstName) @Html.Raw(child.LastName)  با کد ملی @child.Irnational می باشد</label>
+                            <br />
+                        }
+                    }
+                    
+                </div>
+            }          
+
+            
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

@@ -1,0 +1,79 @@
+﻿.listtitr {
+    display: block;
+    width: 100%;
+    background-color: #e8e8e8;
+    border: 1px solid #b7b7b7;    
+}
+
+.listtitr div.checkbox {
+    display: inline-block;
+    vertical-align: top;    
+    margin: 10px;    
+}
+
+.listtitr div.checkbox input[type=checkbox] {
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;        
+}
+
+.listtitr span {
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    width: calc(100% - 75px);    
+    margin: 10px;    
+    cursor: pointer;
+}
+
+.listtitr span img.listarrow {
+    transition: all .3s ease-in-out;
+}
+
+.listtitr span img.listarrow.rotate {
+    transform: rotate(180deg);
+}
+
+.listcontent {
+    display: block;
+    width: 100%;
+    border: 1px solid #b7b7b7;
+    margin: 0;    
+    height: 0;
+    overflow-y: hidden;
+    opacity: 0;
+    transition: all .5s ease-in-out;
+}
+
+.listcontent.show {    
+    height: auto;    
+    opacity: 1;
+}
+
+.listrow {
+    display: block;
+    width: 100%;    
+    margin: 0;    
+}
+
+.listrow div.checkbox {
+    display: inline-block;
+    vertical-align: top;    
+    margin: 10px;    
+}
+
+.listrow div.checkbox input[type=checkbox] {
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;        
+}
+
+.listrow span {
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    width: calc(100% - 75px);    
+    margin: 10px;        
+}

@@ -1,0 +1,49 @@
+﻿@model RoomUser
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int PageNumber = 1;
+    int CourseId = 0;
+    int RoomId = 0;
+
+    try { PageNumber = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["pagenumber"]); } catch { PageNumber = 1; }
+    PageNumber = PageNumber <= 0 ? 1 : PageNumber;
+    try { CourseId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["course"]); } catch { CourseId = 0; }
+    try { RoomId = Convert.ToInt32(System.Web.MyHttpContext.Current.Request.Query["room"]); } catch { RoomId = 0; }
+}
+
+@await Html.PartialAsync("Message", new MessageModel())
+
+<form class="form textAlignCenter">
+    <p id="formTitle" class="titr textAlignRight">@Html.Raw("آدرس کارنامه")</p>
+
+    <div id="diverrors" class="errors textAlignRight">
+        <img src="/imagesite/icons/error.png" />
+        <p id="errormsg"></p>        
+    </div>
+    
+    <div class="step opacityOne" id="step2">
+    
+        <div class="row rowInline">
+            <label class="lbl">آدرس کارنامه</label>
+            <input asp-for="@Model.ReportCardAddress" value="@Model.ReportCardAddress" class="chPreviousColor" type="text" />
+        </div>
+
+        <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewData["returnUrl"]" />
+        <input type="hidden" asp-for="RoomId" value="@Model.RoomId" />
+        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+
+        <div class="row textAlignCenter">
+            <input type="button" class="buttonSingle colorBackThirty" value="بازگشت" onclick="cancelCh()" />
+            <input type="button" class="buttonSingle colorBackSeconday" value="ثبت شود" onclick="reportcardSave()" />
+        </div>
+    </div>
+
+   
+
+</form>
+
+

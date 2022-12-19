@@ -1,0 +1,193 @@
+﻿@model Es.DataLayerCore.DTOs.RoomChat.RoomChatViewModel
+@{
+    ViewBag.Title = "صفحه اصلی";
+    Layout = "_LayoutMember";
+}
+    <script type="text/html" id="liRoomChatGroup">
+        <li>
+            <div class=" d-flex ">
+                <div class=" img-pro-other ml-3">
+                    <img src="data:image;base64,%%PicName%%"
+                         alt="user-img-pro">
+
+                    %%IsOnline%%
+                </div>
+                <div class="details">
+                    <div class=" detail-user d-flex justify-content-between align-items-center">
+                        <div class="name">%%FullName%%</div>
+                    </div>
+                  
+                </div>
+
+            </div>
+        </li>
+    </script>
+    <script type="text/html" id="liRoomChatForwardUser">
+        <li id="liRoomChatForwardUser%%GroupID%%">
+            <div class=" d-flex align-items-center">
+                <div>
+                    <input type="checkbox" id="chkStatus%%GroupID%%" class="checkbox" />
+                </div>
+                <div class=" img-pro-other mx-3">
+                    <img src="data:image;base64,%%PicName%%"
+                         alt="user-img-pro">
+
+
+                </div>
+                <div class="details">
+                    <div class=" detail-user d-flex justify-content-between align-items-center">
+                        <div class="name">%%FullName%%</div>
+                    </div>
+
+                </div>
+
+            </div>
+        </li>
+    </script>
+
+    <script type="text/html" id="liRoomChatContact">
+        <li onclick="RoomChatGroupInsert('%%TeacherID%%','%%TeacherTitle%%','%%PicName%%','%%PicNameShort%%')" class=" li-contact-list">
+            <div class=" d-flex ">
+                <div class=" img-pro-other ml-3">
+                    <img src="data:image;base64,%%PicName%%"
+                         alt="user-img-pro">
+                </div>
+                <div class="details">
+                    <div class=" detail-user d-flex justify-content-between align-items-center">
+                        <div class="name">%%FullName%%</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+    </script>
+
+    <script type="text/html" id="liRoomChatGroupInsert">
+        <li  id="liRoomChatRight%%RoomChatGroupID%%" class=" active li-roomChatGroup-list" onclick="RoomChatLeftShow('%%RoomChatGroupID%%','%%RoomChatGroupType%%', null, '%%TeacherID%%', null, '%%PicNameShort%%', '%%RoomChatTitle%%')">
+            <div class=" d-flex ">
+                <div class=" img-pro-other ml-3">
+                    <img src="data:image;base64,%%PicName%%"
+                         alt="user-img-pro">
+                    </div>
+                    <div class="details">
+                        <div class=" detail-user d-flex justify-content-between align-items-center">
+                            <div class="name"><span>%%RoomChatTitle%%</span><span></span></div>
+                            <div class=" date-count d-flex align-items-baseline">
+                            
+                                <div class=" date"></div>
+                            </div>
+                        </div>
+                        <div class=" text-massage">
+                            <p class=" pTextChat"></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+    </script>
+
+    <section class=" Chat-page">
+
+        <!-- start Contact aside change6-->
+        <div class="add-to-cart right" id="cart-sideC">
+            <a href="#" onclick="closeContact()" class="overlay" id="aC"></a>
+            <div class="cart-innC">
+                <div class=" header-contact">
+                    <div onclick="closeContact()" class=" back-cart">
+                        <img src="~/imagemember/Iconly-Light-Arrow - Left@2x.png" alt="">
+                    </div>
+                    <h4>چت جدید</h4>
+                </div>
+                <div class=" search-contact">
+                    <div>
+                        <label for=""><img src="~/imagemember/Group 6.png" alt=""></label>
+                        <input id="box" type="text" placeholder="جستجو">
+                    </div>
+                </div>
+                <div id="divRoomChatConatct" class=" contact-list">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end Contact aside change6-->
+        <!-- start change19 -->
+        <div class="modal fade member-group" id="staticBackdrop" data-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center pt-3 pb-0 border-0">
+                        <div class=" font-weight-bold">اعضای گروه</div>
+                        <div class=" close" data-dismiss="modal" aria-label="Close">
+                            <img src="/imagemember/Iconly-Light-Close Square@2x.png" alt="">
+                        </div>
+                    </div>
+                    <div id="divRoomChatGroupOnline" class="modal-body ">
+                        <div class="content">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end change19 -->
+
+        <div class="modal fade member-group" id="staticBackdropFroward" data-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <input type="hidden" id="input_roomChatIdFroward" />
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center pt-3 pb-0 border-0">
+                        <div class=" font-weight-bold">گروهها</div>
+                        <div class=" close" data-dismiss="modal" aria-label="Close">
+                            <img src="/imagemember/Iconly-Light-Close Square@2x.png" alt="">
+                        </div>
+                    </div>
+                    <div id="divRoomChatForwardUser" class="modal-body ">
+                        <div class="content">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer position-relative border-0 p-0 d-flex justify-content-center align-items-center" style="top:-20px">
+                        <div>
+                            <button onclick="RoomChatForwardSend()" type="button" class="btn btn-success">ارسال</button>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-danger">لغو</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" container-fluid">
+            <div class=" row">
+
+                @await Html.PartialAsync("RoomChatRight", Model.RoomChatRightViewModel)
+                <div id="div-roomChatLeft" class=" col-xl-9 col-lg-8 col-sm-7  p-0 chat d-none d-sm-block">
+                    @await Html.PartialAsync("RoomChatView", Model.RoomChatLeftViewModel)
+                </div>
+            </div>
+        </div>
+    </section>
+
+        @section Scripts
+{
+            @if (Convert.ToBoolean(SettingContext.RoomChatSatus.Instance.ChatOffline) == false)
+            {
+                <script src="~/signalr/signalr.min.js"></script>
+                <script src="~/signalr/moment.min.js"></script>
+                <script src="~/jsmember/Chat-1.2.0.js"></script>
+            }
+
+            <script src="/jsmember/SundMessageByPatern-1.1.7.js"></script>
+            <script src="/jsmember/recorder.js"></script>
+            <script src="/jsmember/RoomChat-1.2.8.js"></script>
+
+        }
+

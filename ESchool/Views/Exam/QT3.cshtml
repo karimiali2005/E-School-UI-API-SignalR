@@ -1,0 +1,112 @@
+﻿@model EsServiceCore.DTOs.vm_ExamByQuestionsAndChoices
+@using System.Globalization;
+
+@{
+    Layout = null;
+    var indexq = Model.Indexq;
+    var hide = "d-none";
+    if (Model.ScoreIsNumber != false)
+    {
+        hide = "";
+
+    }
+    var addressDownload = AppSettingClass.GetPathStoreFiles();
+    var nficurrent = CultureInfo.CurrentCulture.NumberFormat;
+
+    if (nficurrent.NumberDecimalSeparator != "/")
+    {
+        Model.Questions[0].QuestionScoreString = Model.Questions[0].QuestionScore.ToString().Replace(nficurrent.NumberDecimalSeparator, "/");
+
+    }
+}
+<div class="question-type questoin-type-1  question-type-2 question-type-3 box-content my-4" data-typeid="@Model.Questions[0].QuestionTypeId" data-id="@Model.Questions[0].QuestionId">
+    <input type="hidden" asp-for="Questions[0].QuestionTypeId" name="Questions[@indexq].QuestionTypeId" />
+    <input type="hidden" asp-for="Questions[0].QuestionId" name="Questions[@indexq].QuestionId" />
+    <input type="hidden" asp-for="Questions[0].ExamId" name="Questions[@indexq].ExamId" />
+    <input type="hidden" asp-for="Questions[0].QuestionOrder" name="Questions[@indexq].QuestionOrder" />
+    <input type="hidden" asp-for="Questions[0].QuestionFile" name="Questions[@indexq].QuestionFile" />
+
+    <div class="color-bar-top"></div>
+    <div class="question-details">
+        <div class="inp-write-question ">
+            <input type="text" asp-for="Questions[0].QuestionTitle" name="Questions[@indexq].QuestionTitle" id="Questions[@indexq].QuestionTitle" class="QuestionTitle" placeholder="عنوان سوال خود را وارد نمایید">
+            <span class="text-danger"></span>
+
+            <div class="div-img">
+                <input type="file" id="Questions[@indexq].QuestionFile_file" name="Questions[@indexq].QuestionFile_file" class="QuestionFile d-none" onchange="uploaderChange(this)">
+                <label for="Questions[@indexq].QuestionFile_file" class="btn img-35 p-0 shadow-none m-0 bg-img QuestionFilelabel">
+                    <img src="/imagemember/Iconly-Light-Image 2@2x.png" alt="">
+                </label>
+                <div class="div-img boxPreview d-none">
+                    <a onclick="deleteImg(this)" class='btn  p-0 shadow-none'>
+                        <img class="img-20" src="/imagemember/Iconly-Light-Close Square@2x.png" alt="">
+                    </a>
+                    <a download class='btn p-0 shadow-none download' href="">
+                        <img class="img-25" src="/imagemember/download.svg" alt="">
+                    </a>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Questions[0].QuestionFile))
+                {
+
+                    @Html.Raw(@Codes.FileChatExamAndResponse(Model.Questions[0].QuestionFile, addressDownload))
+
+
+                }
+            </div>
+        </div>
+        <div class="div-select">
+            <select class="form-control select-type-exam mx-1" disabled>
+                <option value="1">متنی</option>
+                <option value="2">چند گزینه ای</option>
+                <option value="3" selected>فایلی</option>
+                <option value="4">صوتی</option>
+            </select>
+        </div>
+    </div>
+    <div class=" sh-file-content w-100">
+        <div class="sh-div-inp-file d-flex align-items-center my-2">
+            <input type="file" id="file-input" class=" d-none">
+            <label for="file-input">انتخاب فایل</label>
+            <input type="text" readonly value="هیچ فایلی وجود ندارد" class="" id="text-file-input">
+        </div>
+        <div class=" text-left mt-4">
+            <div><img src="../img/Iconly-Light-outline-Plus@2x.png" alt=""></div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class=" score">
+            <div>
+                <span class="lblscore @hide">نمره:</span>
+                <input type="text" asp-for="Questions[0].QuestionScoreString" name="Questions[@indexq].QuestionScoreString" id="Questions[@indexq].QuestionScoreString" class="Question-Score @hide" placeholder="نمره را تعیین کنید" data-val="true" data-val-regex="نمره معتبر نیست.مثال:1/25" data-val-regex-pattern="\d*(/\d{1,2})?" aria-describedby="Questions[0].QuestionScoreString-error" aria-invalid="false">
+                <span asp-validation-for="Questions[indexq].QuestionScoreString" aria-describedby="Questions[ @indexq].QuestionScoreString-error" class="text-danger Question-Score @hide"></span>
+
+            </div>
+        </div>
+        <div class="add-delete-accidently">
+            <div class="form-group form-check m-0">
+                <input type="checkbox" class="form-check-input israndomnumber" name="Questions[@indexq].IsRandomQuestion" data-val="true">
+                <label class="form-check-label" name="Questions[@indexq].IsRandomQuestion">سوال تصادفی باشد</label>
+            </div>
+            <div class=" mx-1">
+                <div class="dropdown">
+                    <button id="btnGroupDrop1" type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        سوال جدید
+                        <img src="~/imagemember/Iconly-Bold-Paper Plus@2x.png" alt="">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" onclick="addQuestion(this,1)">متنی</a>
+                        <a class="dropdown-item" onclick="addQuestion(this,2)">چند گزینه ای</a>
+                        <a class="dropdown-item" onclick="addQuestion(this,3)">فایلی</a>
+                        <a class="dropdown-item" onclick="addQuestion(this,4)">صوتی</a>
+                    </div>
+                </div>
+            </div>
+            <span class=" mx-1">
+                <a onclick="deleteQuestion(this)" class="btn btn-img p-0 shadow-none m-0">
+                    <img src="~/imagemember/Iconly-Light-Delete@2x.png" alt="">
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+

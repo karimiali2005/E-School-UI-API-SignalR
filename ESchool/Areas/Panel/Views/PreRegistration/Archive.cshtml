@@ -1,0 +1,40 @@
+﻿@model Es.DataLayerCore.Model.PreRegistration
+
+@{
+    Layout = "~/Areas/Panel/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bigbox colorBackWhite colorBorderGray">
+    <form class="form textAlignCenter">
+
+        <div id="diverrors" class="errors textAlignRight">
+            <img src="/imagesite/icons/error.png" />
+            <p id="errormsg"></p>
+            <input type="text" id="focusable" />
+        </div>
+
+        <p id="formTitle" class="titr textAlignRight">آرشیو</p>
+
+        @Html.HiddenFor(m => m.PreRegistrationId)
+        <div class="step opacityOne" id="step1">
+            <div class="row rowInline">
+              
+                <label title="@Model.PreRegistrationId" class="lbl colorPrimary"> آیا از آرشیو کردن دانش آموز @Html.Raw(Model.FirstName) @Html.Raw(Model.LastName) مطمئن هستید</label>
+                  
+            </div>
+
+            <input type="hidden" id="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <div class="row rowInline textAlignLeft">
+               
+                 <input type="button" class="buttonSingle buttonSingle3 colorBackSeconday" value="آرشیو شود" onclick="preRegistrationArchivePost(@Model.PreRegistrationId);" />
+                
+                <input type="button" class="buttonSingle buttonSingle3 colorBackBlue2" value="برگشت" onclick="cancelCh()" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
