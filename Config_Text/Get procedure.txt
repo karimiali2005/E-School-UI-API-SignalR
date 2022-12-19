@@ -1,1 +1,0 @@
-SPToCore.exe scan -cnn "Server=.\sql2019;Database=ESchool;Trusted_Connection=True;" -sch * -nsp myStoredProcedureCalls -ctx DB_WITH_SPContext -sf Model -pf C:\asde\ -f SPToCoreContext.cs 
